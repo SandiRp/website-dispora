@@ -1,0 +1,52 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Edit Sosial Media') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    @php $item = $socialMedia; @endphp
+                    <form action="{{ route('admin.social_medias.update', $item) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-4">
+                            <label for="platform" class="block text-sm font-medium text-gray-700">Platform</label>
+                            <input type="text" name="platform" id="platform" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" value="{{ old('platform', $item->platform) }}">
+                        </div>
+                        <div class="mb-4">
+                            <label for="account_name" class="block text-sm font-medium text-gray-700">Nama Akun</label>
+                            <input type="text" name="account_name" id="account_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" value="{{ old('account_name', $item->account_name) }}">
+                        </div>
+                        <div class="mb-4">
+                            <label for="url" class="block text-sm font-medium text-gray-700">URL Tautan</label>
+                            <input type="url" name="url" id="url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" value="{{ old('url', $item->url) }}" required>
+                            @error('url') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="icon_class" class="block text-sm font-medium text-gray-700">Pilih Ikon (Otomatis)</label>
+                            <select name="icon_class" id="icon_class" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                                <option value="">-- Gunakan Ikon Default (Link) --</option>
+                                <option value="fa-brands fa-youtube" {{ old('icon_class', $item->icon_class) == 'fa-brands fa-youtube' ? 'selected' : '' }}>YouTube</option>
+                                <option value="fa-brands fa-instagram" {{ old('icon_class', $item->icon_class) == 'fa-brands fa-instagram' ? 'selected' : '' }}>Instagram</option>
+                                <option value="fa-brands fa-facebook" {{ old('icon_class', $item->icon_class) == 'fa-brands fa-facebook' ? 'selected' : '' }}>Facebook</option>
+                                <option value="fa-brands fa-whatsapp" {{ old('icon_class', $item->icon_class) == 'fa-brands fa-whatsapp' ? 'selected' : '' }}>WhatsApp</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="is_active" class="block text-sm font-medium text-gray-700">Aktif</label>
+                            <input type="checkbox" name="is_active" id="is_active" class="mt-1" value="1" {{ old('is_active', $item->is_active) ? 'checked' : '' }}>
+                        </div>
+                        <div class="mb-6 flex justify-end">
+                            <a href="{{ route('admin.social_medias.index') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-2">Batal</a>
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

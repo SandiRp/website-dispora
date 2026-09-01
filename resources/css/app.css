@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+@layer components {
+    .glass-card {
+        @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-lg;
+    }
+    .section-heading {
+        @apply text-3xl md:text-4xl font-extrabold tracking-tight text-gray-900;
+    }
+    .section-subtitle {
+        @apply text-gray-500 text-lg mt-3 max-w-2xl;
+    }
+    .accent-bar {
+        @apply w-16 h-1.5 bg-gradient-to-r from-dispora-400 to-dispora-600 rounded-full;
+    }
+}
+
+@layer utilities {
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .nav-underline-active {
+        width: 75%;
+        animation: slideInUnderline 0.5s ease-out forwards;
+    }
+}
+
+@keyframes slideInUnderline {
+    0% {
+        width: 0;
+        opacity: 0;
+    }
+    100% {
+        width: 75%;
+        opacity: 1;
+    }
+}
+
+@layer utilities {
+    .text-gradient {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-dispora-400 to-dispora-700;
+    }
+}

@@ -30,9 +30,15 @@ class SkmDataController extends Controller
             'category' => 'required|string|max:255',
             'document_path' => 'nullable|file|mimes:pdf|max:10240',
             'is_published' => 'boolean',
+            'is_active' => 'boolean',
         ]);
 
         $validated['is_published'] = $request->has('is_published');
+        $validated['is_active'] = $request->has('is_active');
+
+        if ($validated['is_active']) {
+            SkmData::where('id', '>', 0)->update(['is_active' => false]);
+        }
 
         if ($request->hasFile('document_path')) {
             $validated['document_path'] = $request->file('document_path')->store('skm_docs', 'public');
@@ -56,9 +62,15 @@ class SkmDataController extends Controller
             'category' => 'required|string|max:255',
             'document_path' => 'nullable|file|mimes:pdf|max:10240',
             'is_published' => 'boolean',
+            'is_active' => 'boolean',
         ]);
 
         $validated['is_published'] = $request->has('is_published');
+        $validated['is_active'] = $request->has('is_active');
+
+        if ($validated['is_active']) {
+            SkmData::where('id', '!=', $skmDatum->id)->update(['is_active' => false]);
+        }
 
         if ($request->hasFile('document_path')) {
             if ($skmDatum->document_path) {

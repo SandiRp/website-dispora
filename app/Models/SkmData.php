@@ -13,10 +13,12 @@ class SkmData extends Model
         'category',
         'document_path',
         'is_published',
+        'is_active',
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
+        'is_active' => 'boolean',
         'index_value' => 'decimal:2',
     ];
 }

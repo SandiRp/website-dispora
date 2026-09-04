@@ -46,6 +46,7 @@
                         ['url' => '/', 'label' => 'Beranda', 'match' => '/'],
                         ['url' => '/Halprofil', 'label' => 'Profil', 'match' => 'Halprofil*'],
                         ['url' => '/program', 'label' => 'Program', 'match' => 'program*'],
+                        ['url' => '/laporan', 'label' => 'Laporan', 'match' => 'laporan*'],
                         ['url' => '/regulasi', 'label' => 'Regulasi', 'match' => 'regulasi*'],
                         ['url' => '/berita', 'label' => 'Berita', 'match' => 'berita*'],
                     ];
@@ -101,6 +102,7 @@
                 <a href="{{ url('/Halprofil') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('Halprofil*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Profil</a>
                 <a href="{{ url('/program') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('program*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Program</a>
                 <a href="{{ url('/regulasi') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('regulasi*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Regulasi</a>
+                <a href="{{ url('/laporan') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('laporan*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Laporan</a>
                 <a href="https://ppid.dispora.jatimprov.go.id/" target="_blank" class="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50">PPID</a>
                 <a href="{{ url('/berita') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('berita*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Berita</a>
                 <a href="{{ url('/agenda') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold bg-dispora-600 text-white text-center mt-2">📅 Agenda Kegiatan</a>

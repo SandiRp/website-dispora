@@ -48,9 +48,14 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <span class="{{ $item->is_published ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }} text-xs font-bold px-2 py-1 rounded-full">
+                                    <span class="{{ $item->is_published ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700' }} text-xs font-bold px-2 py-1 rounded-full mb-1 inline-block">
                                         {{ $item->is_published ? 'Dipublikasikan' : 'Draft' }}
                                     </span>
+                                    @if($item->is_active)
+                                    <span class="bg-dispora-100 text-dispora-700 text-[10px] font-bold px-2 py-0.5 rounded-full block mx-auto w-max mt-1 border border-dispora-200">
+                                        Aktif
+                                    </span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
                                     <a href="{{ route('admin.skm_data.edit', $item) }}" class="text-indigo-600 hover:text-indigo-900 text-sm font-medium mr-3">Edit</a>

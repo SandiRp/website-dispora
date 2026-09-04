@@ -14,12 +14,16 @@ Route::get('/', function () {
     
     $upcomingAgendas = \App\Models\Agenda::whereIn('status', ['upcoming', 'ongoing'])->orderBy('start_date', 'asc')->take(5)->get();
         
-    $latestSkm = \App\Models\SkmData::where('is_published', true)->orderBy('year', 'desc')->orderBy('period', 'desc')->first();
+    $latestSkm = \App\Models\SkmData::where('is_active', true)->where('is_published', true)->orderBy('year', 'desc')->orderBy('period', 'desc')->first();
+    $allSkm = \App\Models\SkmData::where('is_published', true)->orderBy('year', 'desc')->orderBy('period', 'desc')->get();
     $services = \App\Models\Service::where('is_active', true)->orderBy('order')->get();
     $connectedApps = \App\Models\ConnectedApp::where('is_active', true)->orderBy('order')->get();
     $socialMedias = \App\Models\SocialMedia::where('is_active', true)->get();
+    $venues = \App\Models\Venue::where('is_active', true)->orderBy('order')->get();
+    $officialLogos = \App\Models\OfficialLogo::where('is_active', true)->orderBy('order')->orderBy('created_at', 'desc')->take(4)->get();
+    $announcements = \App\Models\Announcement::currentlyActive()->orderBy('order')->get();
     
-    return view('welcome', compact('latestPosts', 'gubernurPosts', 'upcomingAgendas', 'latestSkm', 'services', 'connectedApps', 'socialMedias'));
+    return view('welcome', compact('latestPosts', 'gubernurPosts', 'upcomingAgendas', 'latestSkm', 'allSkm', 'services', 'connectedApps', 'socialMedias', 'venues', 'officialLogos', 'announcements'));
 });
 
 Route::get('/dashboard', function () {
@@ -37,6 +41,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::resource('agendas', Admin\AgendaController::class);
+    Route::resource('documents', Admin\DocumentController::class);
+    Route::resource('skm_data', Admin\SkmDataController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -63,6 +70,27 @@ Route::get('/program', function () {
     })->where('access_type', 'public')->latest()->get();
     
     return view('program', compact('renjaDocs', 'renstraDocs', 'lkjipDocs', 'pkDocs'));
+});
+
+Route::get('/laporan', function () {
+    $dpaDocs = \App\Models\Document::whereHas('category', function($q) { 
+        $q->where('name', 'DPA'); 
+    })->where('access_type', 'public')->latest()->get();
+    
+    $asetDocs = \App\Models\Document::whereHas('category', function($q) { 
+        $q->where('name', 'ASET'); 
+    })->where('access_type', 'public')->latest()->get();
+    
+    $lraDocs = \App\Models\Document::whereHas('category', function($q) { 
+        $q->where('name', 'LRA'); 
+    })->where('access_type', 'public')->latest()->get();
+    
+    return view('laporan', compact('dpaDocs', 'asetDocs', 'lraDocs'));
+});
+
+Route::get('/logo-resmi', function () {
+    $logos = \App\Models\OfficialLogo::where('is_active', true)->orderBy('order')->orderBy('created_at', 'desc')->get();
+    return view('official-logos', compact('logos'));
 });
 
 Route::get('file/{folder}/{filename}', function($folder, $filename) {
@@ -224,6 +252,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // Services Routes
     Route::resource('services', \App\Http\Controllers\Admin\ServiceController::class);
 
+    // Venues Routes
+    Route::resource('venues', \App\Http\Controllers\Admin\VenueController::class);
+
     // Connected Apps Routes
     Route::resource('connected_apps', \App\Http\Controllers\Admin\ConnectedAppController::class);
 
@@ -233,8 +264,13 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // Social Media Routes
     Route::resource('social_medias', \App\Http\Controllers\Admin\SocialMediaController::class);
 
-    // Officials / Struktur Organisasi
     Route::resource('officials', \App\Http\Controllers\Admin\OfficialController::class);
+
+    // Official Logos
+    Route::resource('official_logos', \App\Http\Controllers\Admin\OfficialLogoController::class);
+
+    // Announcements
+    Route::resource('announcements', \App\Http\Controllers\Admin\AnnouncementController::class);
 
     Route::get('files/{folder}/{filename}', [\App\Http\Controllers\Admin\FilePreviewController::class, 'show'])->name('files.preview');
 });

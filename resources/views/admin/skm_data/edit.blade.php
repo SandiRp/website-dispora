@@ -44,9 +44,15 @@
                             @error('document_path')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                         </div>
 
-                        <div class="mt-6 flex items-center gap-3">
-                            <input type="checkbox" name="is_published" id="is_published" class="rounded border-gray-300 text-teal-600 focus:ring-teal-500" value="1" {{ old('is_published', $skmDatum->is_published) ? 'checked' : '' }}>
-                            <label for="is_published" class="text-sm font-medium text-gray-700">Publikasikan data ini</label>
+                        <div class="mt-6 flex flex-col gap-3">
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" name="is_published" id="is_published" class="rounded border-gray-300 text-teal-600 focus:ring-teal-500" value="1" {{ old('is_published', $skmDatum->is_published) ? 'checked' : '' }}>
+                                <label for="is_published" class="text-sm font-medium text-gray-700">Publikasikan data ini (muncul di daftar riwayat modal)</label>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <input type="checkbox" name="is_active" id="is_active" class="rounded border-gray-300 text-dispora-600 focus:ring-dispora-500" value="1" {{ old('is_active', $skmDatum->is_active) ? 'checked' : '' }}>
+                                <label for="is_active" class="text-sm font-medium text-gray-700">Jadikan Aktif (Ditampilkan paling menonjol di beranda)</label>
+                            </div>
                         </div>
 
                         <div class="mt-8 flex justify-end gap-3">

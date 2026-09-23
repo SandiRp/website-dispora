@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" dir="ltr">
 
 <head>
     <meta charset="utf-8">
@@ -10,8 +10,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/accessibility.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <meta name="description" content="@yield('meta_description', 'Website Resmi Dinas Kepemudaan dan Olahraga Provinsi Jawa Timur')">
+    <meta name="theme-color" content="#0bbead">
     <style>
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -21,11 +24,16 @@
 
 <body class="antialiased bg-white text-gray-800 font-sans flex flex-col min-h-screen">
 
+    {{-- Accessibility Widget (floating button + panel) --}}
+    @include('components.accessibility-widget')
+
     <!-- NAVBAR - transparent on hero, solid on scroll -->
     <nav x-data="{ mobileMenuOpen: false, scrolled: false }"
          x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 20 })"
          :class="scrolled ? 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-100' : 'bg-transparent'"
-         class="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+         class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+         role="navigation"
+         aria-label="Navigasi utama">
         <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
 
             <!-- Logo -->
@@ -67,11 +75,16 @@
                     <span class="absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full transition-all duration-300 w-0 group-hover:w-3/4"
                           :class="scrolled ? 'bg-dispora-600' : 'bg-white'"></span>
                 </a>
-                <!-- <a href="https://ppid.dispora.jatimprov.go.id/" target="_blank"
-                   :class="scrolled ? 'bg-dispora-600 text-white hover:bg-dispora-700' : 'bg-white text-dispora-700 hover:bg-dispora-50'"
-                   class="ml-2 px-5 py-2 rounded-full text-sm font-bold transition-all duration-300 shadow-md hover:shadow-lg">
-                    PPID
-                </a> -->
+
+                {{-- Google Translate Dropdown in Navbar --}}
+                <div id="a11y-translate-nav" class="a11y-translate-nav ml-2" :class="scrolled ? 'scrolled' : ''">
+                    <span class="a11y-translate-icon" aria-hidden="true">
+                        <svg :class="scrolled ? 'text-gray-600' : 'text-white/80'" class="w-4 h-4 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                        </svg>
+                    </span>
+                    <div id="google_translate_element"></div>
+                </div>
             </div>
 
             <!-- Hamburger -->
@@ -111,12 +124,12 @@
     </nav>
 
     <!-- KONTEN DINAMIS -->
-    <main class="flex-grow">
+    <main id="main-content" class="flex-grow" role="main">
         @yield('content')
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-dispora-950 text-white pt-20 mt-auto relative overflow-hidden">
+    <footer class="bg-dispora-950 text-white pt-20 mt-auto relative overflow-hidden" role="contentinfo">
         <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-dispora-400 via-dispora-300 to-dispora-500"></div>
         <div class="absolute top-20 right-0 w-96 h-96 bg-dispora-800/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 w-80 h-80 bg-dispora-900/30 rounded-full blur-3xl pointer-events-none"></div>
@@ -205,6 +218,46 @@
     <script>
         AOS.init({ duration: 800, once: false, offset: 80 });
     </script>
+
+    {{-- Accessibility Engine --}}
+    <script src="{{ asset('js/accessibility.js') }}"></script>
+
+    {{-- Google Translate --}}
+    <script>
+        function googleTranslateElementInit() {
+            // Only ONE instance — in the navbar (default layout renders a <select>)
+            if (document.getElementById('google_translate_element')) {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'id',
+                    includedLanguages: 'id,en,ar,zh-CN,ja,ko,ms,th,vi,fr,de,es,pt,ru,hi,nl,it',
+                    autoDisplay: false
+                }, 'google_translate_element');
+            }
+        }
+
+        /**
+         * Helper: change Google Translate language from the custom panel dropdown.
+         * Tries the native <select> first, falls back to cookie-based approach.
+         */
+        function a11yChangeLanguage(langCode) {
+            if (!langCode) return;
+
+            // Method 1: Direct <select> manipulation (works with default/HORIZONTAL layout)
+            var combo = document.querySelector('.goog-te-combo');
+            if (combo) {
+                combo.value = langCode;
+                combo.dispatchEvent(new Event('change'));
+                return;
+            }
+
+            // Method 2: Cookie-based fallback (works with any layout)
+            var domain = window.location.hostname;
+            document.cookie = 'googtrans=/id/' + langCode + ';path=/;domain=' + domain;
+            document.cookie = 'googtrans=/id/' + langCode + ';path=/';
+            window.location.reload();
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 
 </html>

@@ -1,0 +1,785 @@
+/* ========================================================
+   ACCESSIBILITY WIDGET — Dispora Jawa Timur
+   Styles for floating button, panel, and all a11y modes
+   ======================================================== */
+
+/* ---- Floating Action Button (FAB) ---- */
+.a11y-fab {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0bbead 0%, #049a90 100%);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 24px rgba(11, 190, 173, 0.45),
+                0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.a11y-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 32px rgba(11, 190, 173, 0.6),
+                0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.a11y-fab:focus-visible {
+    outline: 3px solid #52f5db;
+    outline-offset: 4px;
+}
+
+.a11y-fab svg {
+    width: 28px;
+    height: 28px;
+    fill: white;
+    transition: transform 0.3s;
+}
+
+.a11y-fab:hover svg {
+    transform: scale(1.05);
+}
+
+/* Pulse ring around FAB */
+.a11y-fab-pulse {
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px solid rgba(11, 190, 173, 0.5);
+    animation: a11yPulse 2.5s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes a11yPulse {
+    0%   { transform: scale(1);   opacity: 0.7; }
+    100% { transform: scale(1.5); opacity: 0;   }
+}
+
+/* ---- Panel ---- */
+.a11y-panel {
+    position: fixed;
+    bottom: 96px;
+    right: 24px;
+    z-index: 9998;
+    width: 356px;
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-radius: 22px;
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.14),
+                0 0 0 1px rgba(0, 0, 0, 0.04);
+    transform-origin: bottom right;
+    transition: all 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+    opacity: 0;
+    transform: scale(0.92) translateY(12px);
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.a11y-panel.open {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: all;
+    visibility: visible;
+}
+
+/* Panel scrollbar */
+.a11y-panel::-webkit-scrollbar { width: 5px; }
+.a11y-panel::-webkit-scrollbar-track { background: transparent; }
+.a11y-panel::-webkit-scrollbar-thumb {
+    background: rgba(11, 190, 173, 0.25);
+    border-radius: 5px;
+}
+
+/* ---- Panel Header ---- */
+.a11y-panel-header {
+    background: linear-gradient(135deg, #0bbead 0%, #087b75 100%);
+    padding: 20px 24px;
+    border-radius: 22px 22px 0 0;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.a11y-panel-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.01em;
+}
+
+.a11y-panel-header p {
+    font-size: 12px;
+    opacity: 0.75;
+    margin: 4px 0 0 0;
+    line-height: 1.4;
+}
+
+/* Close button in header */
+.a11y-panel-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.a11y-panel-close:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* ---- Panel Body ---- */
+.a11y-panel-body {
+    padding: 16px 20px 20px;
+}
+
+/* Section titles */
+.a11y-section {
+    margin-bottom: 14px;
+}
+
+.a11y-section:last-child {
+    margin-bottom: 0;
+}
+
+.a11y-section-title {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #0bbead;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(11, 190, 173, 0.12);
+}
+
+/* ---- Feature Buttons ---- */
+.a11y-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border: 1.5px solid #e8eaed;
+    border-radius: 14px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.22s ease;
+    margin-bottom: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: #374151;
+    text-align: left;
+    outline: none;
+}
+
+.a11y-btn:last-child {
+    margin-bottom: 0;
+}
+
+.a11y-btn:hover {
+    border-color: #91fee9;
+    background: #f0fefb;
+    transform: translateX(2px);
+}
+
+.a11y-btn:focus-visible {
+    outline: 2px solid #0bbead;
+    outline-offset: 2px;
+}
+
+.a11y-btn.active {
+    border-color: #0bbead;
+    background: linear-gradient(135deg, #effefb 0%, #c8fff4 100%);
+    color: #065f5c;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(11, 190, 173, 0.12);
+}
+
+/* Icon wrapper inside button */
+.a11y-btn-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: #f3f4f6;
+    flex-shrink: 0;
+    transition: all 0.22s ease;
+}
+
+.a11y-btn.active .a11y-btn-icon {
+    background: #0bbead;
+    color: white;
+    box-shadow: 0 2px 8px rgba(11, 190, 173, 0.3);
+}
+
+/* Label wrapper */
+.a11y-btn-label {
+    flex: 1;
+    min-width: 0;
+}
+
+.a11y-btn-label .a11y-btn-name {
+    display: block;
+    line-height: 1.3;
+}
+
+.a11y-btn-label .a11y-btn-desc {
+    display: block;
+    font-size: 11px;
+    color: #9ca3af;
+    font-weight: 400;
+    margin-top: 1px;
+    line-height: 1.3;
+}
+
+.a11y-btn.active .a11y-btn-desc {
+    color: #087b75;
+    opacity: 0.7;
+}
+
+/* Status indicator */
+.a11y-btn-status {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: #f3f4f6;
+    color: #9ca3af;
+    flex-shrink: 0;
+    transition: all 0.22s;
+}
+
+.a11y-btn.active .a11y-btn-status {
+    background: #0bbead;
+    color: white;
+}
+
+/* ---- Font Size Controls ---- */
+.a11y-font-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border: 1.5px solid #e8eaed;
+    border-radius: 14px;
+    background: white;
+    margin-bottom: 8px;
+}
+
+.a11y-font-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    border: 1.5px solid #e8eaed;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 700;
+    color: #374151;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    font-family: inherit;
+    outline: none;
+}
+
+.a11y-font-btn:hover {
+    border-color: #0bbead;
+    background: #effefb;
+    color: #0bbead;
+}
+
+.a11y-font-btn:focus-visible {
+    outline: 2px solid #0bbead;
+    outline-offset: 2px;
+}
+
+.a11y-font-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.a11y-font-label {
+    flex: 1;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #0bbead;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ---- TTS Language Select ---- */
+.a11y-select-wrapper {
+    margin-top: 8px;
+    position: relative;
+}
+
+.a11y-select {
+    width: 100%;
+    padding: 9px 14px;
+    border: 1.5px solid #e8eaed;
+    border-radius: 12px;
+    background: white;
+    font-size: 13px;
+    font-family: inherit;
+    color: #374151;
+    cursor: pointer;
+    transition: border-color 0.2s;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+.a11y-select:focus {
+    border-color: #0bbead;
+    box-shadow: 0 0 0 3px rgba(11, 190, 173, 0.1);
+}
+
+/* ---- Reset Button ---- */
+.a11y-reset-btn {
+    width: 100%;
+    padding: 12px;
+    border: 2px dashed #e5e7eb;
+    border-radius: 14px;
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #9ca3af;
+    transition: all 0.25s;
+    margin-top: 4px;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.a11y-reset-btn:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: #fef2f2;
+}
+
+.a11y-reset-btn:focus-visible {
+    outline: 2px solid #ef4444;
+    outline-offset: 2px;
+}
+
+/* ===========================================================
+   READING GUIDE — horizontal line that follows the cursor
+   =========================================================== */
+.a11y-reading-guide {
+    position: fixed;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #0bbead 15%, #52f5db 50%, #0bbead 85%, transparent 100%);
+    z-index: 99997;
+    pointer-events: none;
+    box-shadow: 0 0 12px rgba(11, 190, 173, 0.45),
+                0 0 4px rgba(11, 190, 173, 0.2);
+    display: none;
+    transition: top 0.04s linear;
+}
+
+.a11y-reading-guide.active {
+    display: block;
+}
+
+/* ===========================================================
+   HIGH CONTRAST MODE
+   =========================================================== */
+body.a11y-high-contrast,
+body.a11y-high-contrast main,
+body.a11y-high-contrast footer,
+body.a11y-high-contrast section,
+body.a11y-high-contrast header {
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+body.a11y-high-contrast nav {
+    background-color: #000 !important;
+}
+
+body.a11y-high-contrast h1,
+body.a11y-high-contrast h2,
+body.a11y-high-contrast h3,
+body.a11y-high-contrast h4,
+body.a11y-high-contrast h5,
+body.a11y-high-contrast h6 {
+    color: #fff !important;
+}
+
+body.a11y-high-contrast p,
+body.a11y-high-contrast span,
+body.a11y-high-contrast li,
+body.a11y-high-contrast td,
+body.a11y-high-contrast th,
+body.a11y-high-contrast label,
+body.a11y-high-contrast div {
+    color: #fff !important;
+}
+
+body.a11y-high-contrast a {
+    color: #ffff00 !important;
+    text-decoration: underline !important;
+}
+
+body.a11y-high-contrast button {
+    border: 2px solid #fff !important;
+}
+
+body.a11y-high-contrast img {
+    filter: contrast(1.3) brightness(1.1);
+}
+
+body.a11y-high-contrast input,
+body.a11y-high-contrast select,
+body.a11y-high-contrast textarea {
+    background: #111 !important;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+}
+
+/* Keep panel readable in high contrast */
+body.a11y-high-contrast .a11y-panel {
+    background: rgba(20, 20, 20, 0.98) !important;
+}
+
+body.a11y-high-contrast .a11y-btn {
+    background: #1a1a1a !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.a11y-high-contrast .a11y-btn:hover {
+    border-color: #52f5db !important;
+    background: #222 !important;
+}
+
+body.a11y-high-contrast .a11y-btn.active {
+    border-color: #0bbead !important;
+    background: #0a2e2d !important;
+}
+
+body.a11y-high-contrast .a11y-btn-desc {
+    color: #aaa !important;
+}
+
+body.a11y-high-contrast .a11y-section-title {
+    color: #52f5db !important;
+    border-bottom-color: rgba(82, 245, 219, 0.2) !important;
+}
+
+body.a11y-high-contrast .a11y-font-controls {
+    background: #1a1a1a !important;
+    border-color: #444 !important;
+}
+
+body.a11y-high-contrast .a11y-font-btn {
+    background: #222 !important;
+    border-color: #555 !important;
+    color: #fff !important;
+}
+
+body.a11y-high-contrast .a11y-select {
+    background: #1a1a1a !important;
+    border-color: #444 !important;
+    color: #fff !important;
+}
+
+body.a11y-high-contrast .a11y-reset-btn {
+    border-color: #555 !important;
+    color: #aaa !important;
+}
+
+/* ===========================================================
+   LINK HIGHLIGHTING
+   =========================================================== */
+body.a11y-highlight-links a:not(.a11y-fab):not(.a11y-btn):not(.a11y-panel-close):not(.a11y-reset-btn) {
+    outline: 3px solid #0bbead !important;
+    outline-offset: 3px;
+    background-color: rgba(11, 190, 173, 0.08) !important;
+    text-decoration: underline !important;
+    border-radius: 3px;
+}
+
+body.a11y-high-contrast.a11y-highlight-links a:not(.a11y-fab):not(.a11y-btn):not(.a11y-panel-close):not(.a11y-reset-btn) {
+    outline-color: #ffff00 !important;
+    background-color: rgba(255, 255, 0, 0.08) !important;
+}
+
+/* ===========================================================
+   GRAYSCALE MODE (for color vision deficiency)
+   =========================================================== */
+body.a11y-grayscale {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
+
+body.a11y-grayscale .a11y-panel,
+body.a11y-grayscale .a11y-fab {
+    filter: grayscale(0%) !important;
+    -webkit-filter: grayscale(0%) !important;
+}
+
+/* ===========================================================
+   TTS ACTIVE INDICATOR — visual highlight while reading
+   =========================================================== */
+.a11y-tts-speaking {
+    outline: 3px dashed #0bbead !important;
+    outline-offset: 2px;
+    background-color: rgba(11, 190, 173, 0.06) !important;
+    border-radius: 4px;
+    transition: outline 0.15s, background-color 0.15s;
+}
+
+/* ===========================================================
+   GOOGLE TRANSLATE OVERRIDES
+   =========================================================== */
+
+/* Hide ONLY the Google Translate top banner frame (iframe), NOT the dropdown */
+body > .skiptranslate {
+    display: none !important;
+}
+
+.skiptranslate iframe {
+    display: none !important;
+}
+
+body {
+    top: 0 !important;
+}
+
+.goog-te-banner-frame {
+    display: none !important;
+}
+
+/* Ensure the translate gadget container itself remains visible */
+#google_translate_element .skiptranslate,
+#google_translate_element_panel .skiptranslate {
+    display: block !important;
+}
+
+
+/* Style the Google Translate dropdown when in navbar */
+.a11y-translate-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+}
+
+.a11y-translate-nav .goog-te-gadget {
+    font-size: 0 !important;
+    margin: 0 !important;
+    line-height: 0 !important;
+}
+
+/* Hide "Powered by" and "Translate" text links inside the gadget */
+.a11y-translate-nav .goog-te-gadget > span,
+.a11y-translate-nav .goog-te-gadget > a {
+    display: none !important;
+}
+
+/* But keep the select combo visible */
+.a11y-translate-nav .goog-te-gadget .goog-te-combo {
+    display: inline-block !important;
+}
+
+.a11y-translate-nav .goog-te-gadget .goog-te-combo {
+    padding: 5px 28px 5px 10px;
+    border: 1.5px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s;
+    min-width: 110px;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='white' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.a11y-translate-nav .goog-te-gadget .goog-te-combo:hover {
+    border-color: rgba(255,255,255,0.4);
+    background-color: rgba(255,255,255,0.15);
+}
+
+.a11y-translate-nav .goog-te-gadget .goog-te-combo:focus {
+    border-color: #52f5db;
+    box-shadow: 0 0 0 2px rgba(82, 245, 219, 0.2);
+}
+
+/* When navbar is scrolled (solid bg), adjust translate dropdown */
+.a11y-translate-nav.scrolled .goog-te-combo,
+nav.bg-white .a11y-translate-nav .goog-te-combo {
+    border-color: #e5e7eb;
+    background: #f9fafb;
+    color: #374151;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+/* Google Translate within panel */
+.a11y-translate-panel .goog-te-gadget {
+    font-size: 0 !important;
+}
+
+.a11y-translate-panel .goog-te-gadget .goog-te-combo {
+    width: 100%;
+    padding: 9px 14px;
+    border: 1.5px solid #e8eaed;
+    border-radius: 12px;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+    color: #374151;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: white;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239ca3af' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+}
+
+.a11y-translate-panel .goog-te-gadget .goog-te-combo:focus {
+    border-color: #0bbead;
+    box-shadow: 0 0 0 3px rgba(11, 190, 173, 0.1);
+}
+
+/* Translate icon in navbar */
+.a11y-translate-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* ===========================================================
+   RESPONSIVE
+   =========================================================== */
+@media (max-width: 640px) {
+    .a11y-panel {
+        right: 12px;
+        left: 12px;
+        width: auto;
+        bottom: 88px;
+        max-height: 70vh;
+    }
+
+    .a11y-fab {
+        bottom: 16px;
+        right: 16px;
+        width: 52px;
+        height: 52px;
+    }
+
+    .a11y-fab svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .a11y-panel-header {
+        padding: 16px 20px;
+    }
+
+    .a11y-panel-body {
+        padding: 14px 16px 16px;
+    }
+}
+
+/* ===========================================================
+   SKIP TO CONTENT LINK (WCAG requirement)
+   =========================================================== */
+.a11y-skip-link {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+    padding: 12px 24px;
+    background: #0bbead;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 0 0 12px 12px;
+    text-decoration: none;
+    transition: top 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.a11y-skip-link:focus {
+    top: 0;
+    outline: 3px solid #52f5db;
+    outline-offset: 2px;
+}
+
+/* ===========================================================
+   PRINT — hide accessibility widget on print
+   =========================================================== */
+@media print {
+    .a11y-fab,
+    .a11y-panel,
+    .a11y-reading-guide,
+    .a11y-skip-link {
+        display: none !important;
+    }
+}

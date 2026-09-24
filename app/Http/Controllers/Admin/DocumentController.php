@@ -29,7 +29,7 @@ class DocumentController extends Controller
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'access_type' => 'required|in:public,internal_only',
-            'document_file' => 'required|file|max:10240', // max 10MB
+            'document_file' => 'required|file|max:5120', // max 10MB
         ]);
 
         $file = $request->file('document_file');
@@ -60,7 +60,7 @@ class DocumentController extends Controller
             'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
             'access_type' => 'required|in:public,internal_only',
-            'document_file' => 'nullable|file|max:10240',
+            'document_file' => 'nullable|file|max:5120',
         ]);
 
         if ($request->hasFile('document_file')) {

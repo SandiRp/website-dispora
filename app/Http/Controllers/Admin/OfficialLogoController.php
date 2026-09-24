@@ -26,7 +26,7 @@ class OfficialLogoController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image_path' => 'nullable|image|max:5120',
-            'file_path' => 'nullable|file|mimes:png,jpg,jpeg|max:10240',
+            'file_path' => 'nullable|file|mimes:png,jpg,jpeg|max:5120',
             'is_active' => 'boolean',
             'order' => 'integer',
         ]);
@@ -57,7 +57,7 @@ class OfficialLogoController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'image_path' => 'nullable|image|max:5120',
-            'file_path' => 'nullable|file|mimes:png,jpg,jpeg|max:10240',
+            'file_path' => 'nullable|file|mimes:png,jpg,jpeg|max:5120',
             'is_active' => 'boolean',
             'order' => 'integer',
         ]);

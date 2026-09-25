@@ -24,7 +24,8 @@ trap 'exit 1' HUP INT TERM
 
 buildah bud --pull --tag "$image" .
 working=$(buildah from "$image")
-buildah copy "$working" tests/Deployment/image-check.php /tmp/image-check.php
+# Tests are excluded from the image context; copy this check only into the disposable container.
+buildah copy --contextdir "$PWD" --ignorefile /dev/null --chmod 0644 --chown 33:33 "$working" tests/Deployment/image-check.php /tmp/image-check.php
 buildah run --network none --env APP_ENV=testing --env APP_DEBUG=false --env DB_CONNECTION=sqlite --env DB_DATABASE=:memory: --env CACHE_STORE=array --env SESSION_DRIVER=array --env QUEUE_CONNECTION=sync --env LOG_CHANNEL=stderr --env TRUSTED_PROXIES=192.0.2.10 "$working" -- php /tmp/image-check.php
 buildah rm "$working"
 working=

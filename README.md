@@ -7,6 +7,27 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Deployment Dispora Jatim
+
+Repo source membangun image; konfigurasi server dan job deploy ada di repo `../deployment`.
+CI mengikuti pola apps: Composer validate, Buildah build pada MR menuju default branch dan pada default branch, lalu push hanya dari default branch.
+Tag image memakai tanggal commit Asia/Jakarta dan short SHA: `YYYY.MM.DD-<short-sha>`.
+Tidak ada tes runtime image atau artifact release.env di pipeline. Pilih image yang telah dipush melalui `release.env` pada repo deployment.
+
+Image memakai PHP 8.4, MySQL (`pdo_mysql`) dan FrankenPHP/Octane.
+Permission config/library PHP dinormalisasi sebelum beralih ke `www-data`.
+Startup hanya cache config/views, tanpa migrasi, seed, atau rotasi APP_KEY; migrasi dilakukan oleh skrip deployment.
+Secret, upload, dependency lokal dan cache tidak masuk build context.
+
+Build lokal:
+
+```sh
+docker build -t dispora-build:octane .
+```
+
+Tes MySQL opsional di luar pipeline: `sh tests/Deployment/mysql-check.sh`.
+Lihat README repo deployment untuk setup server, job SSH manual, dan catatan review aplikasi.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

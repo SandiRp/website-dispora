@@ -1,0 +1,34 @@
+stages:
+  - validate
+  - image
+
+composer_validate:
+  stage: validate
+  image: composer:2
+  script:
+    - composer validate --no-check-publish
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+container_image:
+  stage: image
+  image: quay.io/buildah/stable
+  variables:
+    STORAGE_DRIVER: vfs
+    BUILDAH_FORMAT: docker
+    BUILDAH_ISOLATION: chroot
+  before_script:
+    - IMAGE_DATE="$(TZ=Asia/Jakarta date --date="$CI_COMMIT_TIMESTAMP" +%Y.%m.%d)"
+    - IMAGE_TAG="$IMAGE_DATE-$CI_COMMIT_SHORT_SHA"
+    - IMAGE_REF="$CI_REGISTRY_IMAGE:$IMAGE_TAG"
+  script:
+    - buildah bud --tag "$IMAGE_REF" .
+    - |
+      if [ "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" ]; then
+        echo "$CI_REGISTRY_PASSWORD" | buildah login --username "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+        buildah push "$IMAGE_REF"
+      fi
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'

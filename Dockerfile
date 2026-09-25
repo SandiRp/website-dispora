@@ -1,16 +1,11 @@
 # syntax=docker/dockerfile:1
 FROM docker.io/dunglas/frankenphp:1-php8.4-bookworm AS php-base
-# Temporary runner diagnostic: remove after build DNS/access is fixed.
-RUN set -eux; \
-    ls -ld / /etc /etc/resolv.conf; \
-    cat /etc/resolv.conf; \
-    getent ahosts deb.debian.org; \
-    runuser -u _apt -- sh -ec 'cat /etc/resolv.conf; getent ahosts deb.debian.org'
-RUN install-php-extensions pdo_mysql pdo_sqlite mbstring dom opcache pcntl
+# ponytail: runner generates a 0640 resolver per RUN; remove chmods after runner permissions are fixed.
+RUN chmod 0644 /etc/resolv.conf && install-php-extensions pdo_mysql pdo_sqlite mbstring dom opcache pcntl
 WORKDIR /app
 
 FROM php-base AS dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
+RUN chmod 0644 /etc/resolv.conf && apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
 COPY --from=docker.io/library/composer:2 /usr/bin/composer /usr/local/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY composer.json composer.lock ./

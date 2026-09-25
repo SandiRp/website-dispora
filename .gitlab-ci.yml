@@ -22,6 +22,8 @@ build-image:
     BUILDAH_ISOLATION: chroot
   script:
     - sh tests/Deployment/ci-check.sh
+    - cat /etc/resolv.conf
+    - getent hosts deb.debian.org
     - sh container/ci-build.sh
   artifacts:
     paths: [release.env]

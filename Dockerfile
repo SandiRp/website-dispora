@@ -46,6 +46,8 @@ RUN mkdir -p storage/app/private storage/app/public \
     && cp vendor/laravel/octane/src/Commands/stubs/frankenphp-worker.php public/frankenphp-worker.php \
     && ln -s /app/storage/app/public public/storage \
     && chmod -R a+rX /app \
+    && chmod a+rx /usr/local/bin/php /usr/local/bin/frankenphp \
+    && chmod -R a+rX /usr/local/etc/php /usr/local/lib /usr/lib /lib \
     && chown -R www-data:www-data storage bootstrap/cache \
     && mkdir -p /tmp/caddy-data /tmp/caddy-config \
     && chown -R www-data:www-data /tmp/caddy-data /tmp/caddy-config

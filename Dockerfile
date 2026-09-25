@@ -45,11 +45,13 @@ COPY --chmod=755 container/entrypoint.sh /usr/local/bin/app-entrypoint
 RUN mkdir -p storage/app/private storage/app/public \
     && cp vendor/laravel/octane/src/Commands/stubs/frankenphp-worker.php public/frankenphp-worker.php \
     && ln -s /app/storage/app/public public/storage \
+    && chmod -R a+rX /app \
     && chown -R www-data:www-data storage bootstrap/cache \
     && mkdir -p /tmp/caddy-data /tmp/caddy-config \
     && chown -R www-data:www-data /tmp/caddy-data /tmp/caddy-config
 ENV XDG_DATA_HOME=/tmp/caddy-data XDG_CONFIG_HOME=/tmp/caddy-config
 USER www-data
+RUN php -r 'require "/app/vendor/autoload.php";'
 EXPOSE 8000
 ENTRYPOINT ["app-entrypoint"]
 CMD ["php", "artisan", "octane:frankenphp", "--host=0.0.0.0", "--port=8000", "--workers=2", "--max-requests=500", "--caddyfile=/etc/frankenphp/Caddyfile"]

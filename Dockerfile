@@ -1,5 +1,11 @@
 # syntax=docker/dockerfile:1
 FROM docker.io/dunglas/frankenphp:1-php8.4-bookworm AS php-base
+# Temporary runner diagnostic: remove after build DNS/access is fixed.
+RUN set -eux; \
+    ls -ld / /etc /etc/resolv.conf; \
+    cat /etc/resolv.conf; \
+    getent ahosts deb.debian.org; \
+    runuser -u _apt -- sh -ec 'cat /etc/resolv.conf; getent ahosts deb.debian.org'
 RUN install-php-extensions pdo_mysql pdo_sqlite mbstring dom opcache pcntl
 WORKDIR /app
 

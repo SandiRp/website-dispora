@@ -1,16 +1,16 @@
 # syntax=docker/dockerfile:1
-FROM dunglas/frankenphp:1-php8.4-bookworm AS php-base
+FROM docker.io/dunglas/frankenphp:1-php8.4-bookworm AS php-base
 RUN install-php-extensions pdo_mysql pdo_sqlite mbstring dom opcache pcntl
 WORKDIR /app
 
 FROM php-base AS dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
-COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
+COPY --from=docker.io/library/composer:2 /usr/bin/composer /usr/local/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY composer.json composer.lock ./
 RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-interaction --no-progress
 
-FROM node:22-bookworm-slim AS assets
+FROM docker.io/library/node:22-bookworm-slim AS assets
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts

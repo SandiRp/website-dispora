@@ -316,7 +316,7 @@
                     @foreach($officials as $official)
                     <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" class="official-item snap-start shrink-0 w-[80%] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(25%-18px)] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group flex flex-col text-center">
                         <div class="h-64 bg-gray-200 relative overflow-hidden shrink-0 border-b-4 border-dispora">
-                            <img src="{{ $official->photo ? Storage::url($official->photo) : 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop' }}"
+                            <img data-media-image src="{{ \App\Support\Media::url($official->photo) ?? asset('images/media-placeholder.svg') }}"
                                 class="w-full h-full object-cover object-top group-hover:scale-110 transition duration-500"
                                 alt="{{ $official->name }}">
                         </div>

@@ -28,7 +28,7 @@
                         <div class="mb-4">
                             <label for="icon_path" class="block text-sm font-medium text-gray-700">Ikon Layanan (Gambar)</label>
                             @if($item->icon_path)
-                                <div class="mb-2 text-sm text-gray-600">File saat ini: <a href="{{ Storage::url($item->icon_path) }}" target="_blank">Lihat</a></div>
+                                <div class="mb-2 text-sm text-gray-600">File saat ini: <a href="{{ \App\Support\Media::url($item->icon_path) }}" target="_blank">Lihat</a></div>
                             @endif
                             <input type="file" name="icon_path" id="icon_path" class="mt-1 block w-full text-sm text-gray-500">
                         </div>

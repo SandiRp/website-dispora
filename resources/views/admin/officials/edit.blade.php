@@ -26,7 +26,7 @@
                             <label for="photo" class="block text-sm font-medium text-gray-700">Foto (Opsional)</label>
                             @if($official->photo)
                                 <div class="mb-2">
-                                    <img src="{{ Storage::url($official->photo) }}" class="w-20 h-20 rounded-full object-cover border">
+                                    <img src="{{ \App\Support\Media::url($official->photo) }}" alt="{{ $official->name }}" class="w-20 h-20 rounded-full object-cover border">
                                 </div>
                             @endif
                             <input type="file" name="photo" id="photo" accept="image/*" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">

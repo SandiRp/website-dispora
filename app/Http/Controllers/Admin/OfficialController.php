@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Support\Uploads;
 
 class OfficialController extends Controller
 {
@@ -27,11 +28,9 @@ class OfficialController extends Controller
             'order' => 'required|integer',
         ]);
 
-        if ($request->hasFile('photo')) {
-            $validated['photo'] = $request->file('photo')->store('officials', 'public');
-        }
-
-        \App\Models\Official::create($validated);
+        $official = Uploads::save(new \App\Models\Official(), $validated, [
+            'photo' => [$request->file('photo'), 'officials'],
+        ]);
         return redirect()->route('admin.officials.index')->with('success', 'Pejabat berhasil ditambahkan.');
     }
 
@@ -54,23 +53,17 @@ class OfficialController extends Controller
             'order' => 'required|integer',
         ]);
 
-        if ($request->hasFile('photo')) {
-            if ($official->photo) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete($official->photo);
-            }
-            $validated['photo'] = $request->file('photo')->store('officials', 'public');
-        }
-
-        $official->update($validated);
+        Uploads::save($official, $validated, [
+            'photo' => [$request->file('photo'), 'officials'],
+        ]);
         return redirect()->route('admin.officials.index')->with('success', 'Pejabat berhasil diperbarui.');
     }
 
     public function destroy(\App\Models\Official $official)
     {
-        if ($official->photo) {
-            \Illuminate\Support\Facades\Storage::disk('public')->delete($official->photo);
+        if ($official->delete()) {
+            Uploads::delete($official->photo);
         }
-        $official->delete();
         return redirect()->route('admin.officials.index')->with('success', 'Pejabat berhasil dihapus.');
     }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\SkmData;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Uploads;
 
 class SkmDataController extends Controller
 {
@@ -40,11 +40,9 @@ class SkmDataController extends Controller
             SkmData::where('id', '>', 0)->update(['is_active' => false]);
         }
 
-        if ($request->hasFile('document_path')) {
-            $validated['document_path'] = $request->file('document_path')->store('skm_docs', 'public');
-        }
-
-        SkmData::create($validated);
+        $skmDatum = Uploads::save(new SkmData(), $validated, [
+            'document_path' => [$request->file('document_path'), 'skm_docs'],
+        ]);
         return redirect()->route('admin.skm_data.index')->with('success', 'Data SKM berhasil ditambahkan.');
     }
 
@@ -72,23 +70,17 @@ class SkmDataController extends Controller
             SkmData::where('id', '!=', $skmDatum->id)->update(['is_active' => false]);
         }
 
-        if ($request->hasFile('document_path')) {
-            if ($skmDatum->document_path) {
-                Storage::disk('public')->delete($skmDatum->document_path);
-            }
-            $validated['document_path'] = $request->file('document_path')->store('skm_docs', 'public');
-        }
-
-        $skmDatum->update($validated);
+        Uploads::save($skmDatum, $validated, [
+            'document_path' => [$request->file('document_path'), 'skm_docs'],
+        ]);
         return redirect()->route('admin.skm_data.index')->with('success', 'Data SKM berhasil diperbarui.');
     }
 
     public function destroy(SkmData $skmDatum)
     {
-        if ($skmDatum->document_path) {
-            Storage::disk('public')->delete($skmDatum->document_path);
+        if ($skmDatum->delete()) {
+            Uploads::delete($skmDatum->document_path);
         }
-        $skmDatum->delete();
         return redirect()->route('admin.skm_data.index')->with('success', 'Data SKM berhasil dihapus.');
     }
 }

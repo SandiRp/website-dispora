@@ -55,7 +55,7 @@
              x-transition:leave="transition-opacity ease-in duration-700"
              x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
              class="absolute inset-0" {!! $i > 0 ? 'style="display:none"' : '' !!}>
-            <img src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2000&auto=format&fit=crop' }}"
+            <img data-media-image src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : asset('images/media-placeholder.svg') }}"
                  class="w-full h-full object-cover" alt="{{ $post->title }}">
         </div>
         @empty
@@ -158,7 +158,7 @@
                 <div class="lg:col-span-7" data-aos="fade-right">
                     @php $featured = $latestPosts->first(); @endphp
                     <a href="{{ url('/berita/'.$featured->slug) }}" class="group block relative rounded-3xl overflow-hidden h-[480px] shadow-lg">
-                        <img src="{{ $featured->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($featured->featured_image)]) : 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=1000&auto=format&fit=crop' }}"
+                        <img data-media-image src="{{ $featured->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($featured->featured_image)]) : asset('images/media-placeholder.svg') }}"
                              class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featured->title }}">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-8">
@@ -180,7 +180,7 @@
                     @foreach($latestPosts->skip(1)->take(4) as $post)
                     <a href="{{ url('/berita/'.$post->slug) }}" class="group flex gap-5 bg-white rounded-2xl border border-gray-100 p-4 card-hover">
                         <div class="w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100">
-                            <img src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=400&auto=format&fit=crop' }}"
+                            <img data-media-image src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : asset('images/media-placeholder.svg') }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
                         </div>
                         <div class="flex flex-col justify-center min-w-0 flex-1">
@@ -204,7 +204,7 @@
                     <a href="{{ url('/berita/'.$post->slug) }}" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
                        class="ns-item snap-start shrink-0 w-[300px] bg-white rounded-2xl overflow-hidden border border-gray-100 group card-hover">
                         <div class="h-44 overflow-hidden relative">
-                            <img src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&auto=format&fit=crop' }}"
+                            <img data-media-image src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : asset('images/media-placeholder.svg') }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
                             <div class="absolute top-3 left-3 bg-dispora-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase">{{ $post->category->name ?? 'Berita' }}</div>
                         </div>
@@ -238,7 +238,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <a href="{{ url('/berita/'.$gubernurPosts[0]->slug) }}" data-aos="fade-right" class="group relative rounded-3xl overflow-hidden min-h-[420px] shadow-xl block">
-                    <img src="{{ $gubernurPosts[0]->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($gubernurPosts[0]->featured_image)]) : 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=800&auto=format&fit=crop' }}"
+                    <img data-media-image src="{{ $gubernurPosts[0]->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($gubernurPosts[0]->featured_image)]) : asset('images/media-placeholder.svg') }}"
                          class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $gubernurPosts[0]->title }}">
                     <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
                     <div class="absolute bottom-0 left-0 right-0 p-8">
@@ -253,7 +253,7 @@
                     @foreach($gubernurPosts->skip(1) as $post)
                     <a href="{{ url('/berita/'.$post->slug) }}" class="group flex gap-5 bg-white rounded-2xl p-4 border border-gray-100 card-hover">
                         <div class="w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-100">
-                            <img src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=400&auto=format&fit=crop' }}"
+                            <img data-media-image src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : asset('images/media-placeholder.svg') }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
                         </div>
                         <div class="flex flex-col justify-center">
@@ -297,7 +297,7 @@
                     <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" class="vs-item snap-start shrink-0 w-[300px] bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 group flex flex-col">
                         <div class="h-44 overflow-hidden relative bg-gray-100">
                             @if($venue->image_path)
-                            <img src="{{ Storage::url($venue->image_path) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $venue->name }}">
+                            <img src="{{ \App\Support\Media::url($venue->image_path) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="{{ $venue->name }}">
                             @else
                             <div class="w-full h-full flex items-center justify-center text-gray-400">
                                 <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
@@ -307,7 +307,7 @@
                         <div class="p-5 flex flex-col flex-grow">
                             <h3 class="font-bold text-base text-gray-900 mb-2">{{ $venue->name }}</h3>
                             <p class="text-xs text-gray-500 mb-6 flex-grow">{{ Str::limit($venue->short_description, 80) }}</p>
-                            <button @click="activeVenue = {{ json_encode($venue) }}; showVenueModal = true;" class="w-full mt-auto bg-gray-50 hover:bg-teal-50 text-teal-600 font-semibold py-2 rounded-xl transition text-sm flex items-center justify-center gap-2 border border-gray-100 hover:border-teal-100">
+                            <button @click="activeVenue = {{ json_encode(array_merge($venue->toArray(), ['image_url' => \App\Support\Media::url($venue->image_path)])) }}; showVenueModal = true;" class="w-full mt-auto bg-gray-50 hover:bg-teal-50 text-teal-600 font-semibold py-2 rounded-xl transition text-sm flex items-center justify-center gap-2 border border-gray-100 hover:border-teal-100">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                                 Detail
                             </button>
@@ -340,7 +340,7 @@
                     
                     <div class="relative h-64 bg-gray-100 w-full overflow-hidden">
                         <template x-if="activeVenue && activeVenue.image_path">
-                            <img :src="'/storage/' + activeVenue.image_path" class="w-full h-full object-cover">
+                            <img data-media-image :src="activeVenue.image_url" :alt="activeVenue.name" class="w-full h-full object-cover">
                         </template>
                         <template x-if="activeVenue && !activeVenue.image_path">
                             <div class="w-full h-full flex items-center justify-center text-gray-400 bg-gray-50">
@@ -533,7 +533,7 @@
                        class="group bg-white rounded-2xl p-6 text-center border border-gray-100 card-hover">
                         <div class="h-24 w-full mx-auto mb-4 flex items-center justify-center overflow-visible">
                             @if($service->icon_path)
-                                <img src="{{ Storage::url($service->icon_path) }}" alt="{{ $service->name }}" class="w-20 h-20 object-contain transition-transform duration-500 group-hover:scale-110">
+                                <img src="{{ \App\Support\Media::url($service->icon_path) }}" alt="{{ $service->name }}" class="w-20 h-20 object-contain transition-transform duration-500 group-hover:scale-110">
                             @else
                                 <svg class="w-16 h-16 text-dispora-500 transition-transform duration-500 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                             @endif
@@ -555,7 +555,7 @@
                        class="group bg-white rounded-2xl p-6 text-center border border-gray-100 card-hover">
                         <div class="h-24 w-full mx-auto mb-4 flex items-center justify-center overflow-visible">
                             @if($app->logo_path)
-                                <img src="{{ Storage::url($app->logo_path) }}" alt="{{ $app->name }}" class="w-20 h-20 object-contain transition-transform duration-500 group-hover:scale-110">
+                                <img src="{{ \App\Support\Media::url($app->logo_path) }}" alt="{{ $app->name }}" class="w-20 h-20 object-contain transition-transform duration-500 group-hover:scale-110">
                             @else
                                 <svg class="w-16 h-16 text-gray-400 transition-transform duration-500 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
                             @endif
@@ -593,7 +593,7 @@
                     <div class="bg-white rounded-3xl border border-gray-100 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col overflow-hidden group" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                         <div class="h-40 w-full bg-gray-50/50 p-6 flex items-center justify-center relative overflow-hidden group-hover:bg-dispora-50/30 transition-colors">
                             @if($logo->image_path)
-                                <img src="{{ Storage::url($logo->image_path) }}" alt="{{ $logo->title }}" class="max-h-full max-w-full object-contain filter group-hover:scale-110 transition-transform duration-500">
+                                <img src="{{ \App\Support\Media::url($logo->image_path) }}" alt="{{ $logo->title }}" class="max-h-full max-w-full object-contain filter group-hover:scale-110 transition-transform duration-500">
                             @else
                                 <svg class="w-10 h-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                             @endif
@@ -605,7 +605,7 @@
                             @endif
                             <div class="mt-auto">
                                 @if($logo->file_path)
-                                    <a href="{{ Storage::url($logo->file_path) }}" download class="w-full flex items-center justify-center gap-1.5 bg-gray-50 hover:bg-dispora-50 text-gray-600 hover:text-dispora-700 text-sm font-semibold py-2 rounded-xl transition-colors border border-gray-100 hover:border-dispora-100">
+                                    <a href="{{ \App\Support\Media::url($logo->file_path) }}?download=1" download class="w-full flex items-center justify-center gap-1.5 bg-gray-50 hover:bg-dispora-50 text-gray-600 hover:text-dispora-700 text-sm font-semibold py-2 rounded-xl transition-colors border border-gray-100 hover:border-dispora-100">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                         Unduh
                                     </a>
@@ -651,11 +651,13 @@
                                 Ikuti Survei
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                             </a>
-                            @if($latestSkm->doc_path)
-                            <a href="{{ Storage::url($latestSkm->doc_path) }}" target="_blank" class="inline-flex justify-center items-center border-2 border-white/30 text-white hover:bg-white hover:text-dispora-700 px-8 py-3.5 rounded-xl font-semibold transition-all duration-300 gap-2">
+                            @if($latestSkm->document_path)
+                            <a href="{{ \App\Support\Media::url($latestSkm->document_path) }}" target="_blank" class="inline-flex justify-center items-center border-2 border-white/30 text-white hover:bg-white hover:text-dispora-700 px-8 py-3.5 rounded-xl font-semibold transition-all duration-300 gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                 Lihat Laporan
                             </a>
+                            @else
+                            <p class="self-center text-sm text-dispora-100">Dokumen laporan tidak tersedia.</p>
                             @endif
                         </div>
                     </div>
@@ -792,7 +794,7 @@
                     {{-- Image --}}
                     @if($announcement->image_path)
                     <div class="w-full h-56 sm:h-64 overflow-hidden">
-                        <img src="{{ Storage::url($announcement->image_path) }}" alt="{{ $announcement->title }}" class="w-full h-full object-cover">
+                        <img src="{{ \App\Support\Media::url($announcement->image_path) }}" alt="{{ $announcement->title }}" class="w-full h-full object-cover">
                     </div>
                     @else
                     <div class="w-full h-32 bg-gradient-to-br from-dispora-500 to-dispora-700 flex items-center justify-center">

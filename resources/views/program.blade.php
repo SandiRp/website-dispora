@@ -44,7 +44,7 @@
     </div>
 
     <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-6" x-data="{ activeDoc: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', activeTitle: 'Rencana Kerja (Renja) Tahun 2026' }">
+        <div class="max-w-7xl mx-auto px-6" x-data="{ activeDoc: '', activeTitle: 'Pilih Dokumen' }">
             <div class="flex items-center space-x-4 mb-10 border-b-2 border-gray-100 pb-4" data-aos="fade-up">
                 <h2 class="text-3xl font-extrabold text-gray-800">Rencana Kerja (RENJA)</h2>
             </div>
@@ -55,10 +55,10 @@
                     <div
                         class="bg-gray-800 text-white px-4 py-2 rounded-t-xl text-sm font-semibold flex justify-between items-center shrink-0">
                         <span x-text="activeTitle"></span>
-                        <a :href="activeDoc" target="_blank"
+                        <a :href="activeDoc || null" x-show="activeDoc" target="_blank"
                             class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-xs transition">Buka Penuh</a>
                     </div>
-                    <iframe :src="activeDoc" class="w-full flex-grow rounded-b-xl border-none bg-white"></iframe>
+                    <iframe x-media-preview="activeDoc" title="Pratinjau dokumen" class="w-full flex-grow rounded-b-xl border-none bg-white"></iframe>
                 </div>
 
                 <div data-aos="fade-left" class="w-full lg:w-2/5 bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col h-[600px]">
@@ -68,10 +68,11 @@
                     </div>
                     <div class="p-4 flex-grow overflow-y-auto doc-scroll space-y-3">
                         @forelse($renjaDocs as $doc)
-                            <button
-                                @click="activeDoc = '{{ route('public.file', ['folder' => 'documents', 'filename' => basename($doc->file_path)]) }}'; activeTitle = '{{ addslashes($doc->title) }}'"
+                            @if($doc->file_path)
+                            <a href="{{ \App\Support\Media::url($doc->file_path) }}"
+                                @click.prevent="activeDoc = $el.getAttribute('href'); activeTitle = {{ \Illuminate\Support\Js::from($doc->title) }}"
                                 class="w-full text-left p-4 rounded-xl border border-gray-100 hover:border-dispora hover:bg-dispora/5 transition group flex items-center justify-between"
-                                :class="activeTitle === '{{ addslashes($doc->title) }}' ? 'bg-dispora/10 border-dispora ring-1 ring-dispora' :
+                                :class="activeTitle === {{ \Illuminate\Support\Js::from($doc->title) }} ? 'bg-dispora/10 border-dispora ring-1 ring-dispora' :
                                     'bg-gray-50'">
                                 <div class="flex items-center">
                                     <svg class="w-8 h-8 text-red-500 mr-4 group-hover:scale-110 transition shrink-0"
@@ -84,7 +85,10 @@
                                         <p class="text-xs text-gray-500">{{ strtoupper($doc->file_type) }} Document • {{ $doc->file_size }}</p>
                                     </div>
                                 </div>
-                            </button>
+                            </a>
+                            @else
+                            <p class="p-4 text-sm text-gray-500">{{ $doc->title }}: Dokumen tidak tersedia.</p>
+                            @endif
                         @empty
                             <div class="text-center text-gray-500 p-4">Belum ada dokumen RENJA yang dipublikasikan.</div>
                         @endforelse
@@ -95,7 +99,7 @@
     </section>
 
     <section class="py-20 bg-gray-50 border-y border-gray-200">
-        <div class="max-w-7xl mx-auto px-6" x-data="{ activeDoc: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', activeTitle: 'Rencana Strategis (Renstra) 2024-2029' }">
+        <div class="max-w-7xl mx-auto px-6" x-data="{ activeDoc: '', activeTitle: 'Pilih Dokumen' }">
             <div class="flex items-center space-x-4 mb-10 border-b-2 border-gray-200 pb-4" data-aos="fade-up">
                 <h2 class="text-3xl font-extrabold text-gray-800">Rencana Strategis (RENSTRA)</h2>
             </div>
@@ -107,10 +111,10 @@
                     <div
                         class="bg-gray-800 text-white px-4 py-2 rounded-t-xl text-sm font-semibold flex justify-between items-center shrink-0">
                         <span x-text="activeTitle"></span>
-                        <a :href="activeDoc" target="_blank"
+                        <a :href="activeDoc || null" x-show="activeDoc" target="_blank"
                             class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-xs transition">Buka Penuh</a>
                     </div>
-                    <iframe :src="activeDoc" class="w-full flex-grow rounded-b-xl border-none bg-white"></iframe>
+                    <iframe x-media-preview="activeDoc" title="Pratinjau dokumen" class="w-full flex-grow rounded-b-xl border-none bg-white"></iframe>
                 </div>
 
                 <div data-aos="fade-right" class="w-full lg:w-2/5 bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col h-[600px]">
@@ -120,10 +124,11 @@
                     </div>
                     <div class="p-4 flex-grow overflow-y-auto doc-scroll space-y-3">
                         @forelse($renstraDocs as $doc)
-                            <button
-                                @click="activeDoc = '{{ route('public.file', ['folder' => 'documents', 'filename' => basename($doc->file_path)]) }}'; activeTitle = '{{ addslashes($doc->title) }}'"
+                            @if($doc->file_path)
+                            <a href="{{ \App\Support\Media::url($doc->file_path) }}"
+                                @click.prevent="activeDoc = $el.getAttribute('href'); activeTitle = {{ \Illuminate\Support\Js::from($doc->title) }}"
                                 class="w-full text-left p-4 rounded-xl border border-gray-100 hover:border-dispora hover:bg-dispora/5 transition group flex items-center justify-between"
-                                :class="activeTitle === '{{ addslashes($doc->title) }}' ? 'bg-dispora/10 border-dispora ring-1 ring-dispora' :
+                                :class="activeTitle === {{ \Illuminate\Support\Js::from($doc->title) }} ? 'bg-dispora/10 border-dispora ring-1 ring-dispora' :
                                     'bg-gray-50'">
                                 <div class="flex items-center">
                                     <svg class="w-8 h-8 text-red-500 mr-4 group-hover:scale-110 transition shrink-0"
@@ -136,7 +141,10 @@
                                         <p class="text-xs text-gray-500">{{ strtoupper($doc->file_type) }} Document • {{ $doc->file_size }}</p>
                                     </div>
                                 </div>
-                            </button>
+                            </a>
+                            @else
+                            <p class="p-4 text-sm text-gray-500">{{ $doc->title }}: Dokumen tidak tersedia.</p>
+                            @endif
                         @empty
                             <div class="text-center text-gray-500 p-4">Belum ada dokumen RENSTRA yang dipublikasikan.</div>
                         @endforelse
@@ -147,7 +155,7 @@
     </section>
 
     <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-6" x-data="{ activeDoc: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', activeTitle: 'LKJIP Tahun 2025' }">
+        <div class="max-w-7xl mx-auto px-6" x-data="{ activeDoc: '', activeTitle: 'Pilih Dokumen' }">
             <div class="flex items-center space-x-4 mb-10 border-b-2 border-gray-100 pb-4" data-aos="fade-up">
                 <h2 class="text-3xl font-extrabold text-gray-800">Laporan Kinerja (LKJIP)</h2>
             </div>
@@ -158,10 +166,10 @@
                     <div
                         class="bg-gray-800 text-white px-4 py-2 rounded-t-xl text-sm font-semibold flex justify-between items-center shrink-0">
                         <span x-text="activeTitle"></span>
-                        <a :href="activeDoc" target="_blank"
+                        <a :href="activeDoc || null" x-show="activeDoc" target="_blank"
                             class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-xs transition">Buka Penuh</a>
                     </div>
-                    <iframe :src="activeDoc" class="w-full flex-grow rounded-b-xl border-none bg-white"></iframe>
+                    <iframe x-media-preview="activeDoc" title="Pratinjau dokumen" class="w-full flex-grow rounded-b-xl border-none bg-white"></iframe>
                 </div>
 
                 <div data-aos="fade-left" class="w-full lg:w-2/5 bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col h-[600px]">
@@ -171,10 +179,11 @@
                     </div>
                     <div class="p-4 flex-grow overflow-y-auto doc-scroll space-y-3">
                         @forelse($lkjipDocs as $doc)
-                            <button
-                                @click="activeDoc = '{{ route('public.file', ['folder' => 'documents', 'filename' => basename($doc->file_path)]) }}'; activeTitle = '{{ addslashes($doc->title) }}'"
+                            @if($doc->file_path)
+                            <a href="{{ \App\Support\Media::url($doc->file_path) }}"
+                                @click.prevent="activeDoc = $el.getAttribute('href'); activeTitle = {{ \Illuminate\Support\Js::from($doc->title) }}"
                                 class="w-full text-left p-4 rounded-xl border border-gray-100 hover:border-dispora hover:bg-dispora/5 transition group flex items-center justify-between"
-                                :class="activeTitle === '{{ addslashes($doc->title) }}' ? 'bg-dispora/10 border-dispora ring-1 ring-dispora' :
+                                :class="activeTitle === {{ \Illuminate\Support\Js::from($doc->title) }} ? 'bg-dispora/10 border-dispora ring-1 ring-dispora' :
                                     'bg-gray-50'">
                                 <div class="flex items-center">
                                     <svg class="w-8 h-8 text-red-500 mr-4 group-hover:scale-110 transition shrink-0"
@@ -187,7 +196,10 @@
                                         <p class="text-xs text-gray-500">{{ strtoupper($doc->file_type) }} Document • {{ $doc->file_size }}</p>
                                     </div>
                                 </div>
-                            </button>
+                            </a>
+                            @else
+                            <p class="p-4 text-sm text-gray-500">{{ $doc->title }}: Dokumen tidak tersedia.</p>
+                            @endif
                         @empty
                             <div class="text-center text-gray-500 p-4">Belum ada dokumen LKJIP yang dipublikasikan.</div>
                         @endforelse
@@ -198,7 +210,7 @@
     </section>
 
     <section class="py-20 bg-gray-50 border-t border-gray-200">
-        <div class="max-w-7xl mx-auto px-6" x-data="{ activeDoc: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', activeTitle: 'Perjanjian Kinerja Tahun 2026' }">
+        <div class="max-w-7xl mx-auto px-6" x-data="{ activeDoc: '', activeTitle: 'Pilih Dokumen' }">
             <div class="flex items-center space-x-4 mb-10 border-b-2 border-gray-200 pb-4" data-aos="fade-up">
                 <h2 class="text-3xl font-extrabold text-gray-800">Perjanjian Kinerja (PK)</h2>
             </div>
@@ -210,10 +222,10 @@
                     <div
                         class="bg-gray-800 text-white px-4 py-2 rounded-t-xl text-sm font-semibold flex justify-between items-center shrink-0">
                         <span x-text="activeTitle"></span>
-                        <a :href="activeDoc" target="_blank"
+                        <a :href="activeDoc || null" x-show="activeDoc" target="_blank"
                             class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-xs transition">Buka Penuh</a>
                     </div>
-                    <iframe :src="activeDoc" class="w-full flex-grow rounded-b-xl border-none bg-white"></iframe>
+                    <iframe x-media-preview="activeDoc" title="Pratinjau dokumen" class="w-full flex-grow rounded-b-xl border-none bg-white"></iframe>
                 </div>
 
                 <div data-aos="fade-right" class="w-full lg:w-2/5 bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col h-[600px]">
@@ -223,10 +235,11 @@
                     </div>
                     <div class="p-4 flex-grow overflow-y-auto doc-scroll space-y-3">
                         @forelse($pkDocs as $doc)
-                            <button
-                                @click="activeDoc = '{{ route('public.file', ['folder' => 'documents', 'filename' => basename($doc->file_path)]) }}'; activeTitle = '{{ addslashes($doc->title) }}'"
+                            @if($doc->file_path)
+                            <a href="{{ \App\Support\Media::url($doc->file_path) }}"
+                                @click.prevent="activeDoc = $el.getAttribute('href'); activeTitle = {{ \Illuminate\Support\Js::from($doc->title) }}"
                                 class="w-full text-left p-4 rounded-xl border border-gray-100 hover:border-dispora hover:bg-dispora/5 transition group flex items-center justify-between"
-                                :class="activeTitle === '{{ addslashes($doc->title) }}' ? 'bg-dispora/10 border-dispora ring-1 ring-dispora' :
+                                :class="activeTitle === {{ \Illuminate\Support\Js::from($doc->title) }} ? 'bg-dispora/10 border-dispora ring-1 ring-dispora' :
                                     'bg-gray-50'">
                                 <div class="flex items-center">
                                     <svg class="w-8 h-8 text-red-500 mr-4 group-hover:scale-110 transition shrink-0"
@@ -239,7 +252,10 @@
                                         <p class="text-xs text-gray-500">{{ strtoupper($doc->file_type) }} Document • {{ $doc->file_size }}</p>
                                     </div>
                                 </div>
-                            </button>
+                            </a>
+                            @else
+                            <p class="p-4 text-sm text-gray-500">{{ $doc->title }}: Dokumen tidak tersedia.</p>
+                            @endif
                         @empty
                             <div class="text-center text-gray-500 p-4">Belum ada dokumen Perjanjian Kinerja yang dipublikasikan.</div>
                         @endforelse

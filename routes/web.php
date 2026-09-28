@@ -2,18 +2,18 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\File;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\Admin;
 
 Route::get('/', function () {
     $latestPosts = \App\Models\Post::where('status', 'published')->orderBy('created_at', 'desc')->take(10)->get();
-    
+
     $gubernurPosts = \App\Models\Post::whereHas('category', function($q) {
         $q->where('name', 'like', '%Gubernur%')->orWhere('slug', 'like', '%gubernur%');
     })->where('status', 'published')->orderBy('created_at', 'desc')->take(3)->get();
-    
+
     $upcomingAgendas = \App\Models\Agenda::whereIn('status', ['upcoming', 'ongoing'])->orderBy('start_date', 'asc')->take(5)->get();
-        
+
     $latestSkm = \App\Models\SkmData::where('is_active', true)->where('is_published', true)->orderBy('year', 'desc')->orderBy('period', 'desc')->first();
     $allSkm = \App\Models\SkmData::where('is_published', true)->orderBy('year', 'desc')->orderBy('period', 'desc')->get();
     $services = \App\Models\Service::where('is_active', true)->orderBy('order')->get();
@@ -22,7 +22,7 @@ Route::get('/', function () {
     $venues = \App\Models\Venue::where('is_active', true)->orderBy('order')->get();
     $officialLogos = \App\Models\OfficialLogo::where('is_active', true)->orderBy('order')->orderBy('created_at', 'desc')->take(4)->get();
     $announcements = \App\Models\Announcement::currentlyActive()->orderBy('order')->get();
-    
+
     return view('welcome', compact('latestPosts', 'gubernurPosts', 'upcomingAgendas', 'latestSkm', 'allSkm', 'services', 'connectedApps', 'socialMedias', 'venues', 'officialLogos', 'announcements'));
 });
 
@@ -53,38 +53,38 @@ Route::get('/Halprofil', function () {
     return view('Halprofil', compact('officials'));
 });
 Route::get('/program', function () {
-    $renjaDocs = \App\Models\Document::whereHas('category', function($q) { 
-        $q->where('name', 'like', '%Renja%')->orWhere('name', 'like', '%Rencana Kerja%'); 
+    $renjaDocs = \App\Models\Document::whereHas('category', function($q) {
+        $q->where('name', 'like', '%Renja%')->orWhere('name', 'like', '%Rencana Kerja%');
     })->where('access_type', 'public')->latest()->get();
-    
-    $renstraDocs = \App\Models\Document::whereHas('category', function($q) { 
-        $q->where('name', 'like', '%Renstra%')->orWhere('name', 'like', '%Rencana Strategis%'); 
+
+    $renstraDocs = \App\Models\Document::whereHas('category', function($q) {
+        $q->where('name', 'like', '%Renstra%')->orWhere('name', 'like', '%Rencana Strategis%');
     })->where('access_type', 'public')->latest()->get();
-    
-    $lkjipDocs = \App\Models\Document::whereHas('category', function($q) { 
-        $q->where('name', 'like', '%LKJIP%')->orWhere('name', 'like', '%Laporan Kinerja%'); 
+
+    $lkjipDocs = \App\Models\Document::whereHas('category', function($q) {
+        $q->where('name', 'like', '%LKJIP%')->orWhere('name', 'like', '%Laporan Kinerja%');
     })->where('access_type', 'public')->latest()->get();
-    
-    $pkDocs = \App\Models\Document::whereHas('category', function($q) { 
-        $q->where('name', 'like', '%PK%')->orWhere('name', 'like', '%Perjanjian Kinerja%'); 
+
+    $pkDocs = \App\Models\Document::whereHas('category', function($q) {
+        $q->where('name', 'like', '%PK%')->orWhere('name', 'like', '%Perjanjian Kinerja%');
     })->where('access_type', 'public')->latest()->get();
-    
+
     return view('program', compact('renjaDocs', 'renstraDocs', 'lkjipDocs', 'pkDocs'));
 });
 
 Route::get('/laporan', function () {
-    $dpaDocs = \App\Models\Document::whereHas('category', function($q) { 
-        $q->where('name', 'DPA'); 
+    $dpaDocs = \App\Models\Document::whereHas('category', function($q) {
+        $q->where('name', 'DPA');
     })->where('access_type', 'public')->latest()->get();
-    
-    $asetDocs = \App\Models\Document::whereHas('category', function($q) { 
-        $q->where('name', 'ASET'); 
+
+    $asetDocs = \App\Models\Document::whereHas('category', function($q) {
+        $q->where('name', 'ASET');
     })->where('access_type', 'public')->latest()->get();
-    
-    $lraDocs = \App\Models\Document::whereHas('category', function($q) { 
-        $q->where('name', 'LRA'); 
+
+    $lraDocs = \App\Models\Document::whereHas('category', function($q) {
+        $q->where('name', 'LRA');
     })->where('access_type', 'public')->latest()->get();
-    
+
     return view('laporan', compact('dpaDocs', 'asetDocs', 'lraDocs'));
 });
 
@@ -93,22 +93,8 @@ Route::get('/logo-resmi', function () {
     return view('official-logos', compact('logos'));
 });
 
-Route::get('file/{folder}/{filename}', function($folder, $filename) {
-    // Attempt to locate the file on the public disk first
-    $disk = Storage::disk('public');
-    $path = "{$folder}/{$filename}";
-    if (! $disk->exists($path)) {
-        // Fallback to the private local disk (used for legacy files)
-        $disk = Storage::disk('local');
-        $path = "private/{$folder}/{$filename}";
-        if (! $disk->exists($path)) {
-            abort(404);
-        }
-    }
-    $fullPath = $disk->path($path);
-    $mimeType = File::mimeType($fullPath);
-    return response()->file($fullPath, ['Content-Type' => $mimeType]);
-})->name('public.file');
+Route::get('file/{folder}/{filename}', [MediaController::class, 'show'])
+    ->where('filename', '.+')->name('public.file');
 
 Route::get('/agenda', function (Illuminate\Http\Request $request) {
     $query = \App\Models\Agenda::query();
@@ -135,20 +121,20 @@ Route::get('/agenda', function (Illuminate\Http\Request $request) {
     }
 
     $agendas = $query->paginate(10)->withQueryString();
-    
+
     // Top 3 popular agendas by clicks
     $popularAgendas = \App\Models\Agenda::where('clicks_count', '>', 0)
                                         ->orderBy('clicks_count', 'desc')
                                         ->take(3)
                                         ->get();
-                                        
+
     return view('agenda', compact('agendas', 'popularAgendas'));
 });
 
 Route::get('/agenda/{id}/click', function ($id) {
     $agenda = \App\Models\Agenda::findOrFail($id);
     $agenda->increment('clicks_count');
-    
+
     if (request('type') == 'daftar' && $agenda->link_url) {
         return redirect()->away($agenda->link_url);
     } elseif (request('type') == 'materi' && $agenda->attachment_path) {
@@ -159,7 +145,7 @@ Route::get('/agenda/{id}/click', function ($id) {
         }
         return redirect()->away($url);
     }
-    
+
     return back();
 })->name('agenda.click');
 
@@ -171,8 +157,10 @@ Route::get('/regulasi', function (Illuminate\Http\Request $request) {
     })->where('access_type', 'public');
 
     if ($request->has('search') && $request->search != '') {
-        $query->where('title', 'like', '%' . $request->search . '%')
-              ->orWhere('description', 'like', '%' . $request->search . '%');
+        $query->where(function ($query) use ($request) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%');
+        });
     }
 
 
@@ -203,12 +191,12 @@ Route::get('/berita', function (Illuminate\Http\Request $request) {
 
     $posts = $query->paginate(9)->withQueryString();
     $categories = \App\Models\Category::where('type', 'post')->get();
-    
+
     return view('berita', compact('posts', 'categories'));
 });
 Route::get('/berita/{slug}', function ($slug) {
     $post = \App\Models\Post::where('slug', $slug)->where('status', 'published')->firstOrFail();
-    
+
     // Fetch related posts from the same category
     $relatedPosts = \App\Models\Post::where('status', 'published')
         ->where('category_id', $post->category_id)
@@ -272,7 +260,8 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     // Announcements
     Route::resource('announcements', \App\Http\Controllers\Admin\AnnouncementController::class);
 
-    Route::get('files/{folder}/{filename}', [\App\Http\Controllers\Admin\FilePreviewController::class, 'show'])->name('files.preview');
+    Route::get('files/{folder}/{filename}', [MediaController::class, 'show'])
+        ->where('filename', '.+')->name('files.preview');
 });
 
 require __DIR__ . '/auth.php';

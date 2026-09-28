@@ -32,7 +32,7 @@
                                 <td class="px-6 py-4 text-sm font-semibold text-gray-500">{{ $item->order }}</td>
                                 <td class="px-6 py-4">
                                     @if($item->image_path)
-                                        <img src="{{ Storage::url($item->image_path) }}" alt="{{ $item->title }}" class="w-20 h-14 object-cover rounded-lg border border-gray-200">
+                                        <img src="{{ \App\Support\Media::url($item->image_path) }}" alt="{{ $item->title }}" class="w-20 h-14 object-cover rounded-lg border border-gray-200">
                                     @else
                                         <div class="w-20 h-14 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200 text-gray-400 text-xs">No Image</div>
                                     @endif

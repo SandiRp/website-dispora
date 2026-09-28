@@ -103,7 +103,7 @@
                                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                                     <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title" x-text="modalTitle"></h3>
                                     <div class="mt-4 w-full h-[70vh] flex items-center justify-center bg-gray-100">
-                                        <img :src="fileUrl" class="max-w-full max-h-full object-contain" alt="Preview Image" x-on:error="fileUrl = ''">
+                                        <img data-media-image :src="fileUrl" class="max-w-full max-h-full object-contain" alt="Preview Image">
                                     </div>
                                 </div>
                             </div>

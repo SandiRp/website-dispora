@@ -27,7 +27,7 @@
                                     <label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Gambar Preview (Ikon)</label>
                                     @if($officialLogo->image_path)
                                         <div class="mb-3 p-2 border rounded-lg inline-block bg-gray-50">
-                                            <img src="{{ Storage::url($officialLogo->image_path) }}" alt="Preview" class="h-16 w-auto object-contain">
+                                            <img src="{{ \App\Support\Media::url($officialLogo->image_path) }}" alt="Preview" class="h-16 w-auto object-contain">
                                         </div>
                                     @endif
                                     <input type="file" name="image_path" id="image_path" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100">
@@ -38,8 +38,10 @@
                                     <label for="file_path" class="block text-sm font-medium text-gray-700 mb-1">File Unduhan</label>
                                     @if($officialLogo->file_path)
                                         <div class="mb-3 text-sm">
-                                            <a href="{{ Storage::url($officialLogo->file_path) }}" target="_blank" class="text-blue-600 hover:underline">📄 Lihat File Saat Ini</a>
+                                            <a href="{{ \App\Support\Media::url($officialLogo->file_path) }}" target="_blank" class="text-blue-600 hover:underline">📄 Lihat File Saat Ini</a>
                                         </div>
+                                    @else
+                                        <p class="mb-2 text-sm text-gray-500">Berkas unduhan tidak tersedia.</p>
                                     @endif
                                     <input type="file" name="file_path" id="file_path" accept=".png,.jpg,.jpeg" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
                                     <p class="text-xs text-gray-400 mt-1">Kosongkan jika tidak ingin mengubah.</p>

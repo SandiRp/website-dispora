@@ -32,7 +32,7 @@
                                 <td class="px-6 py-4">
                                     @if($logo->image_path)
                                         <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center p-2 border border-gray-200">
-                                            <img src="{{ Storage::url($logo->image_path) }}" alt="{{ $logo->title }}" class="max-h-full max-w-full object-contain">
+                                            <img src="{{ \App\Support\Media::url($logo->image_path) }}" alt="{{ $logo->title }}" class="max-h-full max-w-full object-contain">
                                         </div>
                                     @else
                                         <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200 text-gray-400 text-xs text-center">No Image</div>
@@ -42,7 +42,9 @@
                                     <div class="font-bold text-gray-900">{{ $logo->title }}</div>
                                     <div class="text-sm text-gray-500 mt-1 line-clamp-2 max-w-xs">{{ $logo->description }}</div>
                                     @if($logo->file_path)
-                                        <a href="{{ Storage::url($logo->file_path) }}" target="_blank" class="text-xs text-blue-600 hover:underline mt-2 inline-block">📄 File Tersedia</a>
+                                        <a href="{{ \App\Support\Media::url($logo->file_path) }}" target="_blank" class="text-xs text-blue-600 hover:underline mt-2 inline-block">📄 File Tersedia</a>
+                                    @else
+                                        <p class="text-xs text-gray-500 mt-2">Berkas unduhan tidak tersedia.</p>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-center">

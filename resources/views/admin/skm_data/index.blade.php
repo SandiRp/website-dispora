@@ -42,9 +42,9 @@
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     @if($item->document_path)
-                                        <a href="{{ Storage::url($item->document_path) }}" target="_blank" class="text-blue-600 hover:underline text-xs font-medium">📄 Lihat PDF</a>
+                                        <a href="{{ \App\Support\Media::url($item->document_path) }}" target="_blank" class="text-blue-600 hover:underline text-xs font-medium">📄 Lihat PDF</a>
                                     @else
-                                        <span class="text-gray-400 text-xs">-</span>
+                                        <span class="text-gray-500 text-xs">Dokumen tidak tersedia.</span>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-center">

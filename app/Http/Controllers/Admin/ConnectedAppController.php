@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\ConnectedApp;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Uploads;
 
 class ConnectedAppController extends Controller
 {
@@ -34,11 +34,9 @@ class ConnectedAppController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        if ($request->hasFile('logo_path')) {
-            $validated['logo_path'] = $request->file('logo_path')->store('connected_apps', 'public');
-        }
-
-        ConnectedApp::create($validated);
+        $connectedApp = Uploads::save(new ConnectedApp(), $validated, [
+            'logo_path' => [$request->file('logo_path'), 'connected_apps'],
+        ]);
         return redirect()->route('admin.connected_apps.index')->with('success', 'Aplikasi berhasil ditambahkan.');
     }
 
@@ -60,23 +58,17 @@ class ConnectedAppController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        if ($request->hasFile('logo_path')) {
-            if ($connectedApp->logo_path) {
-                Storage::disk('public')->delete($connectedApp->logo_path);
-            }
-            $validated['logo_path'] = $request->file('logo_path')->store('connected_apps', 'public');
-        }
-
-        $connectedApp->update($validated);
+        Uploads::save($connectedApp, $validated, [
+            'logo_path' => [$request->file('logo_path'), 'connected_apps'],
+        ]);
         return redirect()->route('admin.connected_apps.index')->with('success', 'Aplikasi berhasil diperbarui.');
     }
 
     public function destroy(ConnectedApp $connectedApp)
     {
-        if ($connectedApp->logo_path) {
-            Storage::disk('public')->delete($connectedApp->logo_path);
+        if ($connectedApp->delete()) {
+            Uploads::delete($connectedApp->logo_path);
         }
-        $connectedApp->delete();
         return redirect()->route('admin.connected_apps.index')->with('success', 'Aplikasi berhasil dihapus.');
     }
 }

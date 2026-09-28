@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Uploads;
 
 class AnnouncementController extends Controller
 {
@@ -37,11 +37,9 @@ class AnnouncementController extends Controller
         $validated['is_active'] = $request->has('is_active');
         $validated['order'] = $request->order ?? 0;
 
-        if ($request->hasFile('image_path')) {
-            $validated['image_path'] = $request->file('image_path')->store('announcements', 'public');
-        }
-
-        Announcement::create($validated);
+        $announcement = Uploads::save(new Announcement(), $validated, [
+            'image_path' => [$request->file('image_path'), 'announcements'],
+        ]);
         return redirect()->route('admin.announcements.index')->with('success', 'Pengumuman berhasil ditambahkan.');
     }
 
@@ -67,19 +65,17 @@ class AnnouncementController extends Controller
         $validated['is_active'] = $request->has('is_active');
         $validated['order'] = $request->order ?? 0;
 
-        if ($request->hasFile('image_path')) {
-            if ($announcement->image_path) Storage::disk('public')->delete($announcement->image_path);
-            $validated['image_path'] = $request->file('image_path')->store('announcements', 'public');
-        }
-
-        $announcement->update($validated);
+        Uploads::save($announcement, $validated, [
+            'image_path' => [$request->file('image_path'), 'announcements'],
+        ]);
         return redirect()->route('admin.announcements.index')->with('success', 'Pengumuman berhasil diperbarui.');
     }
 
     public function destroy(Announcement $announcement)
     {
-        if ($announcement->image_path) Storage::disk('public')->delete($announcement->image_path);
-        $announcement->delete();
+        if ($announcement->delete()) {
+            Uploads::delete($announcement->image_path);
+        }
         return redirect()->route('admin.announcements.index')->with('success', 'Pengumuman berhasil dihapus.');
     }
 }

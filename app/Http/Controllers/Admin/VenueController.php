@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Venue;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Uploads;
 
 class VenueController extends Controller
 {
@@ -35,11 +35,9 @@ class VenueController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        if ($request->hasFile('image_path')) {
-            $validated['image_path'] = $request->file('image_path')->store('venues', 'public');
-        }
-
-        Venue::create($validated);
+        $venue = Uploads::save(new Venue(), $validated, [
+            'image_path' => [$request->file('image_path'), 'venues'],
+        ]);
         return redirect()->route('admin.venues.index')->with('success', 'Venue berhasil ditambahkan.');
     }
 
@@ -63,23 +61,17 @@ class VenueController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        if ($request->hasFile('image_path')) {
-            if ($venue->image_path) {
-                Storage::disk('public')->delete($venue->image_path);
-            }
-            $validated['image_path'] = $request->file('image_path')->store('venues', 'public');
-        }
-
-        $venue->update($validated);
+        Uploads::save($venue, $validated, [
+            'image_path' => [$request->file('image_path'), 'venues'],
+        ]);
         return redirect()->route('admin.venues.index')->with('success', 'Venue berhasil diperbarui.');
     }
 
     public function destroy(Venue $venue)
     {
-        if ($venue->image_path) {
-            Storage::disk('public')->delete($venue->image_path);
+        if ($venue->delete()) {
+            Uploads::delete($venue->image_path);
         }
-        $venue->delete();
         return redirect()->route('admin.venues.index')->with('success', 'Venue berhasil dihapus.');
     }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Service;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Uploads;
 
 class ServiceController extends Controller
 {
@@ -34,11 +34,9 @@ class ServiceController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        if ($request->hasFile('icon_path')) {
-            $validated['icon_path'] = $request->file('icon_path')->store('services', 'public');
-        }
-
-        Service::create($validated);
+        $service = Uploads::save(new Service(), $validated, [
+            'icon_path' => [$request->file('icon_path'), 'services'],
+        ]);
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
 
@@ -60,23 +58,17 @@ class ServiceController extends Controller
 
         $validated['is_active'] = $request->has('is_active');
 
-        if ($request->hasFile('icon_path')) {
-            if ($service->icon_path) {
-                Storage::disk('public')->delete($service->icon_path);
-            }
-            $validated['icon_path'] = $request->file('icon_path')->store('services', 'public');
-        }
-
-        $service->update($validated);
+        Uploads::save($service, $validated, [
+            'icon_path' => [$request->file('icon_path'), 'services'],
+        ]);
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil diperbarui.');
     }
 
     public function destroy(Service $service)
     {
-        if ($service->icon_path) {
-            Storage::disk('public')->delete($service->icon_path);
+        if ($service->delete()) {
+            Uploads::delete($service->icon_path);
         }
-        $service->delete();
         return redirect()->route('admin.services.index')->with('success', 'Layanan berhasil dihapus.');
     }
 }

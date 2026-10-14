@@ -28,7 +28,7 @@ class SkmDataController extends Controller
             'period' => 'required|string|max:255',
             'index_value' => 'required|numeric',
             'category' => 'required|string|max:255',
-            'document_path' => 'nullable|file|mimes:pdf|max:10240',
+            'document_path' => 'nullable|file|mimes:pdf|max:5120',
             'is_published' => 'boolean',
             'is_active' => 'boolean',
         ]);
@@ -60,7 +60,7 @@ class SkmDataController extends Controller
             'period' => 'required|string|max:255',
             'index_value' => 'required|numeric',
             'category' => 'required|string|max:255',
-            'document_path' => 'nullable|file|mimes:pdf|max:10240',
+            'document_path' => 'nullable|file|mimes:pdf|max:5120',
             'is_published' => 'boolean',
             'is_active' => 'boolean',
         ]);

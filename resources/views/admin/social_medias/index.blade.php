@@ -23,6 +23,7 @@
                                 <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Nama Akun</th>
                                 <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">URL</th>
                                 <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Class Icon</th>
+                                <th class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase">Logo</th>
                                 <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Status</th>
                                 <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Aksi</th>
                             </tr>
@@ -41,6 +42,13 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-xs text-gray-500 font-mono">{{ $item->icon_class ?? '-' }}</td>
+                                <td class="px-6 py-4">
+                                    @if($item->custom_logo_path)
+                                        <img src="{{ Storage::url($item->custom_logo_path) }}" alt="Logo" class="w-10 h-10 object-contain rounded border border-gray-200 bg-gray-50">
+                                    @else
+                                        <span class="text-gray-400 text-xs">-</span>
+                                    @endif
+                                </td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="{{ $item->is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }} text-xs font-bold px-2 py-1 rounded-full">
                                         {{ $item->is_active ? 'Aktif' : 'Nonaktif' }}
@@ -56,7 +64,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-12 text-center text-gray-400">Belum ada data sosial media. <a href="{{ route('admin.social_medias.create') }}" class="text-pink-600 hover:underline">Tambah sekarang</a></td>
+                                <td colspan="8" class="px-6 py-12 text-center text-gray-400">Belum ada data sosial media. <a href="{{ route('admin.social_medias.create') }}" class="text-pink-600 hover:underline">Tambah sekarang</a></td>
                             </tr>
                             @endforelse
                         </tbody>

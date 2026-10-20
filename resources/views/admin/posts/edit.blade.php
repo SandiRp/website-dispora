@@ -49,6 +49,13 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="published_date" class="block text-sm font-medium text-gray-700">Tanggal Publikasi</label>
+                            <input type="date" name="published_date" id="published_date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" value="{{ old('published_date', $post->published_date ? $post->published_date->format('Y-m-d') : '') }}">
+                            <p class="mt-1 text-xs text-gray-400">Kosongkan untuk menggunakan tanggal hari ini</p>
+                            @error('published_date') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="mb-4">
                             <label for="featured_image" class="block text-sm font-medium text-gray-700">Gambar Unggulan (Biarkan kosong jika tidak ingin mengubah)</label>
                             @if($post->featured_image)
                                 <div class="mt-2 mb-2 text-sm text-gray-500">Gambar saat ini ada di storage tertutup.</div>

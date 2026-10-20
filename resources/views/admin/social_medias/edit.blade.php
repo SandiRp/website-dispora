@@ -35,6 +35,25 @@
                                 <option value="fa-brands fa-facebook" {{ old('icon_class', $item->icon_class) == 'fa-brands fa-facebook' ? 'selected' : '' }}>Facebook</option>
                                 <option value="fa-brands fa-whatsapp" {{ old('icon_class', $item->icon_class) == 'fa-brands fa-whatsapp' ? 'selected' : '' }}>WhatsApp</option>
                             </select>
+                            <p class="mt-1 text-xs text-gray-400">Ikon bawaan berdasarkan platform. Atau upload logo sendiri di bawah.</p>
+                        </div>
+                        <div class="mb-4">
+                            <label for="custom_logo" class="block text-sm font-medium text-gray-700">Upload Logo Sendiri (Opsional)</label>
+                            @if($item->custom_logo_path)
+                                <div class="mt-2 mb-3 flex items-center gap-4">
+                                    <img src="{{ Storage::url($item->custom_logo_path) }}" alt="Logo saat ini" class="w-16 h-16 object-contain rounded-lg border border-gray-200 bg-gray-50 p-1">
+                                    <div>
+                                        <p class="text-xs text-gray-500">Logo saat ini aktif</p>
+                                        <label class="inline-flex items-center gap-2 mt-1 cursor-pointer">
+                                            <input type="checkbox" name="remove_logo" value="1" class="rounded border-gray-300 text-red-600 focus:ring-red-500">
+                                            <span class="text-xs text-red-600 font-medium">Hapus logo ini</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            @endif
+                            <input type="file" name="custom_logo" id="custom_logo" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" accept="image/*">
+                            <p class="mt-1 text-xs text-gray-400">Format: JPG, PNG, SVG. Maksimal 2MB. Jika diupload, logo ini akan digunakan sebagai pengganti ikon bawaan.</p>
+                            @error('custom_logo') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         <div class="mb-4">
                             <label for="is_active" class="block text-sm font-medium text-gray-700">Aktif</label>

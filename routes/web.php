@@ -6,11 +6,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 Route::get('/', function () {
-    $latestPosts = \App\Models\Post::where('status', 'published')->orderBy('created_at', 'desc')->take(10)->get();
+    $latestPosts = \App\Models\Post::latestPublished()->take(10)->get();
     
-    $gubernurPosts = \App\Models\Post::whereHas('category', function($q) {
+    $gubernurPosts = \App\Models\Post::latestPublished()->whereHas('category', function($q) {
         $q->where('name', 'like', '%Gubernur%')->orWhere('slug', 'like', '%gubernur%');
-    })->where('status', 'published')->orderBy('created_at', 'desc')->take(3)->get();
+    })->take(10)->get();
     
     $upcomingAgendas = \App\Models\Agenda::whereIn('status', ['upcoming', 'ongoing'])->orderBy('start_date', 'asc')->take(5)->get();
         
@@ -41,9 +41,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('agendas', Admin\AgendaController::class);
-    Route::resource('documents', Admin\DocumentController::class);
-    Route::resource('skm_data', Admin\SkmDataController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -189,7 +186,7 @@ Route::get('/regulasi', function (Illuminate\Http\Request $request) {
 });
 
 Route::get('/berita', function (Illuminate\Http\Request $request) {
-    $query = \App\Models\Post::where('status', 'published')->latest();
+    $query = \App\Models\Post::latestPublished();
 
     if ($request->has('search') && $request->search != '') {
         $query->where('title', 'like', '%' . $request->search . '%');
@@ -201,7 +198,7 @@ Route::get('/berita', function (Illuminate\Http\Request $request) {
         });
     }
 
-    $posts = $query->paginate(9)->withQueryString();
+    $posts = $query->paginate(10)->withQueryString();
     $categories = \App\Models\Category::where('type', 'post')->get();
     
     return view('berita', compact('posts', 'categories'));

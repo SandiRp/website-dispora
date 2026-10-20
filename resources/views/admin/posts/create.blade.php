@@ -48,6 +48,13 @@
                         </div>
 
                         <div class="mb-4">
+                            <label for="published_date" class="block text-sm font-medium text-gray-700">Tanggal Publikasi</label>
+                            <input type="date" name="published_date" id="published_date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" value="{{ old('published_date', date('Y-m-d')) }}">
+                            <p class="mt-1 text-xs text-gray-400">Kosongkan untuk menggunakan tanggal hari ini</p>
+                            @error('published_date') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="mb-4">
                             <label for="featured_image" class="block text-sm font-medium text-gray-700">Gambar Unggulan (Opsional)</label>
                             <input type="file" name="featured_image" id="featured_image" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" accept="image/*">
                             @error('featured_image') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror

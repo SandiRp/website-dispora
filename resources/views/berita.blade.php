@@ -76,7 +76,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
                             </path>
-                        </svg> {{ $highlight->created_at->translatedFormat('d F Y') }}
+                        </svg> {{ $highlight->display_date->translatedFormat('d F Y') }}
                     </p>
                     <h3 class="text-2xl font-extrabold text-gray-800 mb-4 leading-tight group-hover:text-dispora transition">
                         <a href="{{ route('berita.detail', $highlight->slug) }}">{{ $highlight->title }}</a></h3>
@@ -103,7 +103,7 @@
                             {{ $post->category->name ?? 'Berita' }}</div>
                     </a>
                     <div class="p-6 flex-grow flex flex-col">
-                        <p class="text-xs text-gray-400 mb-2 font-medium">{{ $post->created_at->translatedFormat('d F Y') }}</p>
+                        <p class="text-xs text-gray-400 mb-2 font-medium">{{ $post->display_date->translatedFormat('d F Y') }}</p>
                         <h4 class="font-bold text-lg text-gray-800 mb-3 hover:text-dispora transition line-clamp-2"><a
                                 href="{{ route('berita.detail', $post->slug) }}">{{ $post->title }}</a></h4>
                         <p class="text-gray-600 text-sm line-clamp-3 mb-4 flex-grow">{{ Str::limit(strip_tags($post->content), 120) }}</p>

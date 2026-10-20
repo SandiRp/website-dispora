@@ -30,8 +30,14 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'content' => 'required',
             'status' => 'required|in:draft,published,archived',
+            'published_date' => 'nullable|date',
             'featured_image' => 'nullable|image|max:2048',
         ]);
+
+        // Default ke hari ini jika tidak diisi
+        if (empty($validated['published_date'])) {
+            $validated['published_date'] = now()->toDateString();
+        }
 
         $validated['slug'] = Str::slug($validated['title']) . '-' . uniqid();
         $validated['user_id'] = auth()->id();
@@ -59,6 +65,7 @@ class PostController extends Controller
             'category_id' => 'required|exists:categories,id',
             'content' => 'required',
             'status' => 'required|in:draft,published,archived',
+            'published_date' => 'nullable|date',
             'featured_image' => 'nullable|image|max:2048',
         ]);
 

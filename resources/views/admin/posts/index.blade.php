@@ -39,6 +39,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3">Judul</th>
                                 <th scope="col" class="px-6 py-3">Kategori</th>
+                                <th scope="col" class="px-6 py-3">Tanggal</th>
                                 <th scope="col" class="px-6 py-3">Status</th>
                                 <th scope="col" class="px-6 py-3">Aksi</th>
                             </tr>
@@ -48,6 +49,9 @@
                                 <tr class="bg-white border-b hover:bg-gray-50">
                                     <td class="px-6 py-4 font-medium text-gray-900">{{ $post->title }}</td>
                                     <td class="px-6 py-4">{{ $post->category->name ?? '-' }}</td>
+                                    <td class="px-6 py-4 text-xs text-gray-600 whitespace-nowrap">
+                                        {{ $post->published_date ? \Carbon\Carbon::parse($post->published_date)->format('d M Y') : $post->created_at->format('d M Y') }}
+                                    </td>
                                     <td class="px-6 py-4">
                                         <span class="px-2 py-1 rounded text-xs text-white {{ $post->status === 'published' ? 'bg-green-500' : ($post->status === 'draft' ? 'bg-gray-500' : 'bg-red-500') }}">
                                             {{ ucfirst($post->status) }}
@@ -80,7 +84,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4" class="px-6 py-4 text-center">Belum ada post.</td>
+                                    <td colspan="5" class="px-6 py-4 text-center">Belum ada post.</td>
                                 </tr>
                             @endforelse
                         </tbody>

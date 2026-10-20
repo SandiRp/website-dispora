@@ -33,6 +33,13 @@
                                 <option value="fa-brands fa-facebook" {{ old('icon_class') == 'fa-brands fa-facebook' ? 'selected' : '' }}>Facebook</option>
                                 <option value="fa-brands fa-whatsapp" {{ old('icon_class') == 'fa-brands fa-whatsapp' ? 'selected' : '' }}>WhatsApp</option>
                             </select>
+                            <p class="mt-1 text-xs text-gray-400">Ikon bawaan berdasarkan platform. Atau upload logo sendiri di bawah.</p>
+                        </div>
+                        <div class="mb-4">
+                            <label for="custom_logo" class="block text-sm font-medium text-gray-700">Upload Logo Sendiri (Opsional)</label>
+                            <input type="file" name="custom_logo" id="custom_logo" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" accept="image/*">
+                            <p class="mt-1 text-xs text-gray-400">Format: JPG, PNG, SVG. Maksimal 2MB. Jika diupload, logo ini akan digunakan sebagai pengganti ikon bawaan.</p>
+                            @error('custom_logo') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                         </div>
                         <div class="mb-4">
                             <label for="is_active" class="block text-sm font-medium text-gray-700">Aktif</label>

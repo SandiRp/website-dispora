@@ -68,7 +68,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm font-bold text-gray-800">{{ $post->user->name ?? 'Admin' }}</p>
-                                    <p class="text-xs text-gray-500 font-medium">{{ $post->created_at->translatedFormat('l, d F Y • H:i') }} WIB</p>
+                                    <p class="text-xs text-gray-500 font-medium">{{ $post->display_date->translatedFormat('l, d F Y') }}</p>
                                 </div>
                             </div>
 
@@ -173,7 +173,7 @@
                                     <h5 class="text-sm font-bold text-gray-800 leading-snug group-hover:text-dispora transition line-clamp-2 mb-1">
                                         {{ $related->title }}
                                     </h5>
-                                    <p class="text-[11px] text-gray-400 font-medium uppercase tracking-wide">{{ $related->created_at->translatedFormat('d F Y') }}</p>
+                                    <p class="text-[11px] text-gray-400 font-medium uppercase tracking-wide">{{ $related->display_date->translatedFormat('d F Y') }}</p>
                                 </div>
                             </a>
                             @if(!$loop->last)

@@ -18,7 +18,12 @@ class Post extends Model
         'content',
         'featured_image',
         'status',
+        'published_date',
         'views_count'
+    ];
+
+    protected $casts = [
+        'published_date' => 'date',
     ];
 
     public function user()
@@ -29,5 +34,16 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function getDisplayDateAttribute()
+    {
+        return $this->published_date ? $this->published_date : $this->created_at;
+    }
+
+    public function scopeLatestPublished($query)
+    {
+        return $query->where('status', 'published')
+            ->orderByRaw('COALESCE(published_date, DATE(created_at)) DESC, created_at DESC');
     }
 }

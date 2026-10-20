@@ -153,22 +153,22 @@
             </div>
 
             @if($latestPosts->count() > 0)
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
                 {{-- Featured large card --}}
-                <div class="lg:col-span-7" data-aos="fade-right">
+                <div class="lg:col-span-7 flex flex-col" data-aos="fade-right">
                     @php $featured = $latestPosts->first(); @endphp
-                    <a href="{{ url('/berita/'.$featured->slug) }}" class="group block relative rounded-3xl overflow-hidden h-[480px] shadow-lg">
+                    <a href="{{ url('/berita/'.$featured->slug) }}" class="group block relative rounded-3xl overflow-hidden h-full min-h-[460px] lg:min-h-[520px] shadow-lg flex-1">
                         <img src="{{ $featured->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($featured->featured_image)]) : 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=1000&auto=format&fit=crop' }}"
                              class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featured->title }}">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-                        <div class="absolute bottom-0 left-0 right-0 p-8">
-                            <span class="inline-block bg-dispora-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg mb-4 uppercase tracking-wide">{{ $featured->category->name ?? 'Berita' }}</span>
-                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 leading-tight line-clamp-2 group-hover:text-dispora-200 transition">{{ $featured->title }}</h3>
-                            <p class="text-white/60 text-sm line-clamp-2 mb-4">{{ Str::limit(strip_tags($featured->content), 150) }}</p>
-                            <div class="flex items-center gap-4 text-xs text-white/50">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                            <span class="inline-block bg-dispora-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg mb-3 uppercase tracking-wide shadow-sm">{{ $featured->category->name ?? 'Berita' }}</span>
+                            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-3 leading-tight line-clamp-2 group-hover:text-dispora-200 transition">{{ $featured->title }}</h3>
+                            <p class="text-white/70 text-sm line-clamp-2 mb-4 leading-relaxed">{{ Str::limit(strip_tags($featured->content), 150) }}</p>
+                            <div class="flex items-center gap-4 text-xs text-white/60">
                                 <span class="flex items-center gap-1.5">
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                                    {{ $featured->created_at->translatedFormat('d F Y') }}
+                                    {{ $featured->display_date->translatedFormat('d F Y') }}
                                 </span>
                             </div>
                         </div>
@@ -176,19 +176,19 @@
                 </div>
 
                 {{-- Side list --}}
-                <div class="lg:col-span-5 flex flex-col gap-5" data-aos="fade-left">
+                <div class="lg:col-span-5 flex flex-col justify-between gap-3.5" data-aos="fade-left">
                     @foreach($latestPosts->skip(1)->take(4) as $post)
-                    <a href="{{ url('/berita/'.$post->slug) }}" class="group flex gap-5 bg-white rounded-2xl border border-gray-100 p-4 card-hover">
-                        <div class="w-28 h-28 rounded-xl overflow-hidden shrink-0 bg-gray-100">
+                    <a href="{{ url('/berita/'.$post->slug) }}" class="group flex items-center gap-4 bg-white rounded-2xl border border-gray-100 p-3.5 card-hover shadow-sm hover:shadow-md transition">
+                        <div class="w-28 h-20 md:w-32 md:h-22 rounded-xl overflow-hidden shrink-0 bg-gray-100 relative">
                             <img src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=400&auto=format&fit=crop' }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
                         </div>
                         <div class="flex flex-col justify-center min-w-0 flex-1">
-                            <span class="text-dispora-600 text-[10px] font-bold uppercase tracking-wider mb-1.5">{{ $post->category->name ?? 'Berita' }}</span>
-                            <h4 class="font-bold text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-dispora-600 transition mb-2">{{ $post->title }}</h4>
+                            <span class="text-dispora-600 text-[10px] font-bold uppercase tracking-wider mb-1">{{ $post->category->name ?? 'Berita' }}</span>
+                            <h4 class="font-bold text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-dispora-600 transition mb-1.5">{{ $post->title }}</h4>
                             <p class="text-xs text-gray-400 flex items-center gap-1.5">
-                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                {{ $post->created_at->translatedFormat('d M Y') }}
+                                <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                {{ $post->display_date->translatedFormat('d M Y') }}
                             </p>
                         </div>
                     </a>
@@ -198,19 +198,22 @@
 
             {{-- Scrollable extra news --}}
             @if($latestPosts->count() > 5)
-            <div class="mt-12" x-data="{ init() { setInterval(() => { let s = this.$refs.ns; if(!s) return; let w = s.querySelector('.ns-item'); if(!w) return; let d = w.offsetWidth+24; if(s.scrollLeft >= s.scrollWidth-s.clientWidth-10){s.scrollTo({left:0,behavior:'smooth'})}else{s.scrollBy({left:d,behavior:'smooth'})} }, 4000) } }">
-                <div x-ref="ns" class="flex gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4">
+            <div class="mt-10" x-data="{ init() { setInterval(() => { let s = this.$refs.ns; if(!s) return; let w = s.querySelector('.ns-item'); if(!w) return; let d = w.offsetWidth+24; if(s.scrollLeft >= s.scrollWidth-s.clientWidth-10){s.scrollTo({left:0,behavior:'smooth'})}else{s.scrollBy({left:d,behavior:'smooth'})} }, 4000) } }">
+                <div x-ref="ns" class="flex gap-5 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4 pt-1">
                     @foreach($latestPosts->skip(5) as $post)
-                    <a href="{{ url('/berita/'.$post->slug) }}" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}"
-                       class="ns-item snap-start shrink-0 w-[300px] bg-white rounded-2xl overflow-hidden border border-gray-100 group card-hover">
-                        <div class="h-44 overflow-hidden relative">
+                    <a href="{{ url('/berita/'.$post->slug) }}" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}"
+                       class="ns-item snap-start shrink-0 w-[280px] bg-white rounded-2xl overflow-hidden border border-gray-100 group card-hover shadow-sm hover:shadow-md transition">
+                        <div class="h-36 overflow-hidden relative">
                             <img src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&auto=format&fit=crop' }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
-                            <div class="absolute top-3 left-3 bg-dispora-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-lg uppercase">{{ $post->category->name ?? 'Berita' }}</div>
+                            <div class="absolute top-2.5 left-2.5 bg-dispora-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">{{ $post->category->name ?? 'Berita' }}</div>
                         </div>
-                        <div class="p-5">
-                            <p class="text-xs text-gray-400 mb-2">{{ $post->created_at->translatedFormat('d F Y') }}</p>
-                            <h4 class="font-bold text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-dispora-600 transition">{{ $post->title }}</h4>
+                        <div class="p-4">
+                            <p class="text-[11px] text-gray-400 mb-1 flex items-center gap-1">
+                                <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                {{ $post->display_date->translatedFormat('d M Y') }}
+                            </p>
+                            <h4 class="font-bold text-xs md:text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-dispora-600 transition">{{ $post->title }}</h4>
                         </div>
                     </a>
                     @endforeach
@@ -234,45 +237,86 @@
                     <h2 class="section-heading">Berita Gubernur</h2>
                     <p class="section-subtitle">Kabar terbaru dari Gubernur Jawa Timur</p>
                 </div>
+                <a href="{{ url('/berita?category=gubernur') }}" class="mt-6 md:mt-0 inline-flex items-center gap-2 text-red-600 font-semibold text-sm hover:text-red-700 group transition">
+                    Semua Berita Gubernur
+                    <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <a href="{{ url('/berita/'.$gubernurPosts[0]->slug) }}" data-aos="fade-right" class="group relative rounded-3xl overflow-hidden min-h-[420px] shadow-xl block">
-                    <img src="{{ $gubernurPosts[0]->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($gubernurPosts[0]->featured_image)]) : 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=800&auto=format&fit=crop' }}"
-                         class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $gubernurPosts[0]->title }}">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
-                    <div class="absolute bottom-0 left-0 right-0 p-8">
-                        <span class="inline-block bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg mb-4 uppercase tracking-wide">Gubernur Jatim</span>
-                        <h3 class="text-2xl font-bold text-white mb-3 leading-tight line-clamp-2 group-hover:text-red-200 transition">{{ $gubernurPosts[0]->title }}</h3>
-                        <p class="text-white/60 text-sm line-clamp-2 mb-3">{{ Str::limit(strip_tags($gubernurPosts[0]->content), 120) }}</p>
-                        <span class="text-xs text-white/40">{{ $gubernurPosts[0]->created_at->translatedFormat('d F Y') }}</span>
-                    </div>
-                </a>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                {{-- Featured large card --}}
+                <div class="lg:col-span-7 flex flex-col" data-aos="fade-right">
+                    @php $featuredGov = $gubernurPosts->first(); @endphp
+                    <a href="{{ url('/berita/'.$featuredGov->slug) }}" class="group block relative rounded-3xl overflow-hidden h-full min-h-[460px] lg:min-h-[520px] shadow-lg flex-1">
+                        <img src="{{ $featuredGov->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($featuredGov->featured_image)]) : 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=800&auto=format&fit=crop' }}"
+                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="{{ $featuredGov->title }}">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                            <span class="inline-block bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg mb-3 uppercase tracking-wide shadow-sm">Gubernur Jatim</span>
+                            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold text-white mb-3 leading-tight line-clamp-2 group-hover:text-red-200 transition">{{ $featuredGov->title }}</h3>
+                            <p class="text-white/70 text-sm line-clamp-2 mb-4 leading-relaxed">{{ Str::limit(strip_tags($featuredGov->content), 150) }}</p>
+                            <div class="flex items-center gap-4 text-xs text-white/60">
+                                <span class="flex items-center gap-1.5">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                    {{ $featuredGov->display_date->translatedFormat('d F Y') }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
 
-                <div class="flex flex-col gap-6 justify-center" data-aos="fade-left">
-                    @foreach($gubernurPosts->skip(1) as $post)
-                    <a href="{{ url('/berita/'.$post->slug) }}" class="group flex gap-5 bg-white rounded-2xl p-4 border border-gray-100 card-hover">
-                        <div class="w-32 h-32 rounded-xl overflow-hidden shrink-0 bg-gray-100">
+                {{-- Side list --}}
+                <div class="lg:col-span-5 flex flex-col justify-between gap-3.5" data-aos="fade-left">
+                    @foreach($gubernurPosts->skip(1)->take(4) as $post)
+                    <a href="{{ url('/berita/'.$post->slug) }}" class="group flex items-center gap-4 bg-white rounded-2xl border border-gray-100 p-3.5 card-hover shadow-sm hover:shadow-md transition">
+                        <div class="w-28 h-20 md:w-32 md:h-22 rounded-xl overflow-hidden shrink-0 bg-gray-100 relative">
                             <img src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=400&auto=format&fit=crop' }}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
                         </div>
-                        <div class="flex flex-col justify-center">
-                            <span class="text-red-600 text-[10px] font-bold uppercase tracking-wider mb-2">Gubernur Jatim</span>
-                            <h4 class="font-bold text-gray-900 leading-snug mb-2 group-hover:text-red-600 transition line-clamp-2">{{ $post->title }}</h4>
-                            <p class="text-xs text-gray-400">{{ $post->created_at->translatedFormat('d F Y') }}</p>
+                        <div class="flex flex-col justify-center min-w-0 flex-1">
+                            <span class="text-red-600 text-[10px] font-bold uppercase tracking-wider mb-1">Gubernur Jatim</span>
+                            <h4 class="font-bold text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-red-600 transition mb-1.5">{{ $post->title }}</h4>
+                            <p class="text-xs text-gray-400 flex items-center gap-1.5">
+                                <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                {{ $post->display_date->translatedFormat('d M Y') }}
+                            </p>
                         </div>
                     </a>
-                    @if(!$loop->last)<div class="h-px bg-gray-100"></div>@endif
                     @endforeach
 
                     @if($gubernurPosts->count() <= 1)
-                    <div class="text-center text-gray-400 py-10">
+                    <div class="text-center text-gray-400 py-10 bg-white rounded-2xl border border-gray-100">
                         <svg class="w-12 h-12 mx-auto mb-3 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                         <p class="text-sm">Berita gubernur lainnya segera hadir</p>
                     </div>
                     @endif
                 </div>
             </div>
+
+            {{-- Scrollable extra news if > 5 --}}
+            @if($gubernurPosts->count() > 5)
+            <div class="mt-10" x-data="{ init() { setInterval(() => { let s = this.$refs.gns; if(!s) return; let w = s.querySelector('.gns-item'); if(!w) return; let d = w.offsetWidth+24; if(s.scrollLeft >= s.scrollWidth-s.clientWidth-10){s.scrollTo({left:0,behavior:'smooth'})}else{s.scrollBy({left:d,behavior:'smooth'})} }, 4000) } }">
+                <div x-ref="gns" class="flex gap-5 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4 pt-1">
+                    @foreach($gubernurPosts->skip(5) as $post)
+                    <a href="{{ url('/berita/'.$post->slug) }}" data-aos="fade-up" data-aos-delay="{{ $loop->index * 80 }}"
+                       class="gns-item snap-start shrink-0 w-[280px] bg-white rounded-2xl overflow-hidden border border-gray-100 group card-hover shadow-sm hover:shadow-md transition">
+                        <div class="h-36 overflow-hidden relative">
+                            <img src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=600&auto=format&fit=crop' }}"
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="{{ $post->title }}">
+                            <div class="absolute top-2.5 left-2.5 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase">Gubernur Jatim</div>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-[11px] text-gray-400 mb-1 flex items-center gap-1">
+                                <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                {{ $post->display_date->translatedFormat('d M Y') }}
+                            </p>
+                            <h4 class="font-bold text-xs md:text-sm text-gray-900 leading-snug line-clamp-2 group-hover:text-red-600 transition">{{ $post->title }}</h4>
+                        </div>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+            @endif
         </div>
     </section>
     @endif
@@ -481,24 +525,28 @@
                 <a href="{{ $socmed->url }}" target="_blank" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 80 }}"
                    class="group bg-white rounded-2xl p-6 border border-gray-100 text-center card-hover">
                     <div class="w-14 h-14 mx-auto rounded-2xl bg-gray-50 group-hover:bg-dispora-500 flex items-center justify-center mb-4 transition-all duration-300 group-hover:shadow-lg group-hover:shadow-dispora-500/20">
-                        @php $platform = strtolower($socmed->platform); @endphp
-                        <div class="text-gray-400 group-hover:text-white transition-colors duration-300">
-                            @if($platform === 'youtube')
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                            @elseif($platform === 'instagram')
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-                            @elseif($platform === 'facebook')
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                            @elseif(in_array($platform, ['twitter', 'x']))
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                            @elseif($platform === 'tiktok')
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-                            @elseif($socmed->icon_class)
-                                <i class="{{ $socmed->icon_class }} text-2xl"></i>
-                            @else
-                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                            @endif
-                        </div>
+                        @if($socmed->custom_logo_path)
+                            <img src="{{ Storage::url($socmed->custom_logo_path) }}" alt="{{ $socmed->platform }}" class="w-8 h-8 object-contain">
+                        @else
+                            @php $platform = strtolower($socmed->platform); @endphp
+                            <div class="text-gray-400 group-hover:text-white transition-colors duration-300">
+                                @if($platform === 'youtube')
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                                @elseif($platform === 'instagram')
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+                                @elseif($platform === 'facebook')
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                                @elseif(in_array($platform, ['twitter', 'x']))
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                @elseif($platform === 'tiktok')
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+                                @elseif($socmed->icon_class)
+                                    <i class="{{ $socmed->icon_class }} text-2xl"></i>
+                                @else
+                                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                     <h4 class="font-bold text-gray-900 text-sm capitalize">{{ $socmed->platform }}</h4>
                     <p class="text-gray-400 text-xs mt-1">{{ $socmed->account_name }}</p>

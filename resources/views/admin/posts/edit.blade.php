@@ -113,8 +113,8 @@
                 xhr.addEventListener('load', () => {
                     const response = xhr.response;
 
-                    if (!response || response.error) {
-                        return reject(response && response.error ? response.error.message : genericErrorText);
+                    if (xhr.status < 200 || xhr.status >= 300 || !response?.url || response.error) {
+                        return reject(response?.error?.message || response?.message || genericErrorText);
                     }
 
                     resolve({

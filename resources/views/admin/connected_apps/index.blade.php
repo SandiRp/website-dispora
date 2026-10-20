@@ -34,7 +34,7 @@
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         @if($item->logo_path)
-                                            <img src="{{ Storage::url($item->logo_path) }}" class="w-9 h-9 rounded-lg object-contain border border-gray-200 p-1">
+                                            <img src="{{ \App\Support\Media::url($item->logo_path) }}" alt="{{ $item->name }}" class="w-9 h-9 rounded-lg object-contain border border-gray-200 p-1">
                                         @else
                                             <div class="w-9 h-9 bg-orange-100 rounded-lg flex items-center justify-center">
                                                 <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>

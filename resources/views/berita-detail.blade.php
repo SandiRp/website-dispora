@@ -96,17 +96,17 @@
                         </div>
 
                         <div class="w-full h-[300px] md:h-[450px] rounded-2xl overflow-hidden mb-8 shadow-sm">
-                            <img src="{{ $post->featured_image ? route('public.file', ['folder' => 'posts', 'filename' => basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop' }}"
+                            <img data-media-image src="{{ $post->featured_image ? route('public.file', ['folder' => 'posts', 'filename' => basename($post->featured_image)]) : asset('images/media-placeholder.svg') }}"
                                 class="w-full h-full object-cover" alt="{{ $post->title }}">
                         </div>
 
                         <div class="text-lg text-gray-700 leading-relaxed space-y-6 prose max-w-none">
                             @php
-                                // Rewrite admin-only file URLs to public-accessible URLs regardless of domain stored in DB
+                                // Editor content stores stable application URLs, never expiring S3 URLs.
                                 $renderedContent = $post->content;
                                 $renderedContent = preg_replace(
-                                    '#src=["\'][^"\']*?/admin/files/([^/]+)/([^"\'\s>]+)["\']#i',
-                                    'src="' . url('/file') . '/$1/$2"',
+                                    '#\b(src|href)=["\'](?:' . preg_quote(rtrim(config('app.url'), '/'), '#') . ')?/admin/files/([^/]+)/([^"\'\s>]+)["\']#',
+                                    '$1="' . url('/file') . '/$2/$3"',
                                     $renderedContent
                                 );
                             @endphp
@@ -166,8 +166,8 @@
                             @forelse($relatedPosts->where('id','!=',$post->id) as $related)
                             <a href="{{ route('berita.detail', $related->slug) }}" class="flex gap-4 group">
                                 <div class="w-20 h-20 bg-gray-200 rounded-xl overflow-hidden shrink-0 shadow-sm">
-                                    <img src="{{ $related->featured_image ? route('public.file', ['folder' => 'posts', 'filename' => basename($related->featured_image)]) : 'https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?q=80&w=200&auto=format&fit=crop' }}"
-                                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                                    <img data-media-image src="{{ $related->featured_image ? route('public.file', ['folder' => 'posts', 'filename' => basename($related->featured_image)]) : asset('images/media-placeholder.svg') }}"
+                                        class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $related->title }}">
                                 </div>
                                 <div class="flex flex-col justify-center">
                                     <h5 class="text-sm font-bold text-gray-800 leading-snug group-hover:text-dispora transition line-clamp-2 mb-1">

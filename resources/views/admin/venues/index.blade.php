@@ -37,7 +37,7 @@
                                             <div class="flex items-center gap-3">
                                                 @if($venue->image_path)
                                                     <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden border border-gray-200">
-                                                        <img src="{{ Storage::url($venue->image_path) }}" class="w-full h-full object-cover">
+                                                        <img src="{{ \App\Support\Media::url($venue->image_path) }}" alt="{{ $venue->name }}" class="w-full h-full object-cover">
                                                     </div>
                                                 @endif
                                                 <div>

@@ -64,7 +64,7 @@
             @php $highlight = $posts->first(); @endphp
             <div data-aos="fade-up" data-aos-delay="100" class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden mb-12 flex flex-col lg:flex-row group">
                 <a href="{{ route('berita.detail', $highlight->slug) }}" class="lg:w-2/3 h-64 md:h-96 relative overflow-hidden block">
-                    <img src="{{ $highlight->featured_image ? route('public.file', ['folder' => 'posts', 'filename' => basename($highlight->featured_image)]) : 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop' }}"
+                    <img data-media-image src="{{ $highlight->featured_image ? route('public.file', ['folder' => 'posts', 'filename' => basename($highlight->featured_image)]) : asset('images/media-placeholder.svg') }}"
                         class="w-full h-full object-cover group-hover:scale-105 transition duration-700"
                         alt="{{ $highlight->title }}">
                     <div class="absolute top-4 left-4 bg-dispora text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
@@ -97,7 +97,7 @@
                 @foreach($posts->skip(1) as $post)
                 <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}" class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200 hover:shadow-lg transition group flex flex-col">
                     <a href="{{ route('berita.detail', $post->slug) }}" class="h-48 relative overflow-hidden shrink-0 block">
-                        <img src="{{ $post->featured_image ? route('public.file', ['folder' => 'posts', 'filename' => basename($post->featured_image)]) : 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=600&auto=format&fit=crop' }}"
+                        <img data-media-image src="{{ $post->featured_image ? route('public.file', ['folder' => 'posts', 'filename' => basename($post->featured_image)]) : asset('images/media-placeholder.svg') }}"
                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500" alt="{{ $post->title }}">
                         <div class="absolute top-4 left-4 bg-dispora text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
                             {{ $post->category->name ?? 'Berita' }}</div>

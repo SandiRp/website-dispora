@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Uploads;
 
 class PostController extends Controller
 {
@@ -42,12 +42,9 @@ class PostController extends Controller
         $validated['slug'] = Str::slug($validated['title']) . '-' . uniqid();
         $validated['user_id'] = auth()->id();
 
-        if ($request->hasFile('featured_image')) {
-            // Using 'private' folder on local disk (not public)
-            $validated['featured_image'] = $request->file('featured_image')->store('private/posts', 'local');
-        }
-
-        Post::create($validated);
+        $post = Uploads::save(new Post(), $validated, [
+            'featured_image' => [$request->file('featured_image'), 'posts'],
+        ]);
 
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully.');
     }
@@ -69,28 +66,22 @@ class PostController extends Controller
             'featured_image' => 'nullable|image|max:2048',
         ]);
 
-        if ($request->hasFile('featured_image')) {
-            if ($post->featured_image) {
-                Storage::disk('local')->delete($post->featured_image);
-            }
-            $validated['featured_image'] = $request->file('featured_image')->store('private/posts', 'local');
-        }
-
         if ($post->title !== $validated['title']) {
             $validated['slug'] = Str::slug($validated['title']) . '-' . uniqid();
         }
 
-        $post->update($validated);
+        Uploads::save($post, $validated, [
+            'featured_image' => [$request->file('featured_image'), 'posts'],
+        ]);
 
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully.');
     }
 
     public function destroy(Post $post)
     {
-        if ($post->featured_image) {
-            Storage::disk('local')->delete($post->featured_image);
+        if ($post->delete()) {
+            Uploads::delete($post->featured_image);
         }
-        $post->delete();
 
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully.');
     }
@@ -103,9 +94,9 @@ class PostController extends Controller
 
         if ($request->hasFile('upload')) {
             $file = $request->file('upload');
-            $path = $file->store('private/posts', 'local');
+            $path = Uploads::store($file, 'posts', 'upload');
             
-            $url = route('admin.files.preview', ['folder' => 'posts', 'filename' => basename($path)]);
+            $url = route('admin.files.preview', ['folder' => 'posts', 'filename' => basename($path)], false);
             
             return response()->json([
                 'url' => $url

@@ -28,7 +28,7 @@
                                     <div class="mb-4">
                                         <p class="text-xs text-gray-500 mb-2">Gambar saat ini:</p>
                                         <div class="w-32 h-32 rounded-xl overflow-hidden border border-gray-200">
-                                            <img src="{{ Storage::url($venue->image_path) }}" class="w-full h-full object-cover">
+                                            <img src="{{ \App\Support\Media::url($venue->image_path) }}" alt="{{ $venue->name }}" class="w-full h-full object-cover">
                                         </div>
                                     </div>
                                 @endif

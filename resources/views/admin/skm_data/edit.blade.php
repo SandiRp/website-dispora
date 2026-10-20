@@ -36,8 +36,10 @@
                             <label for="document_path" class="block text-sm font-medium text-gray-700 mb-1">Dokumen Laporan PDF (Opsional)</label>
                             @if($skmDatum->document_path)
                                 <div class="mb-2 text-sm text-gray-600">
-                                    Dokumen saat ini: <a href="{{ Storage::url($skmDatum->document_path) }}" target="_blank" class="text-teal-600 hover:underline font-medium">📄 Lihat Dokumen</a>
+                                    Dokumen saat ini: <a href="{{ \App\Support\Media::url($skmDatum->document_path) }}" target="_blank" class="text-teal-600 hover:underline font-medium">📄 Lihat Dokumen</a>
                                 </div>
+                            @else
+                                <p class="mb-2 text-sm text-gray-500">Dokumen tidak tersedia.</p>
                             @endif
                             <input type="file" name="document_path" id="document_path" accept=".pdf" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100">
                             <p class="text-xs text-gray-400 mt-1">Maks. 10 MB, format PDF. Kosongkan jika tidak ingin mengganti.</p>

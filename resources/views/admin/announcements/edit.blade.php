@@ -26,7 +26,7 @@
                                 <label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Gambar / Banner</label>
                                 @if($announcement->image_path)
                                     <div class="mb-3 p-2 border rounded-lg inline-block bg-gray-50">
-                                        <img src="{{ Storage::url($announcement->image_path) }}" alt="Preview" class="h-24 w-auto object-contain rounded">
+                                        <img src="{{ \App\Support\Media::url($announcement->image_path) }}" alt="Preview" class="h-24 w-auto object-contain rounded">
                                     </div>
                                 @endif
                                 <input type="file" name="image_path" id="image_path" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100">

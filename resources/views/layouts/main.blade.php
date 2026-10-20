@@ -12,7 +12,6 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/accessibility.css') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <meta name="description" content="@yield('meta_description', 'Website Resmi Dinas Kepemudaan dan Olahraga Provinsi Jawa Timur')">
     <meta name="theme-color" content="#0bbead">
     <style>

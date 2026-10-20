@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\OfficialLogo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Uploads;
 
 class OfficialLogoController extends Controller
 {
@@ -34,15 +34,10 @@ class OfficialLogoController extends Controller
         $validated['is_active'] = $request->has('is_active');
         $validated['order'] = $request->order ?? 0;
 
-        if ($request->hasFile('image_path')) {
-            $validated['image_path'] = $request->file('image_path')->store('official_logos/images', 'public');
-        }
-
-        if ($request->hasFile('file_path')) {
-            $validated['file_path'] = $request->file('file_path')->store('official_logos/files', 'public');
-        }
-
-        OfficialLogo::create($validated);
+        $officialLogo = Uploads::save(new OfficialLogo(), $validated, [
+            'image_path' => [$request->file('image_path'), 'official_logos/images'],
+            'file_path' => [$request->file('file_path'), 'official_logos/files'],
+        ]);
         return redirect()->route('admin.official_logos.index')->with('success', 'Logo resmi berhasil ditambahkan.');
     }
 
@@ -65,26 +60,18 @@ class OfficialLogoController extends Controller
         $validated['is_active'] = $request->has('is_active');
         $validated['order'] = $request->order ?? 0;
 
-        if ($request->hasFile('image_path')) {
-            if ($officialLogo->image_path) Storage::disk('public')->delete($officialLogo->image_path);
-            $validated['image_path'] = $request->file('image_path')->store('official_logos/images', 'public');
-        }
-
-        if ($request->hasFile('file_path')) {
-            if ($officialLogo->file_path) Storage::disk('public')->delete($officialLogo->file_path);
-            $validated['file_path'] = $request->file('file_path')->store('official_logos/files', 'public');
-        }
-
-        $officialLogo->update($validated);
+        Uploads::save($officialLogo, $validated, [
+            'image_path' => [$request->file('image_path'), 'official_logos/images'],
+            'file_path' => [$request->file('file_path'), 'official_logos/files'],
+        ]);
         return redirect()->route('admin.official_logos.index')->with('success', 'Logo resmi berhasil diperbarui.');
     }
 
     public function destroy(OfficialLogo $officialLogo)
     {
-        if ($officialLogo->image_path) Storage::disk('public')->delete($officialLogo->image_path);
-        if ($officialLogo->file_path) Storage::disk('public')->delete($officialLogo->file_path);
-        
-        $officialLogo->delete();
+        if ($officialLogo->delete()) {
+            Uploads::delete($officialLogo->image_path, $officialLogo->file_path);
+        }
         return redirect()->route('admin.official_logos.index')->with('success', 'Logo resmi berhasil dihapus.');
     }
 }

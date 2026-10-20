@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Document;
 use App\Models\Category;
-use Illuminate\Support\Facades\Storage;
+use App\Support\Uploads;
 
 class DocumentController extends Controller
 {
@@ -34,15 +34,13 @@ class DocumentController extends Controller
 
         $file = $request->file('document_file');
         
-        $validated['file_path'] = $file->store('private/documents', 'local');
         $validated['file_type'] = $file->getClientOriginalExtension();
         $validated['file_size'] = $file->getSize();
         $validated['user_id'] = auth()->id();
         
-        // Remove document_file from array as it's not a model attribute
-        unset($validated['document_file']);
-
-        Document::create($validated);
+        $document = Uploads::save(new Document(), $validated, [
+            'file_path' => [$file, 'documents'],
+        ]);
 
         return redirect()->route('admin.documents.index')->with('success', 'Document uploaded successfully.');
     }
@@ -61,31 +59,29 @@ class DocumentController extends Controller
             'description' => 'nullable|string',
             'access_type' => 'required|in:public,internal_only',
             'document_file' => 'nullable|file|max:5120',
+            'document_file' => 'nullable|file|max:5120',
         ]);
 
         if ($request->hasFile('document_file')) {
-            if ($document->file_path) {
-                Storage::disk('local')->delete($document->file_path);
-            }
             $file = $request->file('document_file');
-            $validated['file_path'] = $file->store('private/documents', 'local');
             $validated['file_type'] = $file->getClientOriginalExtension();
             $validated['file_size'] = $file->getSize();
+        } else {
+            unset($validated['document_file']);
         }
-        
-        unset($validated['document_file']);
 
-        $document->update($validated);
+        Uploads::save($document, $validated, [
+            'file_path' => [$request->file('document_file'), 'documents'],
+        ]);
 
         return redirect()->route('admin.documents.index')->with('success', 'Document updated successfully.');
     }
 
     public function destroy(Document $document)
     {
-        if ($document->file_path) {
-            Storage::disk('local')->delete($document->file_path);
+        if ($document->delete()) {
+            Uploads::delete($document->file_path);
         }
-        $document->delete();
 
         return redirect()->route('admin.documents.index')->with('success', 'Document deleted successfully.');
     }

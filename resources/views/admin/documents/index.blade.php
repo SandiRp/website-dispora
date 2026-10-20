@@ -56,12 +56,16 @@
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 flex space-x-2 items-center">
-                                        <button @click="openPreview('{{ $document->title }}', '{{ route('admin.files.preview', ['folder' => 'documents', 'filename' => basename($document->file_path)]) }}')" title="Lihat Dokumen" class="p-2 text-green-600 bg-green-100 rounded hover:bg-green-200 transition-colors">
+                                        @if($document->file_path)
+                                        <a href="{{ route('admin.files.preview', ['folder' => 'documents', 'filename' => basename($document->file_path)]) }}" @click.prevent="openPreview({{ \Illuminate\Support\Js::from($document->title) }}, $el.href)" title="Lihat Dokumen" class="p-2 text-green-600 bg-green-100 rounded hover:bg-green-200 transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                               <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
                                               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             </svg>
-                                        </button>
+                                        </a>
+                                        @else
+                                        <span class="text-xs text-gray-500">Dokumen tidak tersedia.</span>
+                                        @endif
                                         <a href="{{ route('admin.documents.edit', $document) }}" title="Edit Dokumen" class="p-2 text-blue-600 bg-blue-100 rounded hover:bg-blue-200 transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                               <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
@@ -85,6 +89,19 @@
                             @endforelse
                         </tbody>
                     </table>
+                    <noscript>
+                        <ul>
+                            @foreach($documents as $document)
+                                <li>
+                                    @if($document->file_path)
+                                        <a href="{{ route('admin.files.preview', ['folder' => 'documents', 'filename' => basename($document->file_path)]) }}">{{ $document->title }}</a>
+                                    @else
+                                        {{ $document->title }}: Dokumen tidak tersedia.
+                                    @endif
+                                </li>
+                            @endforeach
+                        </ul>
+                    </noscript>
                     
                     <div x-show="loaded" style="display: none;" class="mt-4">
                         {{ $documents->links() }}
@@ -102,8 +119,8 @@
                             <div class="sm:flex sm:items-start">
                                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
                                     <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title" x-text="modalTitle"></h3>
-                                    <div class="mt-4 w-full h-[70vh]">
-                                        <iframe :src="fileUrl" class="w-full h-full border-0"></iframe>
+                                    <div class="mt-4 w-full h-[70vh] flex flex-col">
+                                        <iframe x-media-preview="showModal ? fileUrl : ''" title="Pratinjau dokumen" class="w-full flex-1 min-h-0 border-0"></iframe>
                                     </div>
                                 </div>
                             </div>

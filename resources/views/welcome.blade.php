@@ -266,7 +266,7 @@
                 </div>
 
                 {{-- Side list --}}
-                <div class="lg:col-span-5 flex flex-col justify-between gap-3.5" data-aos="fade-left">
+                <div class="lg:col-span-5 flex flex-col {{ $gubernurPosts->count() >= 5 ? 'justify-between' : 'justify-start' }} gap-3.5" data-aos="fade-left">
                     @foreach($gubernurPosts->skip(1)->take(4) as $post)
                     <a href="{{ url('/berita/'.$post->slug) }}" class="group flex items-center gap-4 bg-white rounded-2xl border border-gray-100 p-3.5 card-hover shadow-sm hover:shadow-md transition">
                         <div class="w-28 h-20 md:w-32 md:h-22 rounded-xl overflow-hidden shrink-0 bg-gray-100 relative">

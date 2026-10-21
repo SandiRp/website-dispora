@@ -4,13 +4,14 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
     $latestPosts = \App\Models\Post::where('status', 'published')->orderBy('created_at', 'desc')->take(10)->get();
 
     $gubernurPosts = \App\Models\Post::whereHas('category', function($q) {
         $q->where('name', 'like', '%Gubernur%')->orWhere('slug', 'like', '%gubernur%');
-    })->where('status', 'published')->orderBy('created_at', 'desc')->take(3)->get();
+    })->where('status', 'published')->orderBy('created_at', 'desc')->take(10)->get();
 
     $upcomingAgendas = \App\Models\Agenda::whereIn('status', ['upcoming', 'ongoing'])->orderBy('start_date', 'asc')->take(5)->get();
 
@@ -189,10 +190,16 @@ Route::get('/berita', function (Illuminate\Http\Request $request) {
     $posts = $query->paginate(10)->withQueryString();
     $categories = \App\Models\Category::where('type', 'post')->get();
 
-    return view('berita', compact('posts', 'categories'));
-});
+    $view = $request->ajax() ? 'partials.berita-content' : 'berita';
+
+    return response()
+        ->view($view, compact('posts', 'categories'))
+        ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        ->header('Pragma', 'no-cache');
+})->name('berita.index');
 Route::get('/berita/{slug}', function ($slug) {
     $post = \App\Models\Post::where('slug', $slug)->where('status', 'published')->firstOrFail();
+    $post->increment('views_count');
 
     // Fetch related posts from the same category
     $relatedPosts = \App\Models\Post::where('status', 'published')
@@ -224,10 +231,7 @@ Route::get('/api/berita/suggest', function (Illuminate\Http\Request $request) {
 
 
 
-Route::get('/login2026', function () {
-    return view('loginAdmin');
-});
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:Super Admin|Admin PPID'])->prefix('admin')->name('admin.')->group(function () {
     Route::post('posts/upload-image', [\App\Http\Controllers\Admin\PostController::class, 'uploadImage'])->name('posts.uploadImage');
     Route::resource('posts', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('documents', \App\Http\Controllers\Admin\DocumentController::class);
@@ -259,6 +263,12 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('files/{folder}/{filename}', [MediaController::class, 'show'])
         ->where('filename', '.+')->name('files.preview');
+});
+
+Route::middleware(['auth', 'role:Super Admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/{user}/password', [UserController::class, 'editPassword'])->name('users.password.edit');
+    Route::put('users/{user}/password', [UserController::class, 'updatePassword'])->name('users.password.update');
 });
 
 require __DIR__ . '/auth.php';

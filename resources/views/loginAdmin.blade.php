@@ -187,7 +187,7 @@
                 </div>
 
                 <!-- Login Form -->
-                <form action="{{ url('login2026') }}" method="POST" class="space-y-6" x-on:submit="loading = true">
+                <form action="{{ route('login.store') }}" method="POST" class="space-y-6" x-on:submit="loading = true">
                     @csrf
 
                     <!-- Email Input -->
@@ -210,7 +210,7 @@
                     <div class="animate-slide-up animate-slide-up-delay-3">
                         <div class="flex justify-between items-center mb-2">
                             <label class="block text-sm font-bold text-gray-700">Kata Sandi</label>
-                            <a href="#" class="text-xs font-bold text-dispora hover:text-dispora-dark hover:underline transition">Lupa sandi?</a>
+                            <a href="{{ route('password.request') }}" class="text-xs font-bold text-dispora hover:text-dispora-dark hover:underline transition">Lupa sandi?</a>
                         </div>
                         <div class="input-wrapper flex items-center w-full px-4 py-3.5 rounded-xl border border-gray-200 bg-gray-50/80 focus-within:bg-white focus-within:border-dispora focus-within:ring-2 focus-within:ring-dispora/20 overflow-hidden">
                             <svg class="h-5 w-5 text-gray-400 shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -98,7 +98,7 @@
 
             _initRequest() {
                 const xhr = this.xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{ route('admin.posts.uploadImage') }}', true);
+                xhr.open('POST', '{{ route('admin.posts.uploadImage', [], false) }}', true);
                 xhr.setRequestHeader('X-CSRF-TOKEN', '{{ csrf_token() }}');
                 xhr.responseType = 'json';
             }

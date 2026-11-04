@@ -46,11 +46,11 @@
                     <!-- FILTER DAN PENCARIAN -->
                     <form method="GET" action="{{ url('/agenda') }}" class="flex flex-col md:flex-row justify-between items-center gap-4 mb-8" data-aos="fade-up">
                         <div class="flex flex-wrap gap-2 w-full md:w-auto">
-                            <a href="{{ url('/agenda' . (request('search') ? '?search='.request('search') : '')) }}" class="px-5 py-2.5 {{ !request('status') ? 'bg-dispora text-white shadow-md' : 'bg-white text-gray-600 shadow-sm hover:bg-gray-50 border border-gray-200' }} text-sm font-bold rounded-full text-center flex-1 md:flex-none transition">Semua</a>
+                            <a href="{{ url('/agenda' . (request('search') ? '?search='.urlencode(request('search')) : '')) }}" class="px-5 py-2.5 {{ !request('status') ? 'bg-dispora text-white shadow-md' : 'bg-white text-gray-600 shadow-sm hover:bg-gray-50 border border-gray-200' }} text-sm font-bold rounded-full text-center flex-1 md:flex-none transition">Semua</a>
                             
-                            <a href="{{ url('/agenda?status=akan_datang' . (request('search') ? '&search='.request('search') : '')) }}" class="px-5 py-2.5 {{ request('status') == 'akan_datang' ? 'bg-dispora text-white shadow-md' : 'bg-white text-gray-600 shadow-sm hover:bg-gray-50 border border-gray-200' }} text-sm font-bold rounded-full transition text-center flex-1 md:flex-none">Akan Datang</a>
+                            <a href="{{ url('/agenda?status=akan_datang' . (request('search') ? '&search='.urlencode(request('search')) : '')) }}" class="px-5 py-2.5 {{ request('status') == 'akan_datang' ? 'bg-dispora text-white shadow-md' : 'bg-white text-gray-600 shadow-sm hover:bg-gray-50 border border-gray-200' }} text-sm font-bold rounded-full transition text-center flex-1 md:flex-none">Akan Datang</a>
                             
-                            <a href="{{ url('/agenda?status=selesai' . (request('search') ? '&search='.request('search') : '')) }}" class="px-5 py-2.5 {{ request('status') == 'selesai' ? 'bg-dispora text-white shadow-md' : 'bg-white text-gray-600 shadow-sm hover:bg-gray-50 border border-gray-200' }} text-sm font-bold rounded-full transition text-center flex-1 md:flex-none">Selesai</a>
+                            <a href="{{ url('/agenda?status=selesai' . (request('search') ? '&search='.urlencode(request('search')) : '')) }}" class="px-5 py-2.5 {{ request('status') == 'selesai' ? 'bg-dispora text-white shadow-md' : 'bg-white text-gray-600 shadow-sm hover:bg-gray-50 border border-gray-200' }} text-sm font-bold rounded-full transition text-center flex-1 md:flex-none">Selesai</a>
                             
                             @if(request('status'))
                                 <input type="hidden" name="status" value="{{ request('status') }}">
@@ -182,88 +182,107 @@
         </div>
     </section>
 
-    <!-- AJAX Script for Seamless Filtering & Searching -->
+        <!-- AJAX Script for Seamless Filtering & Searching -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('agenda-list-container');
-            if(!container) return;
+            if (!container) return;
 
-            // Define the fetch function
-            function fetchAgenda(url) {
-                // Visual feedback (fade out slightly)
+            // Selalu gunakan origin halaman saat ini agar fetch tidak gagal (host/protokol berbeda)
+            function normalizeUrl(url) {
+                const u = new URL(url, window.location.href);
+                return window.location.origin + u.pathname + u.search;
+            }
+
+            function fetchAgenda(url, pushState = true) {
+                url = normalizeUrl(url);
+                const hadSearchFocus = document.activeElement && document.activeElement.name === 'search';
                 container.style.opacity = '0.4';
 
                 fetch(url, {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                    cache: 'no-store'
                 })
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    return response.text();
+                })
                 .then(html => {
-                    // Parse the returned HTML
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    
-                    // Extract the new container content
+                    const doc = new DOMParser().parseFromString(html, 'text/html');
                     const newContainer = doc.getElementById('agenda-list-container');
-                    if (newContainer) {
-                        container.innerHTML = newContainer.innerHTML;
-                        
-                        // Restore opacity
-                        container.style.opacity = '1';
+                    if (!newContainer) throw new Error('Container tidak ditemukan');
 
-                        // Re-initialize AOS animations so the new items fade in properly
-                        if (typeof AOS !== 'undefined') {
-                            // Delay slightly to ensure DOM is fully updated
-                            setTimeout(() => {
-                                AOS.refreshHard();
-                            }, 50);
+                    container.innerHTML = newContainer.innerHTML;
+                    container.style.opacity = '1';
+
+                    if (pushState) {
+                        window.history.pushState({ agenda: true }, '', url);
+                    }
+
+                    // Kembalikan fokus ke kolom pencarian setelah konten diganti
+                    if (hadSearchFocus) {
+                        const input = container.querySelector('input[name="search"]');
+                        if (input) {
+                            input.focus();
+                            const len = input.value.length;
+                            input.setSelectionRange(len, len);
                         }
+                    }
 
-                        // Update the browser's URL bar without reloading the page
-                        window.history.pushState({}, '', url);
+                    if (typeof AOS !== 'undefined') {
+                        setTimeout(() => AOS.refreshHard(), 50);
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching agenda:', error);
-                    container.style.opacity = '1';
+                    // Fallback: muat halaman penuh jika AJAX gagal
+                    window.location.href = url;
                 });
             }
 
-            // 1. Intercept Link Clicks (Filter Tabs & Pagination)
+            // 1. Intercept klik filter kategori/status & pagination
             container.addEventListener('click', function(e) {
                 const link = e.target.closest('a');
-                // Only intercept links that go to /agenda and don't open in a new tab (like download links)
-                if (link && link.href && link.href.includes('/agenda') && !link.hasAttribute('target')) {
+                if (!link || !link.href || link.hasAttribute('target')) return;
+
+                const u = new URL(link.href, window.location.href);
+                if (u.pathname.replace(/\/+$/, '') === '/agenda') {
                     e.preventDefault();
                     fetchAgenda(link.href);
+                    if (u.searchParams.has('page')) {
+                        const top = container.getBoundingClientRect().top + window.scrollY - 120;
+                        window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+                    }
                 }
             });
 
-            // 2. Intercept Form Submit (Search Input)
+            // 2. Intercept submit form pencarian
             container.addEventListener('submit', function(e) {
                 const form = e.target.closest('form');
-                if (form) {
-                    e.preventDefault();
-                    const url = new URL(form.action);
-                    const formData = new FormData(form);
-                    const searchParams = new URLSearchParams(formData);
-                    url.search = searchParams.toString();
-                    fetchAgenda(url.toString());
-                }
+                if (!form) return;
+                e.preventDefault();
+                const params = new URLSearchParams(new FormData(form));
+                // Kosongkan parameter yang tidak terisi
+                [...params.keys()].forEach(k => { if (params.get(k) === '') params.delete(k); });
+                const qs = params.toString();
+                fetchAgenda(window.location.origin + '/agenda' + (qs ? '?' + qs : ''));
             });
 
-            // 3. Optional: Intercept "Enter" key on search input specifically
+            // 3. Pencarian otomatis dengan debounce
             let typingTimer;
             container.addEventListener('input', function(e) {
                 if (e.target.name === 'search') {
                     clearTimeout(typingTimer);
                     typingTimer = setTimeout(() => {
                         const form = e.target.closest('form');
-                        if(form) {
-                            // Programmatically dispatch submit event
-                            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-                        }
-                    }, 500); // 500ms debounce
+                        if (form) form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                    }, 500);
                 }
+            });
+
+            // 4. Tombol Back/Forward browser
+            window.addEventListener('popstate', function() {
+                fetchAgenda(window.location.href, false);
             });
         });
     </script>

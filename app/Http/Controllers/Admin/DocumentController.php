@@ -18,7 +18,7 @@ class DocumentController extends Controller
 
     public function create()
     {
-        $categories = Category::where('type', 'document')->get();
+        $categories = Category::where('type', 'document')->orderBy('name')->get();
         return view('admin.documents.create', compact('categories'));
     }
 
@@ -26,7 +26,7 @@ class DocumentController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => ['required', \Illuminate\Validation\Rule::exists('categories', 'id')->where('type', 'document')],
             'description' => 'nullable|string',
             'access_type' => 'required|in:public,internal_only',
             'document_file' => 'required|file|max:5120', // max 5MB
@@ -47,7 +47,7 @@ class DocumentController extends Controller
 
     public function edit(Document $document)
     {
-        $categories = Category::where('type', 'document')->get();
+        $categories = Category::where('type', 'document')->orderBy('name')->get();
         return view('admin.documents.edit', compact('document', 'categories'));
     }
 
@@ -55,7 +55,7 @@ class DocumentController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => ['required', \Illuminate\Validation\Rule::exists('categories', 'id')->where('type', 'document')],
             'description' => 'nullable|string',
             'access_type' => 'required|in:public,internal_only',
             'document_file' => 'nullable|file|max:5120',

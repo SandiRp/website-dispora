@@ -48,17 +48,36 @@ class Uploads
         return $model;
     }
 
+    public static function disk(): string
+    {
+        $default = config('filesystems.default', 'local');
+        $s3Key = config('filesystems.disks.s3.key');
+        $s3Bucket = config('filesystems.disks.s3.bucket');
+
+        if ($default === 's3' && ! empty($s3Key) && ! empty($s3Bucket)) {
+            return 's3';
+        }
+
+        return 'public';
+    }
+
     public static function store(UploadedFile $file, string $prefix, string $field): string
     {
+        $disk = self::disk();
+
         try {
-            $key = $file->store($prefix, ['disk' => 's3', 'visibility' => 'private']);
+            $options = $disk === 's3'
+                ? ['disk' => 's3', 'visibility' => 'private']
+                : ['disk' => $disk];
+
+            $key = $file->store($prefix, $options);
             if (! is_string($key) || $key === '') {
                 throw new RuntimeException('Upload failed.');
             }
 
             return $key;
-        } catch (Throwable) {
-            Log::warning('S3 media upload failed.');
+        } catch (Throwable $exception) {
+            Log::warning("Media upload to disk [{$disk}] failed: " . $exception->getMessage());
             throw ValidationException::withMessages([
                 $field => 'File gagal diunggah. Silakan coba lagi.',
             ]);
@@ -67,17 +86,21 @@ class Uploads
 
     public static function delete(?string ...$keys): void
     {
+        $primaryDisk = self::disk();
+
         foreach ($keys as $key) {
             if (! $key) {
                 continue;
             }
 
-            try {
-                if (! Storage::disk('s3')->delete($key)) {
-                    Log::warning('S3 media cleanup failed.');
+            foreach (array_unique([$primaryDisk, 'public', 's3']) as $disk) {
+                try {
+                    if (Storage::disk($disk)->exists($key)) {
+                        Storage::disk($disk)->delete($key);
+                    }
+                } catch (Throwable) {
+                    // Suppress cleanup error for missing/inaccessible disks
                 }
-            } catch (Throwable) {
-                Log::warning('S3 media cleanup failed.');
             }
         }
     }

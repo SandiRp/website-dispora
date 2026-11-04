@@ -11,15 +11,20 @@ use App\Support\Uploads;
 
 class PostController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::with('category', 'user')->latest()->paginate(10);
-        return view('admin.posts.index', compact('posts'));
+        $query = Post::with('category', 'user')->latest();
+        if ($request->filled('category')) {
+            $query->whereHas('category', fn ($builder) => $builder->where('slug', $request->string('category')));
+        }
+        $posts = $query->paginate(10)->withQueryString();
+        $categories = Category::where('type', 'post')->orderBy('name')->get();
+        return view('admin.posts.index', compact('posts', 'categories'));
     }
 
     public function create()
     {
-        $categories = Category::where('type', 'post')->get();
+        $categories = Category::where('type', 'post')->orderBy('name')->get();
         return view('admin.posts.create', compact('categories'));
     }
 
@@ -27,7 +32,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => ['required', \Illuminate\Validation\Rule::exists('categories', 'id')->where('type', 'post')],
             'content' => 'required',
             'status' => 'required|in:draft,published,archived',
             'published_date' => 'nullable|date',
@@ -51,7 +56,7 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        $categories = Category::where('type', 'post')->get();
+        $categories = Category::where('type', 'post')->orderBy('name')->get();
         return view('admin.posts.edit', compact('post', 'categories'));
     }
 
@@ -59,7 +64,7 @@ class PostController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => ['required', \Illuminate\Validation\Rule::exists('categories', 'id')->where('type', 'post')],
             'content' => 'required',
             'status' => 'required|in:draft,published,archived',
             'published_date' => 'nullable|date',

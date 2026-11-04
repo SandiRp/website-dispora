@@ -1,9 +1,9 @@
 <div data-berita-fragment>
     <div class="flex flex-wrap gap-3 mb-10" data-aos="fade-up">
-        <a href="{{ route('berita.index') }}"
+        <a href="{{ route('berita.index', array_filter(['search' => request('search')])) }}"
             class="px-5 py-2 rounded-full {{ !request('category') ? 'bg-dispora text-white font-bold shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-100 font-bold' }} text-sm shrink-0 transition">Semua Berita</a>
         @foreach($categories as $cat)
-            <a href="{{ route('berita.index', ['category' => $cat->slug]) }}"
+            <a href="{{ route('berita.index', array_filter(['category' => $cat->slug, 'search' => request('search')])) }}"
                 class="px-5 py-2 rounded-full {{ request('category') == $cat->slug ? 'bg-dispora text-white font-bold shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-100 font-bold' }} text-sm shrink-0 transition">{{ $cat->name }}</a>
         @endforeach
     </div>

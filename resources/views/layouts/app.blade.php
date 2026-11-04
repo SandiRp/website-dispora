@@ -65,6 +65,16 @@
                         showConfirmButton: false
                     });
                 @endif
+
+                @if($errors->any())
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Validasi',
+                        html: '<ul style="text-align: left; margin: 0; padding-left: 1.25rem; font-size: 0.875rem; color: #4b5563;">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+                        confirmButtonColor: '#0d9488',
+                        confirmButtonText: 'Tutup'
+                    });
+                @endif
                 
                 // Confirm delete
                 window.confirmDelete = function(formId) {

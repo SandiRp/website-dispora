@@ -23,6 +23,20 @@
     }" x-init="setTimeout(() => loaded = true, 500)">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
+            <form method="GET" action="{{ route('admin.posts.index') }}" class="mb-5 flex flex-col gap-3 rounded-lg bg-white p-4 shadow-sm sm:flex-row sm:items-end">
+                <div class="flex-1">
+                    <label for="category-filter" class="mb-1 block text-sm font-medium text-gray-700">Filter kategori</label>
+                    <select id="category-filter" name="category" class="block w-full rounded-md border-gray-300 shadow-sm">
+                        <option value="">Semua kategori</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->slug }}" @selected(request('category') === $category->slug)>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button class="rounded-md bg-blue-600 px-5 py-2 font-semibold text-white hover:bg-blue-700">Terapkan</button>
+                @if(request('category'))<a href="{{ route('admin.posts.index') }}" class="px-4 py-2 text-center text-gray-600 hover:text-gray-900">Reset</a>@endif
+            </form>
+
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 overflow-x-auto relative">
                     

@@ -55,6 +55,7 @@
                         ['url' => '/program', 'label' => 'Program', 'match' => 'program*'],
                         ['url' => '/laporan', 'label' => 'Laporan', 'match' => 'laporan*'],
                         ['url' => '/regulasi', 'label' => 'Regulasi', 'match' => 'regulasi*'],
+                        ['url' => '/yocopreneur', 'label' => 'Yocopreneur', 'match' => 'yocopreneur*'],
                         ['url' => '/berita', 'label' => 'Berita', 'match' => 'berita*'],
                     ];
                 @endphp
@@ -115,6 +116,7 @@
                 <a href="{{ url('/program') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('program*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Program</a>
                 <a href="{{ url('/regulasi') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('regulasi*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Regulasi</a>
                 <a href="{{ url('/laporan') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('laporan*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Laporan</a>
+                <a href="{{ route('yocopreneur') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('yocopreneur*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Yocopreneur</a>
                 <a href="https://ppid.dispora.jatimprov.go.id/" target="_blank" class="block px-4 py-3 rounded-xl text-sm font-semibold text-gray-700 hover:bg-gray-50">PPID</a>
                 <a href="{{ url('/berita') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold {{ request()->is('berita*') ? 'text-dispora-600 bg-dispora-50' : 'text-gray-700 hover:bg-gray-50' }}">Berita</a>
                 <a href="{{ url('/agenda') }}" class="block px-4 py-3 rounded-xl text-sm font-semibold bg-dispora-600 text-white text-center mt-2">📅 Agenda Kegiatan</a>
@@ -166,7 +168,7 @@
                             <div class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mr-3 shrink-0 group-hover:bg-dispora-600 group-hover:border-dispora-500 transition-all">
                                 <svg class="w-4 h-4 text-dispora-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                             </div>
-                            <span class="text-sm text-white/60">(031) 5345507</span>
+                            <span class="text-sm text-white/60">0811-2803-5555</span>
                         </li>
                         <li class="flex items-center group">
                             <div class="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center mr-3 shrink-0 group-hover:bg-dispora-600 group-hover:border-dispora-500 transition-all">
@@ -211,6 +213,8 @@
             </div>
         </div>
     </footer>
+
+    @include('components.rating-popup')
 
     @stack('scripts')
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

@@ -11,9 +11,6 @@
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-xl">
-                @if(session('success'))
-                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 px-6 py-4">{{ session('success') }}</div>
-                @endif
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -54,9 +51,9 @@
                                 </td>
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
                                     <a href="{{ route('admin.official_logos.edit', $logo) }}" class="text-indigo-600 hover:text-indigo-900 text-sm font-medium mr-3">Edit</a>
-                                    <form action="{{ route('admin.official_logos.destroy', $logo) }}" method="POST" class="inline-block">
+                                    <form id="delete-form-{{ $logo->id }}" action="{{ route('admin.official_logos.destroy', $logo) }}" method="POST" class="inline-block">
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900 text-sm font-medium" onclick="return confirm('Yakin ingin menghapus logo ini?')">Hapus</button>
+                                        <button type="button" class="text-red-600 hover:text-red-900 text-sm font-medium" onclick="confirmDelete('delete-form-{{ $logo->id }}')">Hapus</button>
                                     </form>
                                 </td>
                             </tr>

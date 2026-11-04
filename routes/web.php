@@ -5,15 +5,20 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\RatingController;
+
+Route::post('/ratings', [RatingController::class, 'store'])
+    ->middleware('throttle:10,1')
+    ->name('ratings.store');
 
 Route::get('/', function () {
-    $latestPosts = \App\Models\Post::where('status', 'published')->orderBy('created_at', 'desc')->take(10)->get();
+    $latestPosts = \App\Models\Post::with('category')->latestPublished()->take(10)->get();
 
     $gubernurPosts = \App\Models\Post::whereHas('category', function($q) {
         $q->where('name', 'like', '%Gubernur%')->orWhere('slug', 'like', '%gubernur%');
     })->where('status', 'published')->orderBy('created_at', 'desc')->take(10)->get();
 
-    $upcomingAgendas = \App\Models\Agenda::whereIn('status', ['upcoming', 'ongoing'])->orderBy('start_date', 'asc')->take(5)->get();
+    $upcomingAgendas = \App\Models\Agenda::whereIn('status', ['upcoming', 'ongoing'])->orderBy('start_date', 'asc')->take(6)->get();
 
     $latestSkm = \App\Models\SkmData::where('is_active', true)->where('is_published', true)->orderBy('year', 'desc')->orderBy('period', 'desc')->first();
     $allSkm = \App\Models\SkmData::where('is_published', true)->orderBy('year', 'desc')->orderBy('period', 'desc')->get();
@@ -91,15 +96,48 @@ Route::get('/logo-resmi', function () {
     return view('official-logos', compact('logos'));
 });
 
+Route::get('/yocopreneur', function () {
+    $sosialisasi = \App\Models\YocoContent::active()
+        ->type(\App\Models\YocoContent::TYPE_SOSIALISASI)
+        ->orderBy('order')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    $advokasi = \App\Models\YocoContent::active()
+        ->type(\App\Models\YocoContent::TYPE_ADVOKASI)
+        ->orderBy('order')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    $marketing = \App\Models\YocoContent::active()
+        ->type(\App\Models\YocoContent::TYPE_MARKETING)
+        ->orderBy('order')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    $yocoPosts = \App\Models\Post::with('category')
+        ->where('status', 'published')
+        ->whereHas('category', fn ($query) => $query->where('slug', 'yoco')->where('type', 'post'))
+        ->latestPublished()
+        ->take(6)
+        ->get();
+
+    return view('yocopreneur', compact('sosialisasi', 'advokasi', 'marketing', 'yocoPosts'));
+})->name('yocopreneur');
+
 Route::get('file/{folder}/{filename}', [MediaController::class, 'show'])
     ->where('filename', '.+')->name('public.file');
 
 Route::get('/agenda', function (Illuminate\Http\Request $request) {
     $query = \App\Models\Agenda::query();
 
-    if ($request->has('search') && $request->search != '') {
-        $query->where('title', 'like', '%' . $request->search . '%')
-              ->orWhere('location', 'like', '%' . $request->search . '%');
+    if ($request->filled('search')) {
+        $keyword = $request->search;
+        // Dikelompokkan agar kondisi OR pencarian tidak merusak filter status
+        $query->where(function ($q) use ($keyword) {
+            $q->where('title', 'like', '%' . $keyword . '%')
+              ->orWhere('location', 'like', '%' . $keyword . '%');
+        });
     }
 
     if ($request->has('status') && $request->status != '') {
@@ -175,20 +213,28 @@ Route::get('/regulasi', function (Illuminate\Http\Request $request) {
 });
 
 Route::get('/berita', function (Illuminate\Http\Request $request) {
-    $query = \App\Models\Post::latestPublished();
+    $validated = $request->validate([
+        'search' => ['nullable', 'string', 'max:255'],
+        'category' => ['nullable', 'string', 'max:255', \Illuminate\Validation\Rule::exists('categories', 'slug')->where('type', 'post')],
+        'page' => ['nullable', 'integer', 'min:1'],
+    ]);
+    $query = \App\Models\Post::with('category')->latestPublished();
 
-    if ($request->has('search') && $request->search != '') {
-        $query->where('title', 'like', '%' . $request->search . '%');
+    if (!empty($validated['search'])) {
+        $query->where(function ($builder) use ($validated) {
+            $builder->where('title', 'like', '%' . $validated['search'] . '%')
+                ->orWhere('content', 'like', '%' . $validated['search'] . '%');
+        });
     }
 
-    if ($request->has('category') && $request->category != '') {
-        $query->whereHas('category', function ($q) use ($request) {
-            $q->where('slug', $request->category)->orWhere('id', $request->category);
+    if (!empty($validated['category'])) {
+        $query->whereHas('category', function ($q) use ($validated) {
+            $q->where('slug', $validated['category'])->where('type', 'post');
         });
     }
 
     $posts = $query->paginate(10)->withQueryString();
-    $categories = \App\Models\Category::where('type', 'post')->get();
+    $categories = \App\Models\Category::where('type', 'post')->orderBy('name')->get();
 
     $view = $request->ajax() ? 'partials.berita-content' : 'berita';
 
@@ -260,6 +306,9 @@ Route::middleware(['auth', 'role:Super Admin|Admin PPID'])->prefix('admin')->nam
 
     // Announcements
     Route::resource('announcements', \App\Http\Controllers\Admin\AnnouncementController::class);
+
+    // Yoco Contents
+    Route::resource('yoco_contents', \App\Http\Controllers\Admin\YocoContentController::class);
 
     Route::get('files/{folder}/{filename}', [MediaController::class, 'show'])
         ->where('filename', '.+')->name('files.preview');

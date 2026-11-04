@@ -78,7 +78,7 @@
 
                     <!-- Dropdown: Data & Profil -->
                     <div class="relative" x-on:click.away="dropData = false">
-                        <button x-on:click="dropData = !dropData" class="px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('admin.skm_data.*') || request()->routeIs('admin.social_medias.*') || request()->routeIs('admin.officials.*') ? 'bg-teal-50 text-teal-700' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100' }}">
+                        <button x-on:click="dropData = !dropData" class="px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200 {{ request()->routeIs('admin.skm_data.*') || request()->routeIs('admin.social_medias.*') || request()->routeIs('admin.officials.*') || request()->routeIs('admin.official_logos.*') || request()->routeIs('admin.announcements.*') || request()->routeIs('admin.yoco_contents.*') ? 'bg-teal-50 text-teal-700' : 'text-gray-500 hover:text-gray-800 hover:bg-gray-100' }}">
                             <span class="flex items-center gap-1.5">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
                                 Data
@@ -105,6 +105,10 @@
                             <a href="{{ route('admin.announcements.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('admin.announcements.*') ? 'text-teal-700 bg-teal-50' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }} transition">
                                 <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
                                 Pengumuman
+                            </a>
+                            <a href="{{ route('admin.yoco_contents.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('admin.yoco_contents.*') ? 'text-teal-700 bg-teal-50' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }} transition">
+                                <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                Konten YOCO
                             </a>
                         </div>
                     </div>
@@ -206,6 +210,18 @@
             <a href="{{ route('admin.officials.index') }}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.officials.*') ? 'bg-teal-50 text-teal-700' : 'text-gray-600 hover:bg-gray-50' }} transition">
                 <svg class="w-4 h-4 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 Pejabat
+            </a>
+            <a href="{{ route('admin.official_logos.index') }}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.official_logos.*') ? 'bg-teal-50 text-teal-700' : 'text-gray-600 hover:bg-gray-50' }} transition">
+                <svg class="w-4 h-4 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Logo Resmi
+            </a>
+            <a href="{{ route('admin.announcements.index') }}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.announcements.*') ? 'bg-teal-50 text-teal-700' : 'text-gray-600 hover:bg-gray-50' }} transition">
+                <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                Pengumuman
+            </a>
+            <a href="{{ route('admin.yoco_contents.index') }}" class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.yoco_contents.*') ? 'bg-teal-50 text-teal-700' : 'text-gray-600 hover:bg-gray-50' }} transition">
+                <svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                Konten YOCO
             </a>
         </div>
 

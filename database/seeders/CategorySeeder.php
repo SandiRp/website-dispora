@@ -15,7 +15,7 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         $documentCategories = ['RENJA', 'RENSTRA', 'LKJIP', 'PK', 'REGULASI','DPA', 'ASET', 'LRA'];
-        $postCategories = ['OLAHRAGA', 'KEPEMUDAAN', 'KEPRAMUKAAN', 'GUBERNUR', 'UMUM'];
+        $postCategories = ['OLAHRAGA', 'KEPEMUDAAN', 'KEPRAMUKAAN', 'GUBERNUR', 'UMUM', 'YOCO'];
 
         foreach ($documentCategories as $name) {
             Category::firstOrCreate(

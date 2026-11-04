@@ -45,14 +45,29 @@
     <section x-data="{
         active: 0,
         count: {{ $latestPosts->take(3)->count() ?: 1 }},
-        init() { setInterval(() => { this.active = (this.active + 1) % this.count }, 6000) }
+        timer: null,
+        startTimer() {
+            if (this.count > 1) {
+                this.timer = setInterval(() => { this.next() }, 6000);
+            }
+        },
+        resetTimer() {
+            if (this.timer) clearInterval(this.timer);
+            this.startTimer();
+        },
+        next() {
+            this.active = (this.active + 1) % this.count;
+        },
+        init() {
+            this.startTimer();
+        }
     }" class="relative w-full h-screen overflow-hidden bg-dispora-950">
 
         @forelse($latestPosts->take(3) as $i => $post)
         <div x-show="active === {{ $i }}"
-             x-transition:enter="transition-opacity ease-out duration-1000"
+             x-transition:enter="transition-opacity duration-1000 ease-in-out"
              x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-             x-transition:leave="transition-opacity ease-in duration-700"
+             x-transition:leave="transition-opacity duration-1000 ease-in-out"
              x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
              class="absolute inset-0" {!! $i > 0 ? 'style="display:none"' : '' !!}>
             <img data-media-image src="{{ $post->featured_image ? route('public.file', ['folder'=>'posts','filename'=>basename($post->featured_image)]) : asset('images/media-placeholder.svg') }}"
@@ -66,40 +81,46 @@
         <div class="absolute inset-0 bg-gradient-to-b from-dispora-950/80 via-dispora-950/40 to-dispora-950/90"></div>
         <div class="absolute inset-0 hero-dots"></div>
 
-        <!-- Content -->
-        <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
-            <!-- <div data-aos="fade-down" data-aos-delay="200" class="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-md px-5 py-2 rounded-full border border-white/20 mb-8">
-                <span class="w-2 h-2 rounded-full bg-dispora-400 animate-pulse"></span>
-                <span class="text-white/80 text-sm font-medium tracking-wide">Website Resmi Dispora Jawa Timur</span>
-            </div> -->
-
-            <h1 data-aos="fade-up" data-aos-delay="400" class="text-4xl md:text-6xl lg:text-7xl font-black text-white max-w-5xl leading-tight mb-6">
-                Membangun <span class="text-shimmer">Generasi</span><br class="hidden md:block"> Muda yang Unggul
-            </h1>
-
-            <p data-aos="fade-up" data-aos-delay="600" class="text-lg md:text-xl text-white/60 max-w-2xl mb-10 leading-relaxed">
-                Dinas Kepemudaan dan Olahraga Provinsi Jawa Timur berkomitmen mewujudkan pemuda berdaya saing dan olahraga berprestasi.
-            </p>
-
-            <!-- <div data-aos="fade-up" data-aos-delay="800" class="flex flex-col sm:flex-row gap-4">
-                <a href="{{ url('/berita') }}" class="bg-dispora-500 hover:bg-dispora-400 text-white px-8 py-3.5 rounded-full font-bold text-sm shadow-lg shadow-dispora-500/30 hover:shadow-dispora-400/40 transition-all duration-300 flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-                    Baca Berita Terkini
-                </a>
-                <a href="{{ url('/agenda') }}" class="bg-white/10 hover:bg-white/20 backdrop-blur-md text-white px-8 py-3.5 rounded-full font-bold text-sm border border-white/20 transition-all duration-300 flex items-center justify-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    Lihat Agenda
-                </a>
-            </div> -->
+        <!-- Judul berita aktif di atas gambar slider -->
+        <div class="pointer-events-none relative z-10 flex h-full w-full items-end px-6 pb-24 md:px-10 md:pb-28 lg:px-14">
+            <div class="relative w-full max-w-3xl min-h-[160px] sm:min-h-[180px]">
+                @forelse($latestPosts->take(3) as $i => $post)
+                    <div x-show="active === {{ $i }}"
+                         x-transition:enter="transition-all ease-out duration-700 delay-150"
+                         x-transition:enter-start="opacity-0 translate-y-6"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition-all ease-in duration-300"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 -translate-y-3"
+                         class="absolute inset-x-0 bottom-0 pointer-events-auto w-full"
+                         {!! $i > 0 ? 'style="display:none"' : '' !!}>
+                        <span class="mb-3 inline-flex rounded-full border border-white/20 bg-black/30 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md">
+                            {{ $post->category->name ?? 'Berita' }}
+                        </span>
+                        <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold leading-snug text-white drop-shadow-md max-w-2xl line-clamp-2">
+                            <a href="{{ route('berita.detail', $post->slug) }}" class="transition hover:text-dispora-200">{{ $post->title }}</a>
+                        </h1>
+                        <a href="{{ route('berita.detail', $post->slug) }}" class="mt-4 inline-flex items-center gap-2 rounded-full bg-dispora-500 px-5 py-2.5 text-xs sm:text-sm font-bold text-white shadow-md transition hover:bg-dispora-400">
+                            Baca selengkapnya
+                            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                    </div>
+                @empty
+                    <div class="pointer-events-auto">
+                        <h1 class="text-2xl font-bold text-white md:text-4xl">Selamat Datang di Dispora Jawa Timur</h1>
+                    </div>
+                @endforelse
+            </div>
         </div>
 
         <!-- Slide dots -->
         @if($latestPosts->take(3)->count() > 1)
         <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-3">
             @foreach($latestPosts->take(3) as $i => $p)
-            <button @click="active = {{ $i }}"
+            <button @click="active = {{ $i }}; resetTimer()"
                     :class="active === {{ $i }} ? 'w-12 bg-dispora-400' : 'w-3 bg-white/30 hover:bg-white/50'"
-                    class="h-3 rounded-full transition-all duration-500"></button>
+                    class="h-3 rounded-full transition-all duration-500"
+                    aria-label="Pindah ke slide {{ $i + 1 }}"></button>
             @endforeach
         </div>
         @endif

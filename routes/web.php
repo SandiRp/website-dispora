@@ -115,6 +115,12 @@ Route::get('/yocopreneur', function () {
         ->orderBy('created_at', 'desc')
         ->get();
 
+    $aplikasi = \App\Models\YocoContent::active()
+        ->type(\App\Models\YocoContent::TYPE_APLIKASI)
+        ->orderBy('order')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
     $yocoPosts = \App\Models\Post::with('category')
         ->where('status', 'published')
         ->whereHas('category', fn ($query) => $query->where('slug', 'yoco')->where('type', 'post'))
@@ -122,7 +128,7 @@ Route::get('/yocopreneur', function () {
         ->take(6)
         ->get();
 
-    return view('yocopreneur', compact('sosialisasi', 'advokasi', 'marketing', 'yocoPosts'));
+    return view('yocopreneur', compact('sosialisasi', 'advokasi', 'marketing', 'aplikasi', 'yocoPosts'));
 })->name('yocopreneur');
 
 Route::get('file/{folder}/{filename}', [MediaController::class, 'show'])

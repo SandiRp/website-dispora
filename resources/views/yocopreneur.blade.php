@@ -660,6 +660,275 @@
     </div>
 </section>
 
+<!-- Section 4: Uji Coba Aplikasi Digital YOCO -->
+<section id="aplikasi" class="py-24 bg-gradient-to-b from-[#f8fafc] via-white to-[#f0fdf4]/40 border-t border-[#e2e8f0] relative overflow-hidden">
+    <!-- Ornamen Latar Belakang Halus -->
+    <div class="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 bg-[#0c3672]/5 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 bg-[#16a34a]/5 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative mx-auto max-w-7xl px-6">
+        <div class="mb-14 max-w-3xl" data-aos="fade-up">
+            <h2 class="mt-4 text-4xl sm:text-5xl font-black tracking-tight text-[#0c3672] leading-tight">
+                Uji Coba Aplikasi YOCOPRENEUR
+            </h2>
+            <p class="mt-3 text-lg leading-relaxed text-gray-600">
+                Aplikasi ekosistem digital kewirausahaan pemuda yang telah dibangun dan siap dilakukan uji coba secara langsung. Akses dan jelajahi alur pendampingan, kurasi usaha, modul KMP Digital, dan jejaring kolaborator.
+            </p>
+        </div>
+
+        @if($aplikasi->isNotEmpty())
+            @if($aplikasi->count() === 1)
+                @php $app = $aplikasi->first(); @endphp
+                <div class="rounded-3xl border border-gray-200/90 bg-white p-6 sm:p-10 shadow-xl relative overflow-hidden" data-aos="fade-up">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                        <!-- Kolom Gambar / Mockup Preview Aplikasi -->
+                        <div class="lg:col-span-7">
+                            <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-lg bg-gray-900 group">
+                                <!-- Browser Header Bar -->
+                                <div class="bg-gray-100 border-b border-gray-200 px-4 py-2.5 flex items-center gap-2">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                        <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                        <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                                    </div>
+                                    <div class="flex-1 max-w-md mx-auto">
+                                        <div class="bg-white rounded-lg px-3 py-1 text-[11px] text-gray-500 font-mono text-center truncate border border-gray-200/70 shadow-inner flex items-center justify-center gap-1.5">
+                                            <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+                                            <span>{{ $app->link_url ?: 'https://yocopreneur.jatimprov.go.id' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Area Tampilan Gambar Aplikasi -->
+                                <div class="relative aspect-video sm:aspect-[16/10] w-full bg-slate-900 overflow-hidden flex items-center justify-center">
+                                    @if($app->image_path)
+                                        <img src="{{ \App\Support\Media::url($app->image_path) }}" alt="{{ $app->title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+                                    @else
+                                        <!-- Mockup Representasi Aplikasi Elegan jika belum ada upload foto -->
+                                        <div class="w-full h-full p-6 sm:p-8 bg-gradient-to-br from-[#0c2b50] via-[#081d36] to-[#041224] text-white flex flex-col justify-between relative">
+                                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.2),transparent_60%)] pointer-events-none"></div>
+                                            
+                                            <div class="relative flex items-center justify-between border-b border-white/10 pb-4">
+                                                <div class="flex items-center gap-3">
+                                                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-[#0c3672] flex items-center justify-center text-white font-black text-sm shadow">
+                                                        Y
+                                                    </div>
+                                                    <div>
+                                                        <h4 class="text-sm font-black text-white leading-tight">YOCOPRENEUR</h4>
+                                                        <p class="text-[10px] text-[#38bdf8] font-semibold">Dashboard Ekosistem Digital</p>
+                                                    </div>
+                                                </div>
+                                                <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">● Versi Uji Coba</span>
+                                            </div>
+
+                                            <div class="relative grid grid-cols-3 gap-3 my-4">
+                                                <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                                                    <span class="text-[10px] text-gray-300 font-bold block">YOCO-Biz</span>
+                                                    <span class="text-base font-black text-emerald-400">Aplikasi</span>
+                                                    <p class="text-[9px] text-gray-400 mt-0.5">Pemuda Wirausaha</p>
+                                                </div>
+                                                <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                                                    <span class="text-[10px] text-gray-300 font-bold block">YOCO-Core</span>
+                                                    <span class="text-base font-black text-[#38bdf8]">KMP Hub</span>
+                                                    <p class="text-[9px] text-gray-400 mt-0.5">Rantai Pasok & Klaster</p>
+                                                </div>
+                                                <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                                                    <span class="text-[10px] text-gray-300 font-bold block">YOCO-Connect</span>
+                                                    <span class="text-base font-black text-amber-400">Pentahelix</span>
+                                                    <p class="text-[9px] text-gray-400 mt-0.5">Kemitraan Industri</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="relative rounded-xl bg-white/5 border border-white/10 p-3 flex items-center justify-between text-xs text-white/80">
+                                                <span>Klik tombol untuk masuk ke platform uji coba</span>
+                                                <span class="text-emerald-400 font-bold flex items-center gap-1">Eksplorasi Live →</span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Kolom Informasi & Aksi Uji Coba -->
+                        <div class="lg:col-span-5 flex flex-col justify-between">
+                            <div>
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#dcfce7] text-[#15803d] mb-3">
+                                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                    Platform Siap Diuji Coba
+                                </span>
+
+                                <h3 class="text-2xl sm:text-3xl font-black text-[#0c3672] leading-tight">
+                                    {{ $app->title }}
+                                </h3>
+
+                                <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-600">
+                                    {{ $app->content }}
+                                </p>
+
+                                <div class="mt-6 space-y-2.5">
+                                    <div class="flex items-center gap-2.5 text-xs sm:text-sm text-gray-700 font-medium">
+                                        <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                                        <span>Eksplorasi modul pembinaan, literasi usaha, dan kurasi bisnis</span>
+                                    </div>
+                                    <div class="flex items-center gap-2.5 text-xs sm:text-sm text-gray-700 font-medium">
+                                        <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                                        <span>Simulasi alur KMP Digital dan kolaborasi pentahelix daerah</span>
+                                    </div>
+                                    <div class="flex items-center gap-2.5 text-xs sm:text-sm text-gray-700 font-medium">
+                                        <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                                        <span>Konektivitas langsung dengan pasar offtaker dan ekosistem industri</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if($app->link_url)
+                                <div class="mt-8 pt-6 border-t border-gray-100">
+                                    <a href="{{ $app->link_url }}" target="_blank" rel="noopener noreferrer" 
+                                       class="inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#0c3672] via-[#0e448e] to-[#0284c7] px-8 py-4 text-sm sm:text-base font-bold text-white shadow-xl shadow-[#0c3672]/20 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group">
+                                        <span>{{ $app->link_label ?: 'Uji Coba Aplikasi Sekarang' }}</span>
+                                        <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                    </a>
+                                    <p class="text-xs text-gray-400 mt-2">Klik tombol untuk membuka halaman aplikasi pada tab baru.</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            @else
+                <!-- Grid jika ada lebih dari 1 aplikasi -->
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    @foreach($aplikasi as $item)
+                        <article class="group rounded-3xl border border-gray-200/80 bg-white p-6 sm:p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-emerald-300 flex flex-col justify-between" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                            <div>
+                                <div class="relative h-60 w-full overflow-hidden rounded-2xl bg-gray-900 mb-5 shadow-inner">
+                                    @if($item->image_path)
+                                        <img src="{{ \App\Support\Media::url($item->image_path) }}" alt="{{ $item->title }}" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                                    @else
+                                        <div class="h-full w-full flex flex-col items-center justify-center bg-gradient-to-br from-[#0c2b50] to-[#07192f] text-white p-4 text-center">
+                                            <span class="text-5xl mb-2">📱</span>
+                                            <span class="text-xs font-bold text-emerald-400">Aplikasi YOCO</span>
+                                        </div>
+                                    @endif
+                                    <div class="absolute top-3 right-3">
+                                        <span class="px-2.5 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-bold shadow">Siap Uji Coba</span>
+                                    </div>
+                                </div>
+
+                                <h3 class="text-xl font-black text-[#0c3672] group-hover:text-emerald-700 transition leading-snug">{{ $item->title }}</h3>
+                                <p class="mt-3 text-sm leading-relaxed text-gray-600">{{ $item->content }}</p>
+                            </div>
+
+                            @if($item->link_url)
+                                <div class="mt-6 pt-4 border-t border-gray-100">
+                                    <a href="{{ $item->link_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#0c3672] to-[#0284c7] px-5 py-3 text-sm font-bold text-white shadow-md transition hover:scale-[1.02]">
+                                        <span>{{ $item->link_label ?: 'Uji Coba Aplikasi' }}</span>
+                                        <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                    </a>
+                                </div>
+                            @endif
+                        </article>
+                    @endforeach
+                </div>
+            @endif
+        @else
+            <!-- Fallback Default Showcase jika belum ada data di database -->
+            <div class="rounded-3xl border border-gray-200/90 bg-white p-6 sm:p-10 shadow-xl relative overflow-hidden" data-aos="fade-up">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                    <div class="lg:col-span-7">
+                        <div class="rounded-2xl overflow-hidden border border-gray-200 shadow-lg bg-gray-900 group">
+                            <div class="bg-gray-100 border-b border-gray-200 px-4 py-2.5 flex items-center gap-2">
+                                <div class="flex items-center gap-1.5">
+                                    <span class="w-3 h-3 rounded-full bg-red-400"></span>
+                                    <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+                                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                                </div>
+                                <div class="flex-1 max-w-md mx-auto">
+                                    <div class="bg-white rounded-lg px-3 py-1 text-[11px] text-gray-500 font-mono text-center truncate border border-gray-200/70 shadow-inner flex items-center justify-center gap-1.5">
+                                        <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+                                        <span>https://yocopreneur.jatimprov.go.id</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="relative aspect-video sm:aspect-[16/10] w-full bg-slate-900 overflow-hidden flex items-center justify-center">
+                                <div class="w-full h-full p-6 sm:p-8 bg-gradient-to-br from-[#0c2b50] via-[#081d36] to-[#041224] text-white flex flex-col justify-between relative">
+                                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(56,189,248,0.2),transparent_60%)] pointer-events-none"></div>
+                                    <div class="relative flex items-center justify-between border-b border-white/10 pb-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-[#0c3672] flex items-center justify-center text-white font-black text-sm shadow">Y</div>
+                                            <div>
+                                                <h4 class="text-sm font-black text-white leading-tight">YOCOPRENEUR</h4>
+                                                <p class="text-[10px] text-[#38bdf8] font-semibold">Dashboard Ekosistem Digital</p>
+                                            </div>
+                                        </div>
+                                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">● Versi Uji Coba</span>
+                                    </div>
+                                    <div class="relative grid grid-cols-3 gap-3 my-4">
+                                        <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                                            <span class="text-[10px] text-gray-300 font-bold block">YOCO-Biz</span>
+                                            <span class="text-base font-black text-emerald-400">Aplikasi</span>
+                                            <p class="text-[9px] text-gray-400 mt-0.5">Pemuda Wirausaha</p>
+                                        </div>
+                                        <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                                            <span class="text-[10px] text-gray-300 font-bold block">YOCO-Core</span>
+                                            <span class="text-base font-black text-[#38bdf8]">KMP Hub</span>
+                                            <p class="text-[9px] text-gray-400 mt-0.5">Rantai Pasok & Klaster</p>
+                                        </div>
+                                        <div class="rounded-xl bg-white/5 border border-white/10 p-3">
+                                            <span class="text-[10px] text-gray-300 font-bold block">YOCO-Connect</span>
+                                            <span class="text-base font-black text-amber-400">Pentahelix</span>
+                                            <p class="text-[9px] text-gray-400 mt-0.5">Kemitraan Industri</p>
+                                        </div>
+                                    </div>
+                                    <div class="relative rounded-xl bg-white/5 border border-white/10 p-3 flex items-center justify-between text-xs text-white/80">
+                                        <span>Klik tombol untuk masuk ke platform uji coba</span>
+                                        <span class="text-emerald-400 font-bold flex items-center gap-1">Eksplorasi Live →</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-5 flex flex-col justify-between">
+                        <div>
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#dcfce7] text-[#15803d] mb-3">
+                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                Platform Siap Diuji Coba
+                            </span>
+                            <h3 class="text-2xl sm:text-3xl font-black text-[#0c3672] leading-tight">
+                                Platform Ekosistem Digital YOCOPRENEUR
+                            </h3>
+                            <p class="mt-4 text-sm sm:text-base leading-relaxed text-gray-600">
+                                Aplikasi digital terintegrasi yang menghubungkan wirausaha muda Jawa Timur dengan ekosistem inkubasi bisnis, kelembagaan Koperasi Multi Pihak (KMP), jejaring mentor praktisi, dan akses pasar. Aplikasi ini telah dibangun dan siap dilakukan uji coba.
+                            </p>
+                            <div class="mt-6 space-y-2.5">
+                                <div class="flex items-center gap-2.5 text-xs sm:text-sm text-gray-700 font-medium">
+                                    <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                                    <span>Eksplorasi modul pembinaan, literasi usaha, dan kurasi bisnis</span>
+                                </div>
+                                <div class="flex items-center gap-2.5 text-xs sm:text-sm text-gray-700 font-medium">
+                                    <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                                    <span>Simulasi alur KMP Digital dan kolaborasi pentahelix daerah</span>
+                                </div>
+                                <div class="flex items-center gap-2.5 text-xs sm:text-sm text-gray-700 font-medium">
+                                    <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                                    <span>Konektivitas langsung dengan pasar offtaker dan ekosistem industri</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-gray-100">
+                            <a href="https://yocopreneur.jatimprov.go.id" target="_blank" rel="noopener noreferrer" 
+                               class="inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-[#0c3672] via-[#0e448e] to-[#0284c7] px-8 py-4 text-sm sm:text-base font-bold text-white shadow-xl shadow-[#0c3672]/20 hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 group">
+                                <span>Uji Coba Aplikasi Sekarang</span>
+                                <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                            </a>
+                            <p class="text-xs text-gray-400 mt-2">Konten dapat diperbarui dan disesuaikan melalui panel admin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+    </div>
+</section>
+
 <!-- Section Berita YOCO (Senada dengan Footer Dispora) -->
 <section class="bg-gradient-to-b from-[#05302e] via-[#022b2a] to-dispora-950 py-20 text-white border-t border-dispora-800/40 relative overflow-hidden">
     <!-- Subtle Glow Elements senada Footer -->

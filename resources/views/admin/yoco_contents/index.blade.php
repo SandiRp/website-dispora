@@ -33,6 +33,10 @@
                    class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $type === 'marketing' ? 'bg-teal-600 text-white shadow-sm' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200' }}">
                     📈 Marketing ({{ $counts['marketing'] }})
                 </a>
+                <a href="{{ route('admin.yoco_contents.index', ['type' => 'aplikasi']) }}" 
+                   class="px-4 py-2 rounded-lg text-sm font-semibold transition {{ $type === 'aplikasi' ? 'bg-teal-600 text-white shadow-sm' : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200' }}">
+                    📱 Uji Coba Aplikasi ({{ $counts['aplikasi'] ?? 0 }})
+                </a>
             </div>
 
             <!-- Table Card -->
@@ -64,6 +68,10 @@
                                         @elseif($content->type === 'advokasi')
                                             <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-700">
                                                 🤝 Advokasi
+                                            </span>
+                                        @elseif($content->type === 'aplikasi')
+                                            <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                                                📱 Uji Coba Aplikasi
                                             </span>
                                         @else
                                             <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">

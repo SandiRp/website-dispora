@@ -65,6 +65,16 @@ class YocoContentSeeder extends Seeder
                 'order' => 2,
                 'is_active' => true,
             ],
+            [
+                'type' => YocoContent::TYPE_APLIKASI,
+                'title' => 'Platform Ekosistem Digital YOCOPRENEUR',
+                'content' => 'Aplikasi digital terintegrasi yang menghubungkan wirausaha muda Jawa Timur dengan ekosistem inkubasi bisnis, kelembagaan Koperasi Multi Pihak (KMP), jejaring mentor praktisi, dan akses pasar. Aplikasi ini telah dibangun dan siap dilakukan uji coba bagi pemuda pelaku usaha.',
+                'image_path' => null,
+                'link_url' => 'https://yocopreneur.jatimprov.go.id',
+                'link_label' => 'Uji Coba Aplikasi Sekarang',
+                'order' => 1,
+                'is_active' => true,
+            ],
         ];
 
         foreach ($contents as $data) {

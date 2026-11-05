@@ -9,6 +9,7 @@ class YocoContent extends Model
     public const TYPE_SOSIALISASI = 'sosialisasi';
     public const TYPE_ADVOKASI = 'advokasi';
     public const TYPE_MARKETING = 'marketing';
+    public const TYPE_APLIKASI = 'aplikasi';
 
     public static function types(): array
     {
@@ -16,6 +17,7 @@ class YocoContent extends Model
             self::TYPE_SOSIALISASI => 'Sosialisasi',
             self::TYPE_ADVOKASI => 'Advokasi',
             self::TYPE_MARKETING => 'Marketing',
+            self::TYPE_APLIKASI => 'Uji Coba Aplikasi',
         ];
     }
 

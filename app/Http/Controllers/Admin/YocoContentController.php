@@ -13,18 +13,19 @@ class YocoContentController extends Controller
     {
         $type = $request->query('type');
         $query = YocoContent::query();
+        $allowedTypes = array_keys(YocoContent::types());
 
-        if ($type && in_array($type, [YocoContent::TYPE_SOSIALISASI, YocoContent::TYPE_ADVOKASI, YocoContent::TYPE_MARKETING], true)) {
+        if ($type && in_array($type, $allowedTypes, true)) {
             $query->where('type', $type);
         }
 
         $contents = $query->orderBy('type')->orderBy('order')->orderBy('created_at', 'desc')->get();
         $counts = [
             'all' => YocoContent::count(),
-            YocoContent::TYPE_SOSIALISASI => YocoContent::where('type', YocoContent::TYPE_SOSIALISASI)->count(),
-            YocoContent::TYPE_ADVOKASI => YocoContent::where('type', YocoContent::TYPE_ADVOKASI)->count(),
-            YocoContent::TYPE_MARKETING => YocoContent::where('type', YocoContent::TYPE_MARKETING)->count(),
         ];
+        foreach ($allowedTypes as $t) {
+            $counts[$t] = YocoContent::where('type', $t)->count();
+        }
 
         return view('admin.yoco_contents.index', compact('contents', 'type', 'counts'));
     }
@@ -38,7 +39,7 @@ class YocoContentController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'type' => 'required|string|in:' . implode(',', [YocoContent::TYPE_SOSIALISASI, YocoContent::TYPE_ADVOKASI, YocoContent::TYPE_MARKETING]),
+            'type' => 'required|string|in:' . implode(',', array_keys(YocoContent::types())),
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image_path' => 'nullable|image|max:5120',
@@ -68,7 +69,7 @@ class YocoContentController extends Controller
     public function update(Request $request, YocoContent $yocoContent)
     {
         $validated = $request->validate([
-            'type' => 'required|string|in:' . implode(',', [YocoContent::TYPE_SOSIALISASI, YocoContent::TYPE_ADVOKASI, YocoContent::TYPE_MARKETING]),
+            'type' => 'required|string|in:' . implode(',', array_keys(YocoContent::types())),
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'image_path' => 'nullable|image|max:5120',

@@ -7,7 +7,7 @@
 <!-- Hero Section / Banner Utama YOCO -->
 <section class="relative w-full overflow-hidden bg-white">
     <div class="w-full">
-        <img src="{{ asset('images/yocoawal.png') }}" 
+        <img src="{{ asset('images/coveryoco.jpeg') }}" 
              alt="Yocopreneur - Ekosistem Digital Kewirausahaan Pemuda" 
              class="w-full h-auto block select-none">
     </div>
@@ -299,12 +299,179 @@
             </div>
         </div>
 
-        <!-- 6. Komitmen Bersama Quote Banner (Persis Footer PDF dengan Navy & Cyan Quotes) -->
-        <div class="mt-16 pt-8" data-aos="fade-up">
-            <div class="rounded-3xl bg-[#0c2340] p-8 sm:p-10 text-center relative overflow-hidden shadow-xl border border-[#1e3a5f]">
-                <blockquote class="text-xl sm:text-2xl font-black text-white italic max-w-4xl mx-auto leading-relaxed">
-                    "Bersama kita wujudkan pemuda berdaya, ekonomi kuat, Jawa Timur maju, Indonesia Emas 2045"
-                </blockquote>
+        <!-- 6. Capaian Target Jangka Pendek YOCOPRENEUR -->
+        <div id="capaian-target" class="mt-24 pt-12 border-t border-[#e2e8f0]" data-aos="fade-up">
+            <!-- Header Section Capaian -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 border-b border-gray-200">
+                <div class="max-w-2xl">
+                    <span class="inline-flex items-center gap-2 rounded-full bg-[#f0fdf4] border border-[#86efac] px-4 py-1.5 text-xs font-black uppercase tracking-widest text-[#15803d]">
+                        <span class="w-2 h-2 rounded-full bg-[#16a34a] animate-pulse"></span>
+                        Milestone & Realisasi Program
+                    </span>
+                    <h3 class="mt-4 text-3xl sm:text-4xl font-black tracking-tight text-[#0c3672]">
+                        Capaian Target Jangka Pendek
+                    </h3>
+                    <p class="mt-3 text-base text-gray-600 leading-relaxed">
+                        Bukti nyata akselerasi program YOCOPRENEUR melalui 5 target jangka pendek yang telah berhasil dituntaskan secara kolaboratif untuk memperkuat fondasi kewirausahaan pemuda Jawa Timur.
+                    </p>
+                </div>
+
+                <!-- Status Capaian Summary Card -->
+                <div class="rounded-2xl bg-gradient-to-br from-[#f0fdf4] via-white to-[#dcfce7] border border-[#86efac] p-5 flex items-center gap-4 shadow-sm shrink-0">
+                    <div class="w-12 h-12 rounded-2xl bg-[#16a34a] text-white flex items-center justify-center font-black text-2xl shadow-md">
+                        ✓
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-black uppercase tracking-wider text-[#15803d]">Status Realisasi</span>
+                            <span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-[#16a34a] text-white shadow-sm">100% Selesai</span>
+                        </div>
+                        <div class="text-lg font-black text-[#0c3672]">5 dari 5 Target Tercapai</div>
+                        <p class="text-xs text-gray-500">Seluruh target jangka pendek telah berhasil direalisasikan</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Baris 1: 3 Kartu Target (Item 1, 2, 3) -->
+            <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Target 1: Pembentukan Tim Efektif Lintas Sektor -->
+                <div class="group rounded-3xl border border-[#bbf7d0] bg-gradient-to-b from-white to-[#f0fdf4]/40 p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-[#16a34a] hover:-translate-y-1" data-aos="fade-up" data-aos-delay="50">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-[#dcfce7] text-[#15803d] flex items-center justify-center font-black text-base shadow-sm">
+                                01
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-[#ecfdf5] border border-[#bbf7d0] text-[#15803d] flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#dcfce7] text-[#15803d] border border-[#86efac] shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse"></span>
+                            <svg class="w-3.5 h-3.5 text-[#16a34a]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Tercapai
+                        </span>
+                    </div>
+
+                    <h4 class="text-xl font-black text-[#0c3672] leading-snug group-hover:text-[#16a34a] transition">
+                        Pembentukan Tim Efektif Lintas Sektor
+                    </h4>
+                    <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+                        Membangun struktur kerja kolaboratif terpadu lintas Organisasi Perangkat Daerah (OPD) Pemprov Jawa Timur dan pemangku kepentingan pentahelix untuk sinergi pembinaan wirausaha muda.
+                    </p>
+                </div>
+
+                <!-- Target 2: Konsolidasi Data Pelatihan -->
+                <div class="group rounded-3xl border border-[#bbf7d0] bg-gradient-to-b from-white to-[#f0fdf4]/40 p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-[#16a34a] hover:-translate-y-1" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-[#dcfce7] text-[#15803d] flex items-center justify-center font-black text-base shadow-sm">
+                                02
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-[#ecfdf5] border border-[#bbf7d0] text-[#15803d] flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#dcfce7] text-[#15803d] border border-[#86efac] shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse"></span>
+                            <svg class="w-3.5 h-3.5 text-[#16a34a]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Tercapai
+                        </span>
+                    </div>
+
+                    <h4 class="text-xl font-black text-[#0c3672] leading-snug group-hover:text-[#16a34a] transition">
+                        Konsolidasi Data Pelatihan
+                    </h4>
+                    <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+                        Integrasi, pemutakhiran, dan sinkronisasi basis data peserta pelatihan wirausaha muda di Jawa Timur untuk memutus fenomena <em>post-training trap</em> melalui pendampingan berkelanjutan.
+                    </p>
+                </div>
+
+                <!-- Target 3: Penyusunan Raperda & Kepgub -->
+                <div class="group rounded-3xl border border-[#bbf7d0] bg-gradient-to-b from-white to-[#f0fdf4]/40 p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-[#16a34a] hover:-translate-y-1" data-aos="fade-up" data-aos-delay="150">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-[#dcfce7] text-[#15803d] flex items-center justify-center font-black text-base shadow-sm">
+                                03
+                            </div>
+                            <div class="w-10 h-10 rounded-xl bg-[#ecfdf5] border border-[#bbf7d0] text-[#15803d] flex items-center justify-center">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#dcfce7] text-[#15803d] border border-[#86efac] shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse"></span>
+                            <svg class="w-3.5 h-3.5 text-[#16a34a]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Tercapai
+                        </span>
+                    </div>
+
+                    <h4 class="text-xl font-black text-[#0c3672] leading-snug group-hover:text-[#16a34a] transition">
+                        Penyusunan Raperda & Kepgub Strategis
+                    </h4>
+                    <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+                        Penyusunan Raperda Kepemudaan & Olahraga, Kepgub Tim Koordinasi Strategis Lintas Sektor Pelayanan Kepemudaan, serta Tim Koordinasi Kewirausahaan Pemuda sebagai payung regulasi formal.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Baris 2: 2 Kartu Unggulan Implementasi (Item 4 & 5) -->
+            <div class="mt-6 grid gap-6 md:grid-cols-2">
+                <!-- Target 4: Kerjasama dengan UNESA -->
+                <div class="group rounded-3xl border-2 border-[#bfdbfe] bg-gradient-to-br from-white via-[#f0f9ff]/50 to-[#dbeafe]/30 p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-[#0284c7] hover:-translate-y-1" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-[#dbeafe] text-[#0284c7] flex items-center justify-center font-black text-base shadow-sm">
+                                04
+                            </div>
+                            <div class="rounded-xl bg-white border border-[#bfdbfe] px-3.5 py-1.5 flex items-center gap-2 shadow-sm">
+                                <span class="text-xs font-black text-[#0c3672] tracking-wider uppercase">Mitra Akademisi: UNESA</span>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-[#dcfce7] text-[#15803d] border border-[#86efac] shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse"></span>
+                            <svg class="w-3.5 h-3.5 text-[#16a34a]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Tercapai • Terlaksana
+                        </span>
+                    </div>
+
+                    <span class="inline-block px-3 py-1 rounded-lg text-xs font-bold bg-[#dbeafe] text-[#0369a1] mb-2">
+                        Kolaborasi Perguruan Tinggi & Tri Dharma
+                    </span>
+                    <h4 class="text-2xl font-black text-[#0c3672] leading-tight group-hover:text-[#0284c7] transition">
+                        Kerjasama dengan UNESA dalam Urusan Kepemudaan & Olahraga
+                    </h4>
+                    <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+                        Terjalinnya kemitraan strategis resmi (MoU & PKS) bersama Universitas Negeri Surabaya (UNESA) untuk penguatan riset kepemudaan, kurasi bisnis, pendampingan inkubasi usaha pemuda, dan sains keolahragaan di Jawa Timur.
+                    </p>
+                </div>
+
+                <!-- Target 5: Ujicoba Platform Beta & Pilot Projek Kopi/Barista -->
+                <div class="group rounded-3xl border-2 border-[#fed7aa] bg-gradient-to-br from-white via-[#fffaf5]/50 to-[#ffedd5]/30 p-8 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-[#ea580c] hover:-translate-y-1" data-aos="fade-up" data-aos-delay="250">
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-2xl bg-[#ffedd5] text-[#ea580c] flex items-center justify-center font-black text-base shadow-sm">
+                                05
+                            </div>
+                            <div class="rounded-xl bg-white border border-[#fed7aa] px-3.5 py-1.5 flex items-center gap-2 shadow-sm">
+                                <span class="text-xs font-black text-[#92400e] tracking-wider uppercase">Platform YOCO</span>
+                            </div>
+                        </div>
+                        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-black bg-[#dcfce7] text-[#15803d] border border-[#86efac] shadow-sm">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#16a34a] animate-pulse"></span>
+                            <svg class="w-3.5 h-3.5 text-[#16a34a]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            Tercapai • Live Demo
+                        </span>
+                    </div>
+
+                    <span class="inline-block px-3 py-1 rounded-lg text-xs font-bold bg-[#ffedd5] text-[#c2410c] mb-2">
+                        Implementasi Digital
+                    </span>
+                    <h4 class="text-2xl font-black text-[#0c3672] leading-tight group-hover:text-[#ea580c] transition">
+                        Ujicoba Platform Versi Beta
+                    </h4>
+                    <p class="mt-3 text-sm text-gray-600 leading-relaxed">
+                        Platform Yoco telah dibuat dan sudah bisa dilakukan untuk uji coba, dan pada platform ini juga telah memiliki tampilan dashboard untuk gubernur, komunitas, dan pemuda.
+                    </p>
+                </div>
             </div>
         </div>
 
@@ -927,6 +1094,16 @@
             </div>
         @endif
     </div>
+    <div class="relative mx-auto max-w-7xl px-6">
+    <!-- 6. Komitmen Bersama Quote Banner (Persis Footer PDF dengan Navy & Cyan Quotes) -->
+        <div class="mt-16 pt-8" data-aos="fade-up">
+            <div class="rounded-3xl bg-[#0c2340] p-8 sm:p-10 text-center relative overflow-hidden shadow-xl border border-[#1e3a5f]">
+                <blockquote class="text-xl sm:text-2xl font-black text-white italic max-w-4xl mx-auto leading-relaxed">
+                    "Bersama kita wujudkan pemuda berdaya, ekonomi kuat, Jawa Timur maju, Indonesia Emas 2045"
+                </blockquote>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- Section Berita YOCO (Senada dengan Footer Dispora) -->
@@ -938,11 +1115,11 @@
     <div class="relative z-10 mx-auto max-w-7xl px-6">
         <div class="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
-                <p class="font-bold uppercase tracking-widest text-dispora-300">Kabar Terkini</p>
-                <h2 class="mt-3 text-4xl font-black">Berita YOCO</h2>
+                <p class="font-bold uppercase tracking-widest text-dispora-300">Informasi Terkini</p>
+                <h2 class="mt-3 text-4xl font-black">Kegiatan YOCOPRENEUR</h2>
             </div>
             <a href="{{ route('berita.index', ['category' => 'yoco']) }}" class="font-bold text-dispora-300 hover:text-white transition flex items-center gap-1.5">
-                <span>Lihat semua berita</span>
+                <span>Lihat semua kegiatan</span>
                 <span>→</span>
             </a>
         </div>
@@ -961,7 +1138,7 @@
                 </article>
             @empty
                 <div class="rounded-2xl border border-dispora-800/40 bg-dispora-900/30 p-10 text-dispora-100/70 md:col-span-3">
-                    Belum ada berita YOCO.
+                    Belum ada Kegiatan YOCO.
                 </div>
             @endforelse
         </div>

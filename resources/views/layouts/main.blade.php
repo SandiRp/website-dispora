@@ -14,6 +14,23 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <meta name="description" content="@yield('meta_description', 'Website Resmi Dinas Kepemudaan dan Olahraga Provinsi Jawa Timur')">
     <meta name="theme-color" content="#0bbead">
+
+    <!-- Open Graph / Facebook / WhatsApp / Telegram Meta Tags -->
+    @section('meta')
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="@yield('title', 'Dispora Jatim - Dinas Kepemudaan dan Olahraga')">
+        <meta property="og:description" content="@yield('meta_description', 'Website Resmi Dinas Kepemudaan dan Olahraga Provinsi Jawa Timur')">
+        <meta property="og:image" content="{{ asset('images/logo.jpeg') }}">
+        <meta property="og:site_name" content="Dispora Provinsi Jawa Timur">
+
+        <!-- Twitter / X Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:url" content="{{ url()->current() }}">
+        <meta name="twitter:title" content="@yield('title', 'Dispora Jatim - Dinas Kepemudaan dan Olahraga')">
+        <meta name="twitter:description" content="@yield('meta_description', 'Website Resmi Dinas Kepemudaan dan Olahraga Provinsi Jawa Timur')">
+        <meta name="twitter:image" content="{{ asset('images/logo.jpeg') }}">
+    @show
     <style>
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
